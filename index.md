@@ -24,12 +24,18 @@
 ## GE's
 ***
 
-1. [Jazz History](Other/M50B.md)
+- [Jazz History](Other/M50B.md)
 
 ## Other
 ***
 
-1. [My Lists](my-lists.md)
+- [My Lists](my-lists.md)
+
+## Repositories
+***
+
+- [Dotfiles](~/dotfiles/README.md)
+- [Wiki](~/OneDrive/Documents/Wiki/index.md)
 
 # Productivity
 ***
