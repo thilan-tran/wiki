@@ -1,11 +1,9 @@
 # Notes
-***
 
 - [Scratch](scratch.md)
 - [Resources](resources.md)
 
 # Programming
-***
 
 - C++
   1. [CS31](Programming/CS31.md)
@@ -22,22 +20,18 @@
   4. [Python](Programming/python.md)
 
 ## GE's
-***
 
 - [Jazz History](Other/M50B.md)
 
 ## Other
-***
 
 - [My Lists](my-lists.md)
 
 ## Repositories
-***
 
 - [Dotfiles](~/dotfiles/README.md)
 - [Wiki](~/OneDrive/Documents/Wiki/index.md)
 
 # Productivity
-***
 
 - [Tasks](tasks.todo)
