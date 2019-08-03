@@ -1,6 +1,14 @@
 # Python
 ***
 
+## Links
+***
+
+- [Composing Programs](https://composingprograms.com/)
+- [Kaggle](https://www.kaggle.com/learn/overview)
+- [Seqouia Notes](https://sequoia-tree.github.io/techniques-in-computer-science/welcome-to-computer-science.html)
+- [Python Textbooks](https://drive.google.com/drive/folders/1h5wbUhHA2pr_821dB0Izy7aDfCz9KTtt)
+
 ## Data Types
 ***
 

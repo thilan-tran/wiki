@@ -1,3 +1,75 @@
+---
+title: "Javascript"
+date: "14 June 2019"
+mainfont: Libertinus Serif
+monofont: Iosevka
+fontsize: 14pt
+geometry: margin=2cm
+toc: true
+documentclass: extarticle
+header-includes: |
+  \hypersetup{colorlinks=true,linkcolor=black,urlcolor=myblue}
+  \usepackage{fancyhdr}
+  \pagestyle{fancy}
+  \usepackage{fvextra}
+  \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+  \usepackage{xcolor}
+  \definecolor{mygray}{HTML}{A6A5A2}
+  \definecolor{mygreen}{HTML}{98C379}
+  \definecolor{myblue}{HTML}{61AFEF}
+  \definecolor{mycyan}{HTML}{56B6C2}
+  \definecolor{myorange}{HTML}{E5C07B}
+  \definecolor{myred}{HTML}{E06C75}
+  \definecolor{mypurple}{HTML}{AE81FF}
+  \usepackage{caption}
+  \usepackage{listings}
+  \lstset{
+  language=c++,
+  basicstyle=\ttfamily,
+  commentstyle=\color{mygray}\textit,
+  keywordstyle=\color{mycyan}\bfseries,
+  identifierstyle=\color{mygreen},
+  stringstyle=\color{myorange},
+  directivestyle=\color{mypurple},
+  numberstyle=\small\color{mygray},
+  rulecolor=\color{mygray},
+  captionpos=t,
+  title=\lstname,
+  columns=fullflexible,
+  lineskip=2pt,
+  breakatwhitespace=false,
+  breaklines=true,
+  extendedchars=true,
+  keepspaces=true,
+  showspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=trbL,
+  numbersep=9pt,
+  stepnumber=2,
+  literate=%
+    {0}{{{\color{mypurple}0}}}1
+    {1}{{{\color{mypurple}1}}}1
+    {2}{{{\color{mypurple}2}}}1
+    {3}{{{\color{mypurple}3}}}1
+    {4}{{{\color{mypurple}4}}}1
+    {5}{{{\color{mypurple}5}}}1
+    {6}{{{\color{mypurple}6}}}1
+    {7}{{{\color{mypurple}7}}}1
+    {8}{{{\color{mypurple}8}}}1
+    {9}{{{\color{mypurple}9}}}1
+    {+}{{{\color{myred}+}}}1
+    {-}{{{\color{myred}-}}}1
+    {>}{{{\color{myred}>}}}1
+    {<}{{{\color{myred}<}}}1
+    {=}{{{\color{myred}=}}}1
+    {\ *\ }{{{\color{myred}\ *\ }}}1
+    {\ /\ }{{{\color{myred}\ /\ }}}1,
+  backgroundcolor=\color{gray!10}}
+  \usepackage{microtype}
+---
+
+
 # Javascript
 ***
 
@@ -29,7 +101,8 @@
 - objects can also hold many values in *key-value* pairs. `var car = { type: 'fiat', model: 500, color: 'white'  };`
   - can access properties: `car.model`
   - can use for...in loop: `for (var in object) {...}`
-  - sample constructor:
+
+Example constructor:
 ```javascript
 function Person(first, last, age, eye) {
   this.firstName = first;
@@ -39,7 +112,8 @@ function Person(first, last, age, eye) {
 ```
 - everything is an object and can be stored in a variable.
   - javascript *objects* are mutable and passed by reference
-- function syntax:
+
+Function syntax:
 ```javascript
 function multiply(num1, num2) {
   var result = num1 * num2;
@@ -70,7 +144,7 @@ var foo = function() {
 
 var foo = () => (bar => someFunct(this.property) + bar); /* can use this keyword */
 ```
-Generators:
+Using generators:
 ```javascript
 function* gen() {            /* syntax for generators */
   yield console.log('pear'); /* yield pauses the iterator, and js runs right to left */
@@ -125,8 +199,9 @@ myGen.next(10);
   - program can listen for requests sent to a particular port number on ip
   - buffer is a temporary storage spot for chunks of data at a time
     - streams of data flow from data source to buffer to client
+
+Server setup:
 ```c
-/* simple server setup */
 var http = require('http'); /* core module */
 var server = http.createServer(function(req, res) {
   console.log('request was made: ' + req.url);
@@ -139,6 +214,8 @@ console.log('now listening on port 3000');
 ```
 - node.js can read or write data from streams
   - streams can be writeable, readable, or duplex (both)
+
+Using streams:
 ```javascript
 var fs = require('http');
 var myReadStream = fs.createReadStream(__dirname + '/readMe.txt', 'utf8'); /* need file encoding type */
@@ -159,10 +236,7 @@ var server = http.createServer( (req, res) => {
   var myReadStream = fs.createReadStream(__dirname + ...);
   myReadStream.pipe(res);
 }) /* streams are more performance-efficient */
-```
-- more text here
-  - testing stuff
-```javascript
+
 /* sending json, eg. an api endpoint */
 res.writeHead(200, {'Content-Type': 'application/json'});
 var someObj = {
@@ -191,6 +265,8 @@ if (req.url === '/home' || req.url === '/') {
   - nodemon can automatically update / refresh the server on changes
 - express: a node package
   - has easy routing system, integrates with template engines, contains middleware framework (can be extended by other packages)
+
+Using express:
 ```js
 var express = require('express');
 var app = express();
@@ -214,7 +290,7 @@ app.get('/profile/:id', function(req, res) {
 app.listen(3000);
 ```
 - templating engines allow us to embed data into html files
-  - eg. ejs is a lightweight templating engine and a node package
+- eg. ejs is a lightweight templating engine and a node package
 ```
 <!-- inside the ejs -->
 <h1> welcome to the profile of <&= person %></h1>
@@ -233,6 +309,8 @@ app.listen(3000);
   - have to deal with the request for a static files such as css, images, etc
   - can use express *middleware* to deal with this
     - code that runs *between* the request and the response
+
+Using middleware with express:
 ```javascript
 app.use('/assets', function(req, res, next) {
   conseole.log(req.url);
@@ -256,7 +334,10 @@ app.get('/contact', (req, res) => {
 - *POST* requests: asks the server to store/accept data in the body of request
   - usually used when submitting forms
   - different when compared with query strings
-- in the html:
+
+An example project...
+
+In the html:
 ```
 <!-- using a POST method, action is the URL we are posting to -->
 <form id="contact-form" method="POST" action="/contact">
@@ -265,7 +346,7 @@ app.get('/contact', (req, res) => {
   ...
 </form>
 ```
-- in the js:
+In the js:
 ```javascript
 /* need additional middle-ware, eg. body-parser npm package */
 var bodyParser = require('body-parser');
@@ -341,7 +422,7 @@ module.exports = function(app) {
   });
 };
 ```
-- the ejs:
+In the ejs:
 ```
 <!-- views/todo/ejs -->
 <html>
@@ -378,6 +459,8 @@ module.exports = function(app) {
 - AJAX requests:
   - communicate with a server with a http request, no reload the page
   - stands for Async JS and XML (XML is data, can also retrieve in JSON)
+
+Vanilla js vs. jquery:
 ```js
 // vanilla js request
 var http = new XMLHttpRequest();
@@ -439,6 +522,8 @@ function cbTweets(data) {
 - can also use promises
   - promises are objects that represents actions that haven't yet finished
   - promise objects are given before the data is actually retrieved
+
+Using promises:
 ```js
 // vanilla js:
 function get(url) {
@@ -480,8 +565,9 @@ $.get("data/tweets.json").then(function(tweets) { // returns a promise
 }).then(function(videos) {
   console.log(videos);
 });
-
-// async / await
+```
+Async/Await:
+```js
 async function init() {
   await createPost(...); // waits for a promise/async process to complete
   getPosts;
@@ -505,7 +591,7 @@ Promise.all([promise1, promise2, promise3]).then(values =>
   console.log(values);
 ); // promise all runs all the promises, and values is an object containing the returned object data
 ```
-- can use async js with generators (functions that can paused)
+Async js with generators (functions that can paused):
 ```js
 function* gen(){
   var x =  yield 10;
