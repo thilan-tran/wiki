@@ -1,3 +1,75 @@
+---
+title: "Full Stack"
+date: "Summer 2019"
+mainfont: Libertinus Serif
+monofont: Iosevka
+fontsize: 14pt
+geometry: margin=2cm
+toc: true
+documentclass: extarticle
+header-includes: |
+  \hypersetup{colorlinks=true,linkcolor=black,urlcolor=myblue}
+  \usepackage{fancyhdr}
+  \pagestyle{fancy}
+  \usepackage{fvextra}
+  \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+  \usepackage{xcolor}
+  \definecolor{mygray}{HTML}{A6A5A2}
+  \definecolor{mygreen}{HTML}{98C379}
+  \definecolor{myblue}{HTML}{61AFEF}
+  \definecolor{mycyan}{HTML}{56B6C2}
+  \definecolor{myorange}{HTML}{E5C07B}
+  \definecolor{myred}{HTML}{E06C75}
+  \definecolor{mypurple}{HTML}{AE81FF}
+  \usepackage{caption}
+  \usepackage{listings}
+  \lstset{
+  language=c++,
+  basicstyle=\ttfamily,
+  commentstyle=\color{mygray}\textit,
+  keywordstyle=\color{mycyan}\bfseries,
+  identifierstyle=\color{mygreen},
+  stringstyle=\color{myorange},
+  directivestyle=\color{mypurple},
+  numberstyle=\small\color{mygray},
+  rulecolor=\color{mygray},
+  captionpos=t,
+  title=\lstname,
+  columns=fullflexible,
+  lineskip=2pt,
+  breakatwhitespace=false,
+  breaklines=true,
+  extendedchars=true,
+  keepspaces=true,
+  showspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=trbL,
+  numbersep=9pt,
+  stepnumber=2,
+  literate=%
+    {0}{{{\color{mypurple}0}}}1
+    {1}{{{\color{mypurple}1}}}1
+    {2}{{{\color{mypurple}2}}}1
+    {3}{{{\color{mypurple}3}}}1
+    {4}{{{\color{mypurple}4}}}1
+    {5}{{{\color{mypurple}5}}}1
+    {6}{{{\color{mypurple}6}}}1
+    {7}{{{\color{mypurple}7}}}1
+    {8}{{{\color{mypurple}8}}}1
+    {9}{{{\color{mypurple}9}}}1
+    {+}{{{\color{myred}+}}}1
+    {-}{{{\color{myred}-}}}1
+    {>}{{{\color{myred}>}}}1
+    {<}{{{\color{myred}<}}}1
+    {=}{{{\color{myred}=}}}1
+    {\ *\ }{{{\color{myred}\ *\ }}}1
+    {\ /\ }{{{\color{myred}\ /\ }}}1,
+  backgroundcolor=\color{gray!10}}
+  \usepackage{microtype}
+---
+
+
 # Full Stack Course
 ***
 
