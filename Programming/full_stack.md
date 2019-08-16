@@ -86,8 +86,8 @@ header-includes: |
 - however, *browser* can:
   - application logic using requests for data (with AJAX) to fetch dynamic content
   - modify the HTML being rendered through the **Document Object Model** (DOM)
-- a **Single Page Application** (SPA) comprises of only one HTML page
-  - contents are manipulated with JS in the browser
+- a **Single Page Application** (SPA) comprises of only one HTML page:
+  - contents are manipulated purely with JS in the browser
   - rather than having separate pages fetched from the server
 
 AJAX and dynamic content with pure Javascript:
@@ -123,10 +123,1126 @@ xhttpPost.open('POST', '/new_note', true);
 xhttpPost.setRequestHeader('Content-type', 'application/json');
 xhttpPost.send(JSON.stringify(note));
 ```
-
-## Front-End Testing and Custom Hooks
+## React Introduction
 ***
 
+- useful tool for quick starting React app: `npx create-react-app projectName`
+- React is made up of **components**
+  - the root App component is then rendered to the DOM of an empty HTML page
+  - reusable components can be nested and combined together
+- React uses JSX code to embed HTML code within JS
+  - allows for dynamic content within components
+  - JSX is compiled into regular JS code using Babel
+- data is passed to components through **props**
+  - functional components receive all props as an argument
+  - can easily *destructure* props directly
+- JS allows helper functions to be defined within functions
+  - provides functional programming techniques such as map, reduce, filter
+- modularize components into **modules**
+
+Basics of React:
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+const Hello = ({ name, age }) => {
+  return (
+    <div>
+      <p>Hello {name}, you are {age} years old.</p>
+    </div>
+  )
+}
+
+const App = () => {
+  const name = 'Bob';
+  const age = 30;
+
+  return (
+    <div>
+      <Hello name="Builder" age={26+10} />
+      <Hello name={name} age={age} />
+    </div>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+- add **state** to a component using the `useState` hook
+  - `const [state, setState] = useState(initState)`
+  - hook returns a variable representing the state and a function to set the state
+  - React *automatically* re-renders a component when its state changes
+  - for more complex state:
+    - use the hook multiple times to create separate state pieces
+  - should *never* mutate component state directly:
+    - always use immutable functions such as concat, or construct new state using spread syntax
+    - allows React to easily detect change in state and optimize Virtual DOM
+- use **event handlers** to register callbacks to certain events:
+  - eg. on button click, or form submit
+  - with parametrized event handlers, *curry* the function
+    - otherwise, the function will be called immediately
+- an option for sharing data with child components:
+  - pass state and event handlers to child components
+- general rules for hooks:
+  - never called from inside of a loop or conditional expression
+  - only called from function body defining a component
+
+- utilize **conditional rendering** for more dynamic component
+- arrays/collections are often *mapped* into React components
+  - each element needs a unique **key** prop to distinguish itself
+    - allows React to easily detect changes in state
+
+- styling React components:
+  - use a stylesheet:
+    - use `className` property on components
+  - use inline styles as a JS object
+    - use `style` property
+
+Counting component using state and event handlers:
+```js
+import { useState } from 'react';
+
+const App = () => {
+  const [counter, setCounter] = useState(0);
+
+  /* currying the function */
+  setVal = (val) => () => setCounter(val);
+
+  return (
+    <div>
+      <div>{counter}</div>
+      /* registering a callback to a button's onClick event */
+
+      /* <button onClick={setCounter(counter+1)}>plus</button> */
+      /* currying the function so it is not called immediately */
+      <button onClick={() => setCounter(counter+1)}>plus</button>
+
+      <button onClick={setVal(0)}>zero</button>
+    </div>
+  );
+}
+```
+- *controlled* components are a common pattern with React forms
+  - each input is saved into a `useState` hook
+  - the state is set automatically on input change
+
+Example controlled React form:
+```js
+const App = (props) => {
+  const [notes, setNotes] = useState(props.notes);
+  const [content, setContent] = useState('');
+
+  const addNote = (e) => {
+    e.preventDefault();
+    setNotes(notes.concat({ content, date: new Date().toISOString() }))
+  };
+
+  return (
+    <div>
+      ...
+      <form onSubmit={addNote}>
+        <input value={newNote} onChange={({target}) => setContent(target.value)}/>
+        <button type="submit">save</button>
+      </form>
+    </div>
+  );
+}
+```
+## Communicating with Server
+***
+
+- communication with the server from the browser happens *asynchronously*:
+  - using callbacks, promises, or async/await
+  - **promises** have distinct states:
+    - pending, fulfilled/resolved, or rejected
+  - can chain promises using `.then`, and catch errors using `.catch`
+- instead of native javascript, Axios library handles requests with promises
+
+Using Axios:
+```js
+axios
+  .get('https://localhost:3001/api')
+  .then(res => {
+    const data = res.data;
+    console.log(data);
+  });
+```
+- the `useEffect` React hook deals with side effects in components:
+  - eg. fetching data, handling subscriptions, and manually changing the DOM
+  - takes the callback effect and an array of dependencies to determine when to rerun the hook
+    - empty array indicates effect is only to be run once on first render
+
+Using the effect hook:
+```js
+useEffect(() => {
+  console.log('start of effect');
+  axios
+    .get('https://localhost:3001/api')
+    .then(res => {
+      console.log('promise fulfilled');
+      const data = res.data;
+      setData(data);
+    });
+}, [])
+```
+Creating a service module for backend communication:
+```js
+const baseUrl = '...';
+
+/* returns a promise, extracts data field from response */
+const getAll = () =>
+  axios.get(baseUrl).then(res => res.data);
+
+const create = (obj) =>
+  axios.post(baseUrl, obj).then(res => res.data);
+
+const update = (id, obj) =>
+  axios.put(`${baseUrl}/${id}`, obj).then(res => res.data);
+
+export default { getAll, create, update };
+```
+Using the service module in React:
+```js
+import noteService from './services/notes';
+
+const App = () => {
+  ...
+  useEffect(() => {
+    noteService.getAll().then(init => setNotes(init));
+  }, []);
+
+  const toggleImportance = (id) => {
+    const note = notes.find(n => n.id === id);
+    const updated = { ...note, important: !note.important };
+
+    noteService
+      .update(id, updated)
+      .then(returnedNote => {
+        setNotes(notes.map(note => note.id !== id ? note: returnedNote));
+      })
+      .catch(err => {
+        alert('Note was already deleted from server');
+        setNotes(notes.filter(n => n.id !== id));
+      });
+  };
+
+  const addNote = (e) => {
+    e.preventDefault();
+    const newNote = { ... };
+
+    noteService.create(newNote).then(returnedNote => {
+      setNotes(notes.concat(returnedNote));
+      setContent('');
+    })
+  };
+}
+```
+## Node.js and Express
+***
+
+- NodeJS is a JS runtime based on Chrome's V8 JS engine
+  - allows server applications to be written in Javascript
+- `npm init` to start a Node application
+  - project details in `package.json` file
+  - use nodemon module to automatically watch file changes
+
+- **REST** API is a convention for organizing resources by url on the server
+  - Representational State Transfer
+    - defines a uniform interface
+  - every resource should have a unique identifier
+    - fetched with GET requests
+    - added with POST requests
+    - edited with PUT requests
+    - deleted with DELETE requests
+  - Postman program to test api requests
+- handling request conventions:
+  - GET requests should be *safe*:
+    - not cause any side effects (changes in database)
+  - all requests except POST (eg. PUT, DELETE) should be *idempotent*:
+    - if a request has side effects:
+      - result should be the same regardless of how many times request is sent
+
+Simple web server with pure Node:
+```js
+/* Node doesn't use latest ES6 import/export syntax */
+const http = require('http');
+
+const data = { ... };
+
+const app = http.createServer((req, res) => {
+  /* text response */
+  /* res.writeHead(200, { 'Content-Type': 'text/plain' });
+     res.end('Hello World'); */
+
+  /* JSON response */
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify(data));
+});
+
+const PORT = 3001;
+app.listen(port);
+console.log(`Server running on port ${PORT}`);
+```
+- Express library is an alternative to http module
+  - simpler routing API
+  - gives access to request and response objects
+    - access headeres with `request.headers`
+- every route in Express is **middleware** that processes requests/responses
+  - app can use several middleware at the same time:
+    - executed one by one, in order
+  - other types of middlewares include loggers, error handlers
+
+Simple web server with Express:
+```js
+const express = require('express');
+const app = express();
+
+const data = [ ... ];
+
+app.get('/', (req, res) => {
+  /* automatically sets Content-Type to text/html, status 200 */
+  res.send('<h1>Hello World!</h1>');
+});
+
+app.get('/api', (req, res) => {
+  res.json(data);
+});
+
+const PORT = 3001;
+app.listen(PORT, () => {
+  /*automatically sets Content-Type to application/json */
+  console.log(`Server running on port ${PORT}`);
+});
+```
+Route parameters with Express:
+```js
+app.get('/notes/:id', (req, res) => {
+  /* Express casts parameters to strings */
+  const id = Number(req.params.id);
+  const note = notes.find(note => note.id === id);
+
+  if (note) {
+    res.json(note);
+  } else{
+    /* 404 not found */
+    res.status(404).end();
+  }
+});
+
+app.delete('/notes/:id', (req, res) => {
+  const id = Number(req.params.id);
+  notes = notes.filter(note => note.id !== id);
+  /* 204 no content */
+  res.status(204).end();
+})
+```
+Receiving POST object with Express:
+```js
+/* registering json middleware to read request body json */
+app.use(express.json());
+
+app.post('/notes', (req, res) => {
+  const note = req.body;
+
+  if (!body.content) {
+    /* 400 bad request */
+    return res.status(400).json({ error: 'content missing' });
+  }
+  notes = notes.concat({ ...note, id: id() });
+  res.json(note);
+})
+```
+Using async/await:
+```js
+notesRouter.post('/', async (req, res, next) => {
+  const body = req.body;
+  const note = new Note({
+    content: body.content,
+    important: body.important === undefined ? false : body.important,
+    date: new Date()
+  });
+
+  /* wrap in try-catch to use async/await */
+  try {
+    const savedNote = await note.save();
+    res.json(savedNote.toJSON());
+  } catch (exception) {
+    next(exception);
+  }
+})
+```
+Other types of Express middleware:
+```js
+const cors = require('cors');
+
+/* set allow cross-origin CORS headers */
+app.use(cors());
+
+const reqLogger = (req, res, next) => {
+  console.log('Method:', req.method);
+  console.log('Path:  ', req.path);
+  /* must be used after express json middleware */
+  console.log('Body:  ', req.body);
+  console.log('-------');
+  /* yield to next middleware */
+  next();
+};
+
+app.use(reqLogger);
+
+const unknownEndpoint = (req, res) => {
+  /* final middleware */
+  res.status(404).send({ error: 'Unknown endpoint'});
+};
+
+app.use(unknownEndpoint);
+```
+### Deployment
+***
+
+- use Heroku to deploy web applications:
+  - server backend:
+    - define `Procfile` for starting the application
+    - use environment variables for configuring ports and urls
+      - `const PORT = process.env.PORT || 3001`
+    - `heroku create`, `git push heroku master`
+  - frontend production build:
+    - `npm run build` to create a production build
+      - creates `build` directory with minified JS code
+      - serve these static files from the server using static middleware
+      - `app.use(express.static('build'))`
+  - set proxy to handle server url in developement mode:
+    - `"proxy": "http://localhost:3001"`
+- use `.env` files and dotenv package to set environment variables
+  - `require('dotenv').config()`
+  - can set environment variables on Heroku: `heroku config: set VAR=...`
+
+### Databases
+***
+
+- databases store server data indefinitely
+- **NoSQL** or document databases
+  - loosely structured, schemaless
+    - application defines schema
+  - eg. MongoDB, online providers such as Mongo Atlas
+  - mongoose library for use with Express
+    - Object Doucment Mapper saves JS objects as Mongo documents
+- **SQL** or relational databases
+  - defined structure, organized as columns
+
+Using mongoose:
+```js
+/* connecting: */
+const mongoose = require('mongoose');
+
+/* disables error messages for findByIdAndUpdate */
+mongoose.set('useFindAndModify', false);
+
+const url = process.env.MONGODB_URI;
+mongoose.connect(url, { useNewUrlParser: true });
+
+/* defining schema: */
+const noteSchema = new mongoose.Schema({
+  content: {
+    /* defining validators for fields */
+    type: String,
+    minlength: 5,
+    required: true
+  },
+  date: {
+    type: Date,
+    required: true
+  },
+  important: Boolean,
+});
+/* formatting objects: */
+noteSchema.set('toJSON', {
+  transform: (doc, obj) => {
+    obj.id = obj._id.toString();
+    /* delete _id and versioning field */
+    delete obj._id;
+    delete obj.__v;
+  }
+});
+const Note = mongoose.model('Note', noteSchema);
+
+module.exports = Note;
+
+/* creating new object from model: */
+const note = new Note({
+  content: '...',
+  date: new Date(),
+  important: false
+});
+
+/* saving object happens asynchronously: */
+note.save().then(res => {
+  console.log('note saved!');
+  /* close connection */
+  mongoose.connection.close();
+})
+```
+Fetching objects from database:
+```js
+/* finding all notes: */
+api.get('/api/notes', (req, res) => {
+  Note.find({}).then(notes => {
+    res.json(notes);
+  });
+});
+
+/* finding specific notes: */
+Note.find({ important: true}).then(res => ...);
+
+/* finding by id: */
+api.get('/api/notes/:id', (req, res, next) => {
+  Note.findById(req.params.id).then(note => {
+    if (note) {
+      res.json(note.toJSON());
+    } else {
+      res.status(404).end();
+    }
+  })
+  /* pass errors to custom handler */
+  .catch(err => next(err));
+});
+```
+Other operations with mongoose:
+```js
+app.post('/api/notes', (req, res, next) => {
+  const body = req.body;
+  if (!body) {
+    return res.status(400).json({ error: 'content missing' });
+  }
+
+  const note = new Note({
+    content: body.content,
+    important: body.important || false,
+    date: new Date()
+  });
+
+  note.save().then(saved => res.json(saved.toJSON())
+    .catch(err => next(err)));
+});
+
+app.delete('/api/notes/:id', (req, res, next) => {
+  Note.findByIdAndRemove(req.params.id)
+    .then(result => res.status(204).end())
+    .catch(err => next(err));
+});
+
+app.put('/api/notes/:id', (req, res, next) => {
+  const body = req.body;
+  const note = { content: body.content, important: body.important };
+
+  Note.findByIdAndUpdate(req.params.id, note, { new: true })
+    .then(updated => res.json(updated.toJSON()))
+    .catch(err => next(err));
+});
+```
+Using a custom error handler:
+```js
+const errorHandler = (error, req, res, next) => {
+  console.error(error.message);
+  if (error.name === 'CastError' && error.kind === 'ObjectId') {
+    return res.status(400).json({ error: 'malformatted id' });
+  } else if (error.name === 'ValidationError') {
+    return res.status(400).json({ error: error.message });
+  } else if (error.name === 'JsonWebTokenError') {
+    return res.status(401).json({ error: 'invalid token' });
+  }
+  /* pass to default express error handler */
+  next(error);
+}
+app.use(errorHandler);
+```
+## Express Testing and User Administration
+***
+
+- project *structure* conventions:
+  - `index.js` simplified to only starting the server
+  - `app.js`
+  - `build/`
+  - `controllers/` routing code
+    - can use Express routers to modularize controllers
+  - `models/` database models
+  - `package.json` and `package-lock.json`
+  - `utils/` config, middleware, misc.
+    - `config.js` handles .env and environment variables
+      - eg. starts with `require('dotenv').config()`, exports env variables
+      - other parts can access through `const config = require('./utils/config')`
+
+Using Express routers:
+```js
+/* controllers/notes.js */
+const notesRouter = require('express').Router();
+
+/* minimal route url */
+notesRouter.get('/' ...);
+
+module.exports = notesRouter;
+
+/* app.js */
+const notesRouter = require('./controllers/notes');
+
+/* using router as middleware */
+app.use('/api/notes', notesRouter);
+```
+### Testing
+***
+
+- Jest library handles testing the backend
+  - `jest --verbose` tests `moduleName.test.js` files
+    - `jest -t 'notes' --runInBand` runs only tests with 'notes' sequentially
+  - use `test` function and `expect` results to pass assertions
+    - use `describe` block to group tests
+- define execution mode of the application with `NODE_ENV` env variable
+  - allows the usage of a different database url for testing
+    - eg. `if (process.env.NODE_ENV === 'test') MONGODB_URI = process.env.TEST_MONGODB_URI`
+  - with a testing script: `"test": "NODE_ENV=test jest --verbose --runInBand"'`
+- supertest package helps write API tests
+
+Using Jest to test a computing average function:
+```js
+describe('average', () => {
+  test('of one value is itself', () => {
+    expect(average([1])).toBe(1);
+  });
+
+  test('of many', () => {
+    expect(average([1, 2, 3, 4, 5, 6])).toBe(3.5);
+  });
+
+  test('of empty array is zero', () => {
+    expect(average([])).toBe(0);
+  });
+});
+```
+Backend tests with Jest and supertest:
+```js
+const supertest = require('supertest');
+const app = require('../app');
+const api = supertest(app);
+
+const initNotes = [ ... ];
+
+/* reset database notes before each test */
+beforeEach(async () => {
+  await Note.deleteMany({});
+  const promiseArr = initNotes.map(note => note.save());
+  /* awaiting suite of promises to initialize database */
+  await Promise.all(promiseArr);
+})
+
+test('notes are returned as json', async () => {
+  await api
+    .get('/api/notes')
+    /* expect correct status code */
+    .expect(200)
+    /* expect correct content type header */
+    .expect('Content-Type', /application\/json/);
+});
+
+test('there are four notes', async () => {
+  const res = await api.get('/api/notes');
+  expect(res.body.length).toBe(4);
+});
+
+test('first note content matches', async () => {
+  const res = await api.get('/api/notes');
+  expect(res.body[0].content).toBe('This is the first note.');
+});
+
+test('adding a valid note', async () => {
+  const newNote = { ... };
+  await api
+    .post('/api/notes')
+    .send(newNote)
+    .expect(200)
+    .expect('Content-Type', /application\/json/);
+
+  const res = await api.get('/api/notes');
+  const contents = res.body.map(r => r.content);
+
+  expect(res.body.length).toBe(initNotes.length + 1);
+  expect(contents).toContain(...);
+})
+
+test('deleting a note', async () => {
+  const deleteMe = initNotes[0];
+  await api
+    .delete(`/api/notes/${deleteMe.id}`)
+    .expect(204);
+
+  const res = await api.get('/api/notes');
+  const contents = res.body.map(r => r.content);
+
+  expect(res.body.length).toBe(initNotes.length - 1);
+  expect(contents).not.toContain(deleteMe.content);
+})
+
+/* execute at end of tests */
+afterAll(() => mongoose.connection.close());
+```
+Silencing logger on testing environment:
+```js
+const info = (...params) => {
+  /* silence logging information */
+  if (process.env.NODENV !== 'test') {
+    console.log(...params);
+  }
+}
+const reqLogger = (req, res, next) => {
+  info(...)
+  ...
+}
+```
+### User Administration
+***
+
+- *users* stored as their own model in databases
+  - eg. users creating notes
+  - in a *relational* database, both resources would have separate tables:
+    - the user id who creates a note would be stored in the notes table as a foreign key
+  - in a *document* database, there are more options for modeling the situation:
+    - store just the id unidirectionally or bidirectionally
+      - or nest entire notes model within the users collection
+    - MongoDB supports ObjectID *references*
+
+Updating the schema for users:
+```js
+const uniqueValidator = require('mongoose-unique-validator');
+
+const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    /* mongoose-unique-validator */
+    unique: true
+  },
+  name: String,
+  /* must store a hashed password */
+  passwordHash: String,
+  notes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Note'
+    }
+  ]
+});
+
+userSchema.plugin(uniqueValidator);
+
+userSchema.set('toJSON', {
+  transform: (doc, obj) => {
+    obj.id = obj._id.toString();
+    delete obj._id;
+    delete obj.__v;
+    /* hide password hash */
+    delete obj.passwordHash;
+  }
+});
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;
+
+const noteSchema = new mongoose.Schema({
+  ...
+  /* storing reference in both collections */
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
+})
+```
+Updating references in both collections:
+```js
+notesRouter.post('/', async (req, res, next) => {
+  ...
+  const user = await User.findById(body.userId);
+  const note = new Note({
+    ...
+    user: user._id
+  });
+
+  try {
+    const saved = await note.save();
+    /* updating user as well */
+    user.notes = user.notes.concat(saved._id);
+    await user.save();
+    res.json(saved);
+  } ...
+});
+```
+Populating queries using Mongoose join queries:
+(not *transactional*, ie. state of the database can change between queries)
+```js
+userRouter.get('/', async (req, res) => {
+  /* populating the result of the query using ID from the notes fields */
+  const users = await User.find({}).populate('notes', {
+    /* specifying which fields to populate */
+    content: 1, date: 1
+  });
+  res.json(users);
+});
+```
+- passwords should be *hashed*, eg. using bcrypt package
+  - `saltRounds` of bcrypt determines strength of hashing
+
+New user functionality on server using bcrypt:
+```js
+const bcrypt = require('bcrypt');
+const usersRouter = require('express').Router();
+const User = require('../models/user');
+
+usersRouter.post('/', async (req, res, next) => {
+  try {
+    const body = req.body;
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(body.password, saltRounds);
+
+    const user = new User({
+      username: body.username,
+      name: body.name,
+      passwordHash
+    });
+    const saved = await user.save();
+    res.json(saved);
+  } catch (err) {
+    next(err);
+  }
+});
+
+module.exports = usersRouter;
+```
+- **token authentication** secures certain API actions
+  - eg. restricting deleting or creating new notes to logged in users only
+  - after users log in through a POST request:
+    - the server generates a signed **token** that identifies the user
+  - browser saves the token, and send the token with requests that require id
+  - server uses the token to identify the user
+  - use jsonwebtoken package for generating *JSON web tokens* with a randomized secret key
+- to send token from the browser to server, use **Authorization** header
+  - multiple schema to interpret credentials
+  - jsonwebtoken uses the *Bearer* schema
+    - eg. `Bearer elkdlLKjdofwlKLAjsf98dfLSDj`
+- HTTPS also increases security, but Heroku server already uses HTTPS in production
+
+Login functionality on server using jsonwebtoken:
+```js
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
+loginRouter.post('/', async (req, res) => {
+  const body = req.body;
+  const user = await User.findOne({ username: body.username });
+  /* check hashed password */
+  const correctPw = !user ? false : await bcrypt.compare(body.password, user.passwordHash);
+
+  if (!(user && correctPw)) {
+    /* 401 unauthorized */
+    return res.status(401).json({ error: 'invalid username or password' });
+  }
+
+  const jsonToken = {
+    username: user.username,
+    id: user._id
+  };
+  const token = jwt.sign(jsonToken, SECRET_KEY);
+
+  res.status(200).send({ token, username: user.username, name: user.name });
+});
+
+module.exports = loginRouter;
+```
+Limiting API actions with token authentication:
+```js
+const getTokenFrom = (req) => {
+  const auth = req.get('authorization');
+  /* extract token from header */
+  if (auth && auth.toLowerCase().startsWith('bearer ')) {
+    return auth.substring(7);
+  }
+  return null;
+}
+
+notesRouter.post('/', async (req, res, next) => {
+  const token = getTokenFrom(req);
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    if (!token || !decoded.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+
+    const user = await User.findById(decoded.id);
+    const note = new Note({ ... });
+    ...
+  } catch (err) {
+    next(err);
+  }
+})
+```
+### Frontend User Administration
+***
+
+- users log in through the browser with a POST request form with username and password
+  - need to save the returned token in state to be used later for secured actions
+    - can save and retrieve from the browser's *local storage*
+      - persists across page rerendering
+    - can clear local storage:
+      - `window.localStorage.removeItem()`
+      - `window.localStorage.clear()`
+
+
+Updating general note service:
+```js
+/* note service: */
+let token = null;
+
+const setToken = (token) => token = `bearer ${token}`;
+
+const create = async (obj) => {
+  /* configuring headers with token */
+  const config = {
+    headers: { Authorization: token }
+  };
+  const res = await axios.post(baseUrl, obj, config);
+  return res.data;
+}
+
+export default { getAll, create, update, setToken };
+
+/* corresponding login event handler: */
+const handleLogin = async (e) => {
+  e.preventDefault();
+  try {
+    /* using a controlled form */
+    const res = await axios.post(baseUrl, { username, password });
+    const user = res.data;
+
+    window.localStorage.setItem('loggedUser', JSON.stringify(user));
+    noteService.setToken(user.token);
+    setUser(user.data);
+    setUsername('');
+    setPassword('');
+  } catch (err) {
+    ...
+  }
+}
+```
+Retrieving from local storage with effect hook:
+```js
+useEffect(() => {
+  const loggedUser = window.localStorage.getItem('loggedUser');
+  if (loggedUser) {
+    const user = JSON.parse(loggedUser);
+    setUser(user);
+    noteService.setToken(user.token);
+  }
+}, []);
+```
+
+## Frontend Testing and Custom Hooks
+***
+
+### Advanced React Props
+***
+
+- can create **Higher Order Components** (HOC) that extends the functionality of child components
+  - can access child components through `props.children`
+    - children props is automatically added by React
+    - empty array if component is defined with auto closing tag
+
+A Toggleable HOC:
+```js
+const Toggleable = (props) => {
+  const [visible, setVisible] = useState(false);
+
+  /* css display property */
+  const hideWhenVisible = { display: visible ? 'none' : '' };
+  const showWhenVisible = { display: visible ? '' : 'none' };
+
+  const toggleVisible = () => setVisible(!visible);
+
+  return (
+    <div>
+      <div style={hideWhenVisible}>
+        <button onClick={toggleVisible}>{props.buttonLabel}</button>
+      </div>
+      <div style={showWhenVisible}>
+        /* child component */
+        {props.children}
+        <button onClick={toggleVisible}>cancel</button>
+      </div>
+    </div>
+  )
+};
+```
+- React *refs* are component references to access component props/state from outside
+  - `createRef` to make refs
+  - `useImperativeHandle` hook shares component attributes with refs
+
+Toggling Toggleable visibility from outside:
+```js
+import { useImperativeHandle } from 'react';
+
+const Toggleable = React.fowardRef((props, ref) => {
+  ...
+  /* make function available outside of component */
+  useImperativeHandle(ref, () => {
+    return {
+      toggleVisible
+    };
+  });
+  ...
+});
+
+const App = () => {
+  ...
+  const noteFormRef = React.createRef();
+
+  const noteForm = () => {
+    <Toggleable buttonLabel="new note" ref={noteFormRef}>
+      ...
+    </Toggleable>
+  };
+
+  const addNote = (e) => {
+    noteFormRef.current.toggleVisible();
+    ...
+  };
+  ...
+};
+```
+- can force required props on a component using prop-types package
+
+Force required props on Toggleable:
+```js
+import PropTypes from 'prop-types';
+
+const Toggleable = ... {
+  ...
+  Toggleable.propTypes = {
+    buttonLabel: PropTypes.string.isRequired
+    /* also PropTypes.func */
+  };
+};
+```
+### Frontend Testing
+***
+
+- can expand Jest for use with frontend:
+  - react-testing-library and jest-dom packages
+  - components should have css classes/id's to select during testing
+  - render components, check their text content, click buttons
+  - create *stub* components, eg. mock objects and functions
+
+Simple frontend Jest test:
+```js
+import 'jest-dom/extend-react';
+import { render, cleanup, fireEvent } from '@testing-library/react';
+import { prettyDOM } from '@testing-library/dom';
+
+afterEach(cleanup);
+
+test('renders content', () => {
+  const note = { content: 'testing', important: true };
+  /* special render method does not render to DOM */
+  const component = render(<Note note={note} />);
+
+  /* container property contains all renderd HTML */
+  expect(component.container).toHaveTextContent('testing');
+
+  const elem = component.getByText('testing');
+  expect(elem).toBeDefined();
+
+  /* using css selectors */
+  const div = component.container.querySelector('.note');
+  expect(div).toHaveTextContent('testing');
+
+  /* printing DOM fragments for debugging */
+  console.log(prettyDOM(div));
+})
+
+test('clicking button calls event handle once', async () => {
+  const note = { content: 'testing', important: true };
+  /* mock function */
+  const mockHandler = jest.fn();
+
+  const { getByText } = render(<Note note={note} toggleImportance={mockHandler});
+
+  const button = getByText('toggle importance');
+  /* click button and call handler */
+  fireEvent.click(button);
+
+  expect(mockHandler.mock.calls.length).toBe(1);
+})
+```
+Testing forms with a wrapper component:
+```js
+const Wrapper = (props) => {
+  /* custom wrapper HOC to synchronize state with its parent */
+  const onChange = (e) => props.state.value = event.target.value;
+
+  return (
+    <NoteForm
+      value={state.props.value}
+      onSubmit={props.onSubmit}
+      handleChange={onChange}
+    />
+  );
+};
+
+test('Form updates parent state and calls onSubit', () => {
+  const onSubmit = jest.fn();
+  const state = { value: '' };
+
+  const component = render(<Wrapper onSubmit={onSubmit} state={state} />);
+
+  const input = component.container.querySelector('input');
+  const form = component.container.querySelector('form');
+
+  fireEvent.change(input, { target: { value: 'new text' }});
+  fireEvent.submit(form);
+
+  expect(onSubmit.mock.calls.length).toBe(1);
+  expect(state.value).toBe('new text');
+});
+```
+- **integration** tests of the application as a whole can be more comprehensive:
+  - to replace server requests, can use Jest *manual mocks* to replace modules with hardcoded data
+  - eg. to replace the `noteService` module, a hardcoded `getAll` function in `__mocks__` directory
+    - returns a list of hardcoded notes wrapped in a promise
+- **snapshot** testing does not require any defined tests:
+  - simply compare HTML code defined by the component after changes
+- **end-to-end** tests completely simulate a browser
+  - inspect application through same interface as real users
+- check test *coverage* of tests using `CI=true npm test -- --coverage`:
+  - gives breakdown of untested lines of code in a component
+
+Example integration test:
+```js
+import { waitForElement } from '@testing-library/react';
+/* module to mock */
+jest.mock('./services/notes');
+
+describe('App component', () => {
+  test('renders all notes from backend', async () => {
+    const component = render(<App />);
+
+    /* rerender to catch all effect hooks */
+    component.rerender(<App />);
+
+    /* fetching notes is async, wait for App to render all notes */
+    await waitForElement(() => component.conainer.querySelector('.note'));
+
+    const notes = component.cotnainer.querySelectorAll('.note');
+    expect(notes.length).toBe(3);
+    expect(component.container).toHaveTextContent('note 1');
+    expect(component.container).toHaveTextContent('note 2');
+    expect(component.container).toHaveTextContent('note 3');
+  })
+})
+```
 ### Custom Hooks
 ***
 
@@ -183,6 +1299,74 @@ const App = () => {
     </form>
   )
 }
+```
+Resource service custom hook:
+```js
+const useResource = (baseUrl) => {
+  const [token, setToken] = useState('');
+  const [resource, setResource] = useState([]);
+
+  const setAuthToken = (newToken) => setToken(`bearer ${newToken}`);
+
+  useEffect(() => {
+    const getAll = () =>
+      axios.get(baseUrl).then((init) => setResource(init.data));
+
+    getAll().then(console.log('Initialized resource.'));
+  }, [baseUrl]);
+
+  const create = (newResource) => {
+    const config = {
+      headers: { Authorization: token }
+    };
+    axios.post(baseUrl, newResource, config).then((created) => {
+      setResource(resource.concat(created.data));
+      return created.data;
+    });
+  };
+
+  const update = (id, newResource) =>
+    axios.put(baseUrl + '/' + id, newResource).then((updated) => {
+      setResource(
+        resource.map((r) => (r.id === updated.data.id ? updated.data : r))
+      );
+      return updated.data;
+    });
+
+  const remove = (id) => {
+    const config = {
+      headers: { Authorization: token }
+    };
+    axios.delete(baseUrl + '/' + id, config).then((removed) => {
+      setResource(resource.filter((r) => r.id !== removed.data.id));
+      return removed.data;
+    });
+  };
+
+  return [
+    resource,
+    {
+      setAuthToken,
+      create,
+      update,
+      remove
+    }
+  ];
+};
+
+/* usage: */
+const [notes, noteService] = useResource('http://localhost:3001/notes');
+
+const handleNoteSubmit = (e) => {
+  e.preventDefault();
+  noteService.create({ content: content.value });
+};
+
+return (
+  <div>
+    {notes.map(n => <p key={n.id}>{n.content}</p>)}
+  </div>
+);
 ```
 ## Redux
 ***
