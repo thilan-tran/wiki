@@ -1277,7 +1277,7 @@ const App = () => {
 Form-field custom hook:
 ```js
 const useField = (type) => {
-  const [value, setValue] useState('');
+  const [value, setValue] = useState('');
 
   const onChange = (e) => setValue(e.target.value);
 
@@ -1416,7 +1416,7 @@ console.log(store.getState())
 ```
 Notes app with Redux:
 ```js
-const noteReducer = (state = [], actions) => {
+const noteReducer = (state = [], action) => {
   switch(action.type) {
     case 'NEW_NOTE':
       /* use immutable array methods (ie. concat, spread syntax) */
