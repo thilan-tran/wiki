@@ -12,13 +12,15 @@
   - [CS33](Programming/CS33.md)
 - Linux / Scripting
   - [CS35L](Programming/CS35L.md)
-  - [Sample Makefile](Programming/Makefile)
 - Webdev
+  - [Full Stack](Programming/full_stack.md)
   - [JS/Node.js](Programming/javascript.md)
   - [CSS](Programming/css.md)
   - [Responsive Design](Programming/webdev.md)
   - [React](Programming/react.md)
+- Python
   - [Python](Programming/python.md)
+  - [Data Science](Programming/data_science.md)
 
 # GE's
 
