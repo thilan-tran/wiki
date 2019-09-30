@@ -2,6 +2,7 @@
 
 - [Scratch](scratch.md)
 - [Resources](resources.md)
+- [My Lists](my-lists.md)
 
 # Programming
 
@@ -25,10 +26,6 @@
 # GE's
 
 - [Jazz History](Other/M50B.md)
-
-# Other
-
-- [My Lists](my-lists.md)
 
 # Repositories
 
