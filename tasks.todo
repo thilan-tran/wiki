@@ -1,36 +1,27 @@
 ASSIGNMENTS
+[ ] +CS180 Review textbook
+[ ] +EE3 Prelab 4
+[ ] +M33A Review for Midterm 10/18
 
-LEARNING
+ORGANIZATIONS
+[ ] +Twain Research Chrome extensions
+[ ] +Twain Research Google login API
+[ ] +Terreform Three.js
+[ ] +Terreform Global Giving API
 
-[ ] Leetcode
-
-[ ] React
-  - [ ] Webpack, Babel setup vs. CRA
-  - [ ] Review JS classes
-
-[ ] Python
-  - [ ] Django
-
-[ ] Tutorials:
-  - CSS grid, flexbox, animations
-  - REST / MongoDB
-  - Vue
-  - Angular
-
-[ ] Read vim helpfiles
+OPPORTUNITIES
+[x] Google
+[ ] Amazon
+[x] Microsoft
+[x] Intel
+[x] Apple
+[x] Facebook
+[x] Raytheon
+[x] Northrop Grumman
+[ ] Riot
 
 OTHER
-
-[ ] Set up backup
-  - [x] Organize git repos
-  - [ ] Port vim config to linux
-
-[ ] Check out:
-  - [ ] zsh
-  - [ ] i3
-  - [x] Konsole
-  - [x] urxvt
-  - [x] tmux
+[ ] Get extension cable
 
 Completed {{{2
 [x] Friday 5/25 | Attack Lab +CS33

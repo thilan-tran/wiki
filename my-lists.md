@@ -26,7 +26,7 @@
 ### To Finish
 ***
 
-### Hollow Knight
+#### Hollow Knight
 
 - *112% Completion*:
   - [ ] 21,000 Geo for Unbreakable Charms (2%)
