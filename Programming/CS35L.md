@@ -537,6 +537,7 @@ $(tests): srt
   - no reserved words
 - in python2, print is a statement
   - in python3, print is a function
+- code fragment:
 ```py
 #!/usr/bin/python
 counter = 100
@@ -564,6 +565,7 @@ a multiline comment"""
   - `my_list.append(obj)` appends an object to the end of the list
   - `my_list.extend(iterable)` appends each element of the iterable onto the list
     - for a string, extend will append chars onto the list
+- using lists:
 ```py
 list = [1, 3.14, 'str']
 list1 = [1, 2, 3, 4]
