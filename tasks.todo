@@ -1,35 +1,17 @@
 ASSIGNMENTS
+[ ] +CS111 Project 0
+  - Read system call documentation
 
 ORGANIZATIONS
-[ ] +Twain
-  - add sections
-  - change input dropdowns to on click
-  - select tasks
 [ ] +Terreform
-  - update to high fidelity prototypes
-  - hamburger menu
-  - component cards
+  - Clean up project <-> biome coordination
+  - Refactor remaining components
 
 LEARNING
-[ ] Amazon assessments
 [ ] Complete Python Data Analysis Course
 
 OPPORTUNITIES
-[ ] Complete start-up apps
-[ ] Blizzard
 
 OTHER
-
-Completed {{{2
-[x] Friday 5/25 | Attack Lab +CS33
-[x] Friday | HW3 +CS33
-[x] Monday | Lab 7 / HW7 +CS35L
-[x] Monday | Lab 6 / HW6 +CS35L
-[x] Wednesday | Presentation +CS35L
-[x] Monday | EM Waves / Optics Exam +P1C
-[x] Monday | Memory Hierarchy lecture +CS33
-[x] Physics HW for week 1
-[x] read textbook chapter for magnetic torque / Hall effect
-[x] creative labs application
-[x] get more contact solution
-[x] sign up for summer sessions
+[ ] Clean up .vimrc
+[ ] Read Vimways articles
