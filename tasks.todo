@@ -1,20 +1,24 @@
 ASSIGNMENTS
 [ ] +CS111
-  - Wednesday | Midterm
-  - Do Project 4a
+  - Finish readings for Week 4-5
+  - Do Project 4b
 [ ] +EE102
-  - Do HW4
+  - [x] Do HW5
 [ ] +M33B
-  - Do HW4
+  - Wednesday | Midterm 2
+  - [x] Do HW6
 
 ORGANIZATIONS
 [ ] +Twain
-  - Start implementing onboarding mockups
+  - Fix onboarding UI button and background
+  - Fix more input bugs
+
+OPPORTUNITIES
+[ ] Wednesday  | VISA Interview
+[ ] Friday 3/6 | Heavy Iron Interview
 
 LEARNING
 [ ] Complete Python Data Analysis Course
-
-OPPORTUNITIES
 
 OTHER
 [ ] Clean up .vimrc
