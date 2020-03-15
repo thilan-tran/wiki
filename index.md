@@ -6,13 +6,12 @@
 
 # Programming
 
-- C++
+- UCLA
   - [CS31](Programming/CS31.md)
   - [CS32](Programming/CS32.md)
-- Machine-Level Programming
   - [CS33](Programming/CS33.md)
-- Linux / Scripting
   - [CS35L](Programming/CS35L.md)
+  - [CS111](Programming/CS111.md)
 - Webdev
   - [Full Stack](Programming/full_stack.md)
   - [JS/Node.js](Programming/javascript.md)
