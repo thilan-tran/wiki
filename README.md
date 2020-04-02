@@ -1,6 +1,7 @@
 # Wiki
 
 My collection of notes and resources for programming and other coursework.
+
 Notes are written in Markdown and compiled using Pandoc to Latex-style pdfs.
 
 ## Programming
