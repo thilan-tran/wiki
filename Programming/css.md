@@ -1,3 +1,47 @@
+---
+title: "CSS"
+mainfont: Libertinus Serif
+monofont: Iosevka
+fontsize: 14pt
+geometry: margin=2cm
+toc: true
+documentclass: extarticle
+header-includes: |
+  \hypersetup{colorlinks=true,linkcolor=black,urlcolor=myblue}
+  \usepackage{fancyhdr}
+  \pagestyle{fancy}
+  \usepackage{fvextra}
+  \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+  \usepackage{xcolor}
+  \definecolor{mygray}{HTML}{A6A5A2}
+  \definecolor{mygreen}{HTML}{98C379}
+  \definecolor{myblue}{HTML}{61AFEF}
+  \definecolor{mycyan}{HTML}{56B6C2}
+  \definecolor{myorange}{HTML}{E5C07B}
+  \definecolor{myred}{HTML}{E06C75}
+  \definecolor{mypurple}{HTML}{AE81FF}
+  \usepackage{caption}
+  \usepackage{listings}
+  \lstset{
+  basicstyle=\ttfamily,
+  captionpos=t,
+  title=\lstname,
+  columns=fullflexible,
+  lineskip=2pt,
+  breakatwhitespace=false,
+  breaklines=true,
+  extendedchars=true,
+  keepspaces=true,
+  showspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=trbL,
+  numbersep=9pt,
+  stepnumber=2,
+  backgroundcolor=\color{gray!10}}
+  \usepackage{microtype}
+---
+
 # CSS
 ***
 

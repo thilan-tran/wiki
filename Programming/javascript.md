@@ -1,6 +1,5 @@
 ---
 title: "Javascript"
-date: "14 June 2019"
 mainfont: Libertinus Serif
 monofont: Iosevka
 fontsize: 14pt
