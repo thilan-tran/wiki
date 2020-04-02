@@ -1,6 +1,6 @@
 # Wiki
 
-My collection of notes and resources for programming and other coursework.
+My collection of notes and resources for programming and other UCLA coursework.
 
 Notes are written in Markdown and compiled using Pandoc to Latex-style pdfs.
 
