@@ -14,6 +14,7 @@ Notes are written in Markdown and compiled using Pandoc to Latex-style pdfs.
   - [CS111](Programming/CS111.pdf)
   - [CS118](Programming/CS118.pdf)
   - [CS131](Programming/CS131.pdf)
+  - [CS180](Programming/CS180.pdf)
 - Webdev
   - [Full Stack](Programming/full_stack.pdf)
   - [JavaScript](Programming/javascript.pdf)
@@ -38,6 +39,9 @@ Notes are written in Markdown and compiled using Pandoc to Latex-style pdfs.
   - [CS33](Programming/CS33.md)
   - [CS35L](Programming/CS35L.md)
   - [CS111](Programming/CS111.md)
+  - [CS118](Programming/CS118.md)
+  - [CS131](Programming/CS131.md)
+  - [CS180](Programming/CS180.md)
 - Webdev
   - [Full Stack](Programming/full_stack.md)
   - [JS/Node.js](Programming/javascript.md)
