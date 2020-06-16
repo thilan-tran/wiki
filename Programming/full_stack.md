@@ -1,79 +1,29 @@
 ---
+#YAML Frontmatter
 title: "Full Stack"
 date: "Summer 2019"
+author: "Thilan Tran"
 mainfont: Libertinus Serif
 monofont: Iosevka
 fontsize: 14pt
-geometry: margin=2cm
 toc: true
 documentclass: extarticle
 header-includes: |
-  \hypersetup{colorlinks=true,linkcolor=black,urlcolor=myblue}
+  \definecolor{Light}{HTML}{F4F4F4}
+  \let\oldtexttt\texttt
+  \renewcommand{\texttt}[1]{
+    \colorbox{Light}{\oldtexttt{#1}}
+  }
   \usepackage{fancyhdr}
   \pagestyle{fancy}
-  \usepackage{fvextra}
-  \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
-  \usepackage{xcolor}
-  \definecolor{mygray}{HTML}{A6A5A2}
-  \definecolor{mygreen}{HTML}{98C379}
-  \definecolor{myblue}{HTML}{61AFEF}
-  \definecolor{mycyan}{HTML}{56B6C2}
-  \definecolor{myorange}{HTML}{E5C07B}
-  \definecolor{myred}{HTML}{E06C75}
-  \definecolor{mypurple}{HTML}{AE81FF}
-  \usepackage{caption}
-  \usepackage{listings}
-  \lstset{
-  language=c++,
-  basicstyle=\ttfamily,
-  commentstyle=\color{mygray}\textit,
-  keywordstyle=\color{mycyan}\bfseries,
-  identifierstyle=\color{mygreen},
-  stringstyle=\color{myorange},
-  directivestyle=\color{mypurple},
-  numberstyle=\small\color{mygray},
-  rulecolor=\color{mygray},
-  captionpos=t,
-  title=\lstname,
-  columns=fullflexible,
-  lineskip=2pt,
-  breakatwhitespace=false,
-  breaklines=true,
-  extendedchars=true,
-  keepspaces=true,
-  showspaces=false,
-  showtabs=false,
-  tabsize=2,
-  frame=trbL,
-  numbersep=9pt,
-  stepnumber=2,
-  literate=%
-    {0}{{{\color{mypurple}0}}}1
-    {1}{{{\color{mypurple}1}}}1
-    {2}{{{\color{mypurple}2}}}1
-    {3}{{{\color{mypurple}3}}}1
-    {4}{{{\color{mypurple}4}}}1
-    {5}{{{\color{mypurple}5}}}1
-    {6}{{{\color{mypurple}6}}}1
-    {7}{{{\color{mypurple}7}}}1
-    {8}{{{\color{mypurple}8}}}1
-    {9}{{{\color{mypurple}9}}}1
-    {+}{{{\color{myred}+}}}1
-    {-}{{{\color{myred}-}}}1
-    {>}{{{\color{myred}>}}}1
-    {<}{{{\color{myred}<}}}1
-    {=}{{{\color{myred}=}}}1
-    {\ *\ }{{{\color{myred}\ *\ }}}1
-    {\ /\ }{{{\color{myred}\ /\ }}}1,
-  backgroundcolor=\color{gray!10}}
-  \usepackage{microtype}
 ---
 
+\newpage{}
 
 # Full Stack Course
 ***
 
-## Basics
+## Overview
 ***
 
 - server and web browser communicate through **HTTP** protocol
@@ -94,14 +44,14 @@ AJAX and dynamic content with pure Javascript:
 ```js
 var xhttp = new XMLHttpRequest();
 
-/* attaching a callback to an event handler */
+// attaching a callback to an event handler
 xhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
     const data = JSON.parse(this.responseText);
     console.log(data);
   }
 
-  /* DOM manipulation */
+  // DOM manipulation
   var ul = document.createElement('ul');
   ul.setAttribute('class', 'notes');
 
@@ -117,7 +67,7 @@ xhttp.onreadystatechange = function() {
 xhttp.open('GET', '/data.json', true);
 xhttp.send();
 
-/* AJAX POST */
+// AJAX POST
 xhttpPost = new XMLHttpRequest();
 xhttpPost.open('POST', '/new_note', true);
 xhttpPost.setRequestHeader('Content-type', 'application/json');
@@ -204,16 +154,14 @@ import { useState } from 'react';
 const App = () => {
   const [counter, setCounter] = useState(0);
 
-  /* currying the function */
+  // currying the function
   setVal = (val) => () => setCounter(val);
 
   return (
     <div>
       <div>{counter}</div>
-      /* registering a callback to a button's onClick event */
-
-      /* <button onClick={setCounter(counter+1)}>plus</button> */
-      /* currying the function so it is not called immediately */
+      // <button onClick={setCounter(counter+1)}>plus</button>
+      // currying the function so it is not called immediately
       <button onClick={() => setCounter(counter+1)}>plus</button>
 
       <button onClick={setVal(0)}>zero</button>
@@ -247,7 +195,7 @@ const App = (props) => {
   );
 }
 ```
-## Communicating with Server
+## Server Communication
 ***
 
 - communication with the server from the browser happens *asynchronously*:
@@ -288,7 +236,7 @@ Creating a service module for backend communication:
 ```js
 const baseUrl = '...';
 
-/* returns a promise, extracts data field from response */
+// returns a promise, extracts data field from response
 const getAll = () =>
   axios.get(baseUrl).then(res => res.data);
 
@@ -336,7 +284,9 @@ const App = () => {
   };
 }
 ```
-## Node.js and Express
+\newpage{}
+
+# Node.js and Express
 ***
 
 - NodeJS is a JS runtime based on Chrome's V8 JS engine
@@ -363,17 +313,12 @@ const App = () => {
 
 Simple web server with pure Node:
 ```js
-/* Node doesn't use latest ES6 import/export syntax */
+// Node doesn't use latest ES6 import/export syntax
 const http = require('http');
 
 const data = { ... };
 
 const app = http.createServer((req, res) => {
-  /* text response */
-  /* res.writeHead(200, { 'Content-Type': 'text/plain' });
-     res.end('Hello World'); */
-
-  /* JSON response */
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify(data));
 });
@@ -399,31 +344,30 @@ const app = express();
 const data = [ ... ];
 
 app.get('/', (req, res) => {
-  /* automatically sets Content-Type to text/html, status 200 */
+  // automatically sets Content-Type to text/html, status 200
   res.send('<h1>Hello World!</h1>');
 });
 
 app.get('/api', (req, res) => {
+  // automatically sets Content-Type to application/json
   res.json(data);
 });
 
 const PORT = 3001;
 app.listen(PORT, () => {
-  /*automatically sets Content-Type to application/json */
   console.log(`Server running on port ${PORT}`);
 });
 ```
 Route parameters with Express:
 ```js
 app.get('/notes/:id', (req, res) => {
-  /* Express casts parameters to strings */
+  // Express casts parameters to strings
   const id = Number(req.params.id);
   const note = notes.find(note => note.id === id);
 
   if (note) {
     res.json(note);
   } else{
-    /* 404 not found */
     res.status(404).end();
   }
 });
@@ -431,20 +375,19 @@ app.get('/notes/:id', (req, res) => {
 app.delete('/notes/:id', (req, res) => {
   const id = Number(req.params.id);
   notes = notes.filter(note => note.id !== id);
-  /* 204 no content */
   res.status(204).end();
 })
 ```
 Receiving POST object with Express:
 ```js
-/* registering json middleware to read request body json */
+// registering json middleware to read request body json
 app.use(express.json());
 
 app.post('/notes', (req, res) => {
   const note = req.body;
 
   if (!body.content) {
-    /* 400 bad request */
+    // 400 bad request
     return res.status(400).json({ error: 'content missing' });
   }
   notes = notes.concat({ ...note, id: id() });
@@ -461,7 +404,7 @@ notesRouter.post('/', async (req, res, next) => {
     date: new Date()
   });
 
-  /* wrap in try-catch to use async/await */
+  // wrap in try-catch to use async/await
   try {
     const savedNote = await note.save();
     res.json(savedNote.toJSON());
@@ -474,29 +417,29 @@ Other types of Express middleware:
 ```js
 const cors = require('cors');
 
-/* set allow cross-origin CORS headers */
+// set allow cross-origin CORS headers
 app.use(cors());
 
 const reqLogger = (req, res, next) => {
   console.log('Method:', req.method);
   console.log('Path:  ', req.path);
-  /* must be used after express json middleware */
+  // must be used after express json middleware
   console.log('Body:  ', req.body);
   console.log('-------');
-  /* yield to next middleware */
+  // yield to next middleware
   next();
 };
 
 app.use(reqLogger);
 
 const unknownEndpoint = (req, res) => {
-  /* final middleware */
+  // final middleware
   res.status(404).send({ error: 'Unknown endpoint'});
 };
 
 app.use(unknownEndpoint);
 ```
-### Deployment
+## Deployment
 ***
 
 - use Heroku to deploy web applications:
@@ -516,7 +459,7 @@ app.use(unknownEndpoint);
   - `require('dotenv').config()`
   - can set environment variables on Heroku: `heroku config: set VAR=...`
 
-### Databases
+## Databases
 ***
 
 - databases store server data indefinitely
@@ -531,19 +474,19 @@ app.use(unknownEndpoint);
 
 Using mongoose:
 ```js
-/* connecting: */
+// connecting:
 const mongoose = require('mongoose');
 
-/* disables error messages for findByIdAndUpdate */
+// disables error messages for findByIdAndUpdate
 mongoose.set('useFindAndModify', false);
 
 const url = process.env.MONGODB_URI;
 mongoose.connect(url, { useNewUrlParser: true });
 
-/* defining schema: */
+// defining schema:
 const noteSchema = new mongoose.Schema({
   content: {
-    /* defining validators for fields */
+    // defining validators for fields
     type: String,
     minlength: 5,
     required: true
@@ -554,11 +497,11 @@ const noteSchema = new mongoose.Schema({
   },
   important: Boolean,
 });
-/* formatting objects: */
+// formatting objects:
 noteSchema.set('toJSON', {
   transform: (doc, obj) => {
     obj.id = obj._id.toString();
-    /* delete _id and versioning field */
+    // delete _id and versioning field
     delete obj._id;
     delete obj.__v;
   }
@@ -567,33 +510,33 @@ const Note = mongoose.model('Note', noteSchema);
 
 module.exports = Note;
 
-/* creating new object from model: */
+// creating new object from model:
 const note = new Note({
   content: '...',
   date: new Date(),
   important: false
 });
 
-/* saving object happens asynchronously: */
+// saving object happens asynchronously:
 note.save().then(res => {
   console.log('note saved!');
-  /* close connection */
+  // close connection
   mongoose.connection.close();
 })
 ```
 Fetching objects from database:
 ```js
-/* finding all notes: */
+// finding all notes:
 api.get('/api/notes', (req, res) => {
   Note.find({}).then(notes => {
     res.json(notes);
   });
 });
 
-/* finding specific notes: */
+// finding specific notes:
 Note.find({ important: true}).then(res => ...);
 
-/* finding by id: */
+// finding by id:
 api.get('/api/notes/:id', (req, res, next) => {
   Note.findById(req.params.id).then(note => {
     if (note) {
@@ -602,7 +545,7 @@ api.get('/api/notes/:id', (req, res, next) => {
       res.status(404).end();
     }
   })
-  /* pass errors to custom handler */
+  // pass errors to custom handler
   .catch(err => next(err));
 });
 ```
@@ -650,12 +593,14 @@ const errorHandler = (error, req, res, next) => {
   } else if (error.name === 'JsonWebTokenError') {
     return res.status(401).json({ error: 'invalid token' });
   }
-  /* pass to default express error handler */
+  // pass to default express error handler
   next(error);
 }
 app.use(errorHandler);
 ```
-## Express Testing and User Administration
+\newpage{}
+
+# Express Testing and User Administration
 ***
 
 - project *structure* conventions:
@@ -669,25 +614,25 @@ app.use(errorHandler);
   - `utils/` config, middleware, misc.
     - `config.js` handles .env and environment variables
       - eg. starts with `require('dotenv').config()`, exports env variables
-      - other parts can access through `const config = require('./utils/config')`
+      - other parts can access through `const cfig = require('./utils/config')`
 
 Using Express routers:
 ```js
-/* controllers/notes.js */
+// controllers/notes.js
 const notesRouter = require('express').Router();
 
-/* minimal route url */
+// minimal route url
 notesRouter.get('/' ...);
 
 module.exports = notesRouter;
 
-/* app.js */
+// app.js
 const notesRouter = require('./controllers/notes');
 
-/* using router as middleware */
+// using router as middleware
 app.use('/api/notes', notesRouter);
 ```
-### Testing
+## Testing
 ***
 
 - Jest library handles testing the backend
@@ -697,7 +642,7 @@ app.use('/api/notes', notesRouter);
     - use `describe` block to group tests
 - define execution mode of the application with `NODE_ENV` env variable
   - allows the usage of a different database url for testing
-    - eg. `if (process.env.NODE_ENV === 'test') MONGODB_URI = process.env.TEST_MONGODB_URI`
+    - eg. `if (process.env.NODE_ENV === 'test') MONGODB_URI = ...`
   - with a testing script: `"test": "NODE_ENV=test jest --verbose --runInBand"'`
 - supertest package helps write API tests
 
@@ -725,20 +670,20 @@ const api = supertest(app);
 
 const initNotes = [ ... ];
 
-/* reset database notes before each test */
+// reset database notes before each test
 beforeEach(async () => {
   await Note.deleteMany({});
   const promiseArr = initNotes.map(note => note.save());
-  /* awaiting suite of promises to initialize database */
+  // awaiting suite of promises to initialize database
   await Promise.all(promiseArr);
 })
 
 test('notes are returned as json', async () => {
   await api
     .get('/api/notes')
-    /* expect correct status code */
+    // expect correct status code
     .expect(200)
-    /* expect correct content type header */
+    // expect correct content type header
     .expect('Content-Type', /application\/json/);
 });
 
@@ -780,13 +725,13 @@ test('deleting a note', async () => {
   expect(contents).not.toContain(deleteMe.content);
 })
 
-/* execute at end of tests */
+// execute at end of tests
 afterAll(() => mongoose.connection.close());
 ```
 Silencing logger on testing environment:
 ```js
 const info = (...params) => {
-  /* silence logging information */
+  // silence logging information
   if (process.env.NODENV !== 'test') {
     console.log(...params);
   }
@@ -796,7 +741,7 @@ const reqLogger = (req, res, next) => {
   ...
 }
 ```
-### User Administration
+## User Administration
 ***
 
 - *users* stored as their own model in databases
@@ -815,11 +760,11 @@ const uniqueValidator = require('mongoose-unique-validator');
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    /* mongoose-unique-validator */
+    // mongoose-unique-validator
     unique: true
   },
   name: String,
-  /* must store a hashed password */
+  // must store a hashed password
   passwordHash: String,
   notes: [
     {
@@ -836,7 +781,7 @@ userSchema.set('toJSON', {
     obj.id = obj._id.toString();
     delete obj._id;
     delete obj.__v;
-    /* hide password hash */
+    // hide password hash
     delete obj.passwordHash;
   }
 });
@@ -847,7 +792,7 @@ module.exports = User;
 
 const noteSchema = new mongoose.Schema({
   ...
-  /* storing reference in both collections */
+  // storing reference in both collections
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -866,7 +811,7 @@ notesRouter.post('/', async (req, res, next) => {
 
   try {
     const saved = await note.save();
-    /* updating user as well */
+    // updating user as well
     user.notes = user.notes.concat(saved._id);
     await user.save();
     res.json(saved);
@@ -877,9 +822,9 @@ Populating queries using Mongoose join queries:
 (not *transactional*, ie. state of the database can change between queries)
 ```js
 userRouter.get('/', async (req, res) => {
-  /* populating the result of the query using ID from the notes fields */
+  // populating the result of the query using ID from the notes fields
   const users = await User.find({}).populate('notes', {
-    /* specifying which fields to populate */
+    // specifying which fields to populate
     content: 1, date: 1
   });
   res.json(users);
@@ -935,11 +880,12 @@ const bcrypt = require('bcrypt');
 loginRouter.post('/', async (req, res) => {
   const body = req.body;
   const user = await User.findOne({ username: body.username });
-  /* check hashed password */
-  const correctPw = !user ? false : await bcrypt.compare(body.password, user.passwordHash);
+  // check hashed password
+  const correctPw = !user ? false :
+    await bcrypt.compare(body.password, user.passwordHash);
 
   if (!(user && correctPw)) {
-    /* 401 unauthorized */
+    // 401 unauthorized
     return res.status(401).json({ error: 'invalid username or password' });
   }
 
@@ -958,7 +904,7 @@ Limiting API actions with token authentication:
 ```js
 const getTokenFrom = (req) => {
   const auth = req.get('authorization');
-  /* extract token from header */
+  // extract token from header
   if (auth && auth.toLowerCase().startsWith('bearer ')) {
     return auth.substring(7);
   }
@@ -981,7 +927,7 @@ notesRouter.post('/', async (req, res, next) => {
   }
 })
 ```
-### Frontend User Administration
+## Frontend User Administration
 ***
 
 - users log in through the browser with a POST request form with username and password
@@ -995,13 +941,13 @@ notesRouter.post('/', async (req, res, next) => {
 
 Updating general note service:
 ```js
-/* note service: */
+// note service:
 let token = null;
 
 const setToken = (token) => token = `bearer ${token}`;
 
 const create = async (obj) => {
-  /* configuring headers with token */
+  // configuring headers with token
   const config = {
     headers: { Authorization: token }
   };
@@ -1011,11 +957,11 @@ const create = async (obj) => {
 
 export default { getAll, create, update, setToken };
 
-/* corresponding login event handler: */
+// corresponding login event handler:
 const handleLogin = async (e) => {
   e.preventDefault();
   try {
-    /* using a controlled form */
+    // using a controlled form
     const res = await axios.post(baseUrl, { username, password });
     const user = res.data;
 
@@ -1040,11 +986,12 @@ useEffect(() => {
   }
 }, []);
 ```
+\newpage{}
 
-## Frontend Testing and Custom Hooks
+# Frontend Testing and Custom Hooks
 ***
 
-### Advanced React Props
+## Advanced React Props
 ***
 
 - can create **Higher Order Components** (HOC) that extends the functionality of child components
@@ -1057,7 +1004,7 @@ A Toggleable HOC:
 const Toggleable = (props) => {
   const [visible, setVisible] = useState(false);
 
-  /* css display property */
+  // css display property
   const hideWhenVisible = { display: visible ? 'none' : '' };
   const showWhenVisible = { display: visible ? '' : 'none' };
 
@@ -1069,7 +1016,7 @@ const Toggleable = (props) => {
         <button onClick={toggleVisible}>{props.buttonLabel}</button>
       </div>
       <div style={showWhenVisible}>
-        /* child component */
+        // child component
         {props.children}
         <button onClick={toggleVisible}>cancel</button>
       </div>
@@ -1087,7 +1034,7 @@ import { useImperativeHandle } from 'react';
 
 const Toggleable = React.fowardRef((props, ref) => {
   ...
-  /* make function available outside of component */
+  // make function available outside of component
   useImperativeHandle(ref, () => {
     return {
       toggleVisible
@@ -1123,11 +1070,11 @@ const Toggleable = ... {
   ...
   Toggleable.propTypes = {
     buttonLabel: PropTypes.string.isRequired
-    /* also PropTypes.func */
+    // also PropTypes.func
   };
 };
 ```
-### Frontend Testing
+## Frontend Testing
 ***
 
 - can expand Jest for use with frontend:
@@ -1146,32 +1093,32 @@ afterEach(cleanup);
 
 test('renders content', () => {
   const note = { content: 'testing', important: true };
-  /* special render method does not render to DOM */
+  // special render method does not render to DOM
   const component = render(<Note note={note} />);
 
-  /* container property contains all renderd HTML */
+  // container property contains all renderd HTML
   expect(component.container).toHaveTextContent('testing');
 
   const elem = component.getByText('testing');
   expect(elem).toBeDefined();
 
-  /* using css selectors */
+  // using css selectors
   const div = component.container.querySelector('.note');
   expect(div).toHaveTextContent('testing');
 
-  /* printing DOM fragments for debugging */
+  // printing DOM fragments for debugging
   console.log(prettyDOM(div));
 })
 
 test('clicking button calls event handle once', async () => {
   const note = { content: 'testing', important: true };
-  /* mock function */
+  // mock function
   const mockHandler = jest.fn();
 
   const { getByText } = render(<Note note={note} toggleImportance={mockHandler});
 
   const button = getByText('toggle importance');
-  /* click button and call handler */
+  // click button and call handler
   fireEvent.click(button);
 
   expect(mockHandler.mock.calls.length).toBe(1);
@@ -1180,7 +1127,7 @@ test('clicking button calls event handle once', async () => {
 Testing forms with a wrapper component:
 ```js
 const Wrapper = (props) => {
-  /* custom wrapper HOC to synchronize state with its parent */
+  // custom wrapper HOC to synchronize state with its parent
   const onChange = (e) => props.state.value = event.target.value;
 
   return (
@@ -1222,17 +1169,17 @@ test('Form updates parent state and calls onSubit', () => {
 Example integration test:
 ```js
 import { waitForElement } from '@testing-library/react';
-/* module to mock */
+// module to mock
 jest.mock('./services/notes');
 
 describe('App component', () => {
   test('renders all notes from backend', async () => {
     const component = render(<App />);
 
-    /* rerender to catch all effect hooks */
+    // rerender to catch all effect hooks
     component.rerender(<App />);
 
-    /* fetching notes is async, wait for App to render all notes */
+    // fetching notes is async, wait for App to render all notes
     await waitForElement(() => component.conainer.querySelector('.note'));
 
     const notes = component.cotnainer.querySelectorAll('.note');
@@ -1243,7 +1190,7 @@ describe('App component', () => {
   })
 })
 ```
-### Custom Hooks
+## Custom Hooks
 ***
 
 - **custom hooks** extract component logic into resuable functions
@@ -1265,7 +1212,7 @@ const useCounter = () => {
 }
 
 const App = () => {
-  /* two separate counters */
+  // two separate counters
   const left = useCounter();
   const right = useCounter();
 
@@ -1354,7 +1301,7 @@ const useResource = (baseUrl) => {
   ];
 };
 
-/* usage: */
+// usage:
 const [notes, noteService] = useResource('http://localhost:3001/notes');
 
 const handleNoteSubmit = (e) => {
@@ -1368,7 +1315,9 @@ return (
   </div>
 );
 ```
-## Redux
+\newpage{}
+
+# Redux
 ***
 
 - **Flux** is a *state-management* alternative
@@ -1407,7 +1356,7 @@ const counterReducer = (state = 0, action) => {
   }
 }
 
-/* reducer is never called directly */
+// reducer is never called directly
 const store = createStore(counterReducer);
 
 store.dispatch({type: 'INCREMENT'});
@@ -1419,7 +1368,7 @@ Notes app with Redux:
 const noteReducer = (state = [], action) => {
   switch(action.type) {
     case 'NEW_NOTE':
-      /* use immutable array methods (ie. concat, spread syntax) */
+      // use immutable array methods (ie. concat, spread syntax)
       return [...state, action.data];
     case 'TOGGLE_IMPORTANCE':
       const id = action.data.id;
@@ -1447,12 +1396,12 @@ const render = () => {
   ReactDOM.render(...);
 };
 
-/* first initiol render, required */
+// first initiol render, required
 render();
-/* re-render on store update */
+// re-render on store update
 store.subscribe(render);
 ```
-### Complex Redux Stores
+## Complex Redux Stores
 ***
 
 - options for sharing the store among components:
@@ -1481,13 +1430,13 @@ const Notes = ...
 
 const mapStateToProps = (state) => {
   return {
-    /* accessing reducers' state from props directly */
+    // accessing reducers' state from props directly
     notes: state.notes,
     filter: state.filter
   };
 };
 
-/* simplifying mapping the state with a selector function */
+// simplifying mapping the state with a selector function
 const notesToShow = ({ notes, filter }) => {
   if (filter === 'ALL') return notes;
 
@@ -1501,13 +1450,13 @@ const mapStateToProps = (state) => {
   }
 }
 
-/* automatically dispatches action from action creator */
+// automatically dispatches action from action creator
 const mapDispatchToProps = {
-  /* dispatching action from action creator from props directly */
+  // dispatching action from action creator from props directly
   toggleImportanceOf
 };
 
-/* alternative, explicit function syntax for mapping dispatch */
+// alternative, explicit function syntax for mapping dispatch
 const mapDispatchToProps = (dispatch) => {
   return {
     toggleImportanceOf: (id) => dispatch(toggleImportanceOf(id))
@@ -1538,14 +1487,16 @@ const reducer = combineReducers({
 
 const store = createStore(reducer);
 
-/* access a reducer through store.getState().notes */
+// access a reducer through store.getState().notes
 ```
-### Asynchronous Actions
+## Asynchronous Actions
 ***
 
 - *redux-thunk* library allows for action creators to be asynchronous functions
   - eg. communicate / update data from a database
   - previously not possible to implement within an action creator
+
+Using Redux thunk:
 ```js
 import { applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
@@ -1554,7 +1505,7 @@ import thunk from 'redux-thunk';
 
 const store = createStore(reducer, applyMiddleware(thunk));
 
-/* action creators can now have asynchronous operations */
+// action creators can now have asynchronous operations
 
 export const initializeNotes = () => {
   return async (dispatch) => {
@@ -1570,10 +1521,12 @@ export const createNote = (content) => {
   }
 }
 ```
-## React Router and Styling
+\newpage{}
+
+# React Router and Styling
 ***
 
-### React Router
+## React Router
 ***
 
 - *routing* is the navigation management of an application
@@ -1594,13 +1547,13 @@ const App = () => {
   return (
     <Router>
       <div>
-        /* navbar elements */
+        // navbar elements
         <Link to="/">home</Link>
         <Link to="/notes">notes</Link>
         <Link to="/users">users</Link>
       </div>
 
-      /* rendering components based on url */
+      // rendering components based on url
       <Route exact path="/" render={() => <Home />} />
       <Route exact path="/notes" render={() => <Notes />} />
       <Route path="/notes/:id" render={({ match }) =>
@@ -1608,7 +1561,7 @@ const App = () => {
       } />
       <Route path="/users" render={() => <Users />} />
 
-      /* conditional rendering */
+      // conditional rendering
       {user
        ? <em>{user} logged in</em>
        : <Link to="/login">login</Link>
@@ -1633,14 +1586,14 @@ const Login = (props) => {
   const onSubmit = (e) => {
     e.preventDefault();
     ...
-    /* render home after login */
+    // render home after login
     props.history.push('/');
   }
 
   return ...
 }
 
-/* add history prop to component */
+// add history prop to component
 const LoginWithHistory = withRouter(Login);
 ```
 Using `redirect` to redirect routes:
@@ -1649,7 +1602,7 @@ Using `redirect` to redirect routes:
   user ? <Users /> : <Redirect to="/login" />
 } />
 ```
-### Styles
+## Styles
 ***
 
 - **UI Frameworks** are predefined style themes and components
@@ -1698,7 +1651,7 @@ const Input = styled.input`
 
 <Input type='password' />
 ```
-### Webpack
+## Webpack
 ***
 
 - **Webpack** bundles separate modules into one for the browser
@@ -1724,12 +1677,12 @@ webpack.config.js:
 const path = require('path');
 
 const config = {
-  /* entry point for bundling */
+  // entry point for bundling
   entry: './src/index.js',
   output: {
-    /* __dirname holds current directory */
+    // __dirname holds current directory
     path: path.resolve(__dirname, 'build'),
-    /* bundled code */
+    // bundled code
     filename: 'main.js'
   }
 };
@@ -1757,7 +1710,7 @@ webpack.config.js:
 ```js
 const config = {
   entry: './src/index.js',
-  /* for polyfill dependency */
+  // for polyfill dependency
   entry: ['@babel/polyfill', './src/index.js'],
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -1766,18 +1719,18 @@ const config = {
   module: {
     rules: [
       {
-        /* specifying .js files */
+        // specifying .js files
         test: /\.js$/,
-        /* specifying loader */
+        // specifying loader
         loader: 'babel-loader',
-        /* specifying loader parameters */
+        // specifying loader parameters
         query: {
           presets: ['@babel/preset-react'],
-          /* transpiling preset */
+          // transpiling preset
           presets: ['@babel/preset-env', '@babel/preset-react'],
         }
       },
-      /* css loaders */
+      // css loaders
       {
         test: /\.css$/,
         loader: `babel-loader`,
@@ -1806,7 +1759,7 @@ const config = {
     compress: true,
     port: 3000
   },
-  /* map errors to original source code */
+  // map errors to original source code
   devTool: 'source-map',
   ...
 }
@@ -1833,16 +1786,16 @@ const config =  (env, argv) => {
     devServer: ...,
     ...
     plugins: [
-      /* defining global default constraints in bundled code */
+      // defining global default constraints in bundled code
       new webpack.DefinePlugin({
-        /* BACKEND_URL can be used directly in code */
+        // BACKEND_URL can be used directly in code
         BACKEND_URL: JSON.stringify(BACKEND_URL)
       })
     ]
   }
 }
 ```
-### Class Components
+## Class Components
 ***
 
 - React *class* components:
@@ -1912,7 +1865,7 @@ const App = () => {
   )
 }
 ```
-### End to End Testing
+## End to End Testing
 ***
 
 - *End-to-End* (E2E) tests inspect the entire system
@@ -1928,7 +1881,7 @@ Cypress test examples:
 describe('Note app', () => {
   beforeEach(() => {
     const user = {...};
-    /* add user to db before every test */
+    // add user to db before every test
     cy.request('POST', url, user);
     cy.visit(url);
   });
@@ -1943,7 +1896,7 @@ describe('Note app', () => {
 
   it('user can login', () => {
     cy.contains('log in').click();
-    /* css selectors */
+    // css selectors
     cy.get('#username').type('user');
     cy.get('#password').type('pass');
     cy.contains('login').click();
@@ -1951,7 +1904,7 @@ describe('Note app', () => {
   });
 })
 ```
-### Miscellaneous
+## Miscellaneous
 ***
 
 - [Structure Organization in a React App](https://hackernoon.com/the-100-correct-way-to-structure-a-react-app-or-why-theres-no-such-thing-3ede534ef1ed)
@@ -1996,7 +1949,9 @@ describe('Note app', () => {
   - React Native for mobile developement
   - Parcel alternative for webpack
 
-## GraphQL
+\newpage{}
+
+# GraphQL
 ***
 
 - **GraphQL** is an alternative to REST API
@@ -2005,34 +1960,34 @@ describe('Note app', () => {
     - all queries are sent to the same address
     - schemas describe data sent between client and server
 
-### Schemas
+## Schemas
 ***
 ```js
 type Person {
-  /* ! indicates required field */
+  // ! indicates required field
   name: String!
   phone: String
   street: String!
   city: String!
-  /* unique ID type (string) */
+  // unique ID type (string)
   id: ID!
 }
 
-/* describes what queries can be made */
+// describes what queries can be made
 type Query {
-  /* ! indicated non-null return/parameter types */
+  // ! indicated non-null return/parameter types
 
-  /* always returns an integer */
+  // always returns an integer
   personCount: Int!
 
-  /* always returns list of Persons, without any null values */
+  // always returns list of Persons, without any null values
   allPersons: [Person!]!
 
-  /* requires string paramter, returns person or null */
+  // requires string paramter, returns person or null
   findPerson(name: String!): Person
 }
 ```
-### Queries and Responses
+## Queries and Responses
 ***
 ```js
 query {
@@ -2047,7 +2002,7 @@ query {
 
 query {
   allPersons {
-    /* must describe which fields of Person to return */
+    // must describe which fields of Person to return
     name
     phone
   }
@@ -2085,14 +2040,14 @@ query {
   }
 }
 
-/* null response */
+// null response
 {
   "data": {
     "findPerson": null
   }
 }
 
-/* combining queries */
+// combining queries
 query {
   personCount
   allPersons {
@@ -2111,7 +2066,7 @@ query {
   }
 }
 
-/* renaming queries */
+// renaming queries
 query {
   havePhone: allPersons(phone: YES) {
     name
@@ -2133,7 +2088,7 @@ query {
   }
 }
 ```
-### Resolvers
+## Resolvers
 ***
 ```js
 const { ApolloServer, gql } = require('apollo-server');
@@ -2149,13 +2104,13 @@ let persons = [
   ...
 ];
 
-/* GraphQL schema */
+// GraphQL schema
 const typeDefs = gql`
-  /* schema doesn't necessarily match stored object */
+  // schema doesn't necessarily match stored object
   type Address {
     street: String!
     city: String!
-    /* no id field since address not saved on server */
+    // no id field since address not saved on server
   }
 
   type Person {
@@ -2172,17 +2127,17 @@ const typeDefs = gql`
 
   type Query {
     personCount: Int!
-    /* enum for selecting people with phone */
+    // enum for selecting people with phone
     allPersons(phone: YesNo): [Person!]!
     findPerson(name: String!): Person
   }
 `;
 
-/* object defining how queries are responded to */
+// object defining how queries are responded to
 const resolvers = {
   Query: {
     personCount: () => persons.length,
-    /* resolvers take root/obj, args, context, info */
+    // resolvers take root/obj, args, context, info
     allPersons: (root, args) => {
       if (!args.phone) return persons
       const byPhone = (person) =>
@@ -2203,7 +2158,7 @@ const resolvers = {
     id: (root) => root.id
   }
 
-  /* need to redefine the address resolver */
+  // need to redefine the address resolver
   Person: {
     address: (root) => {
       return {
@@ -2222,7 +2177,7 @@ server.listen().then(({ url }) => {
   console.log(`Server ready at ${url}`)
 })
 ```
-### Mutations
+## Mutations
 ***
 
 Operations that change the database are done with **mutations**:
@@ -2230,7 +2185,7 @@ Operations that change the database are done with **mutations**:
 const typeDefs = gql`
   ...
   type Mutation {
-    /* return can be null for invalid operation */
+    // return can be null for invalid operation
     addPerson(
       name: String!
       phone: String
@@ -2248,7 +2203,7 @@ const resolvers = {
   ...
   Mutation: {
     addPerson: (root, args) => {
-      /* validating unique name */
+      // validating unique name
       if (person.find(p => p.name === args.name)) {
         throw new UserInputerror('Name must be unique', {
           invalidArgs: args.name
@@ -2311,7 +2266,7 @@ Response to the mutation:
   }
 }
 ```
-### Frontend
+## Frontend
 ***
 
 - GraphQL query is a string sent as value of key *query*
@@ -2319,8 +2274,10 @@ Response to the mutation:
   - Apollo Client automatically saves queries to *cache* by ID
     - as a result, new objects are not updated to state (but existing objects are)
   - to update the cache:
-    - poll server repeatedly: `<Query query={ALL_PERSONS} pollInterval={2000}>`
-    - synchronize queries: `<Mutation mutation={CREATE_PERSON} refetchQueries={[{ query: ALL_PERSONS }]}>`
+    - poll server repeatedly:
+    - `<Query query={ALL_PERSONS} pollInterval={2000}>`
+    - synchronize queries:
+    - `<Mutation mutation={CREATE_PERSON} refetchQueries={[{ query: ALL_PERSONS }]}>`
   - to clear the cache: (eg. on logout)
     - `const client = useApolloClient()`, `client.resetStore()`
 - react-apollo integrates queries with react components
@@ -2378,7 +2335,7 @@ const App = () => {
 }
 
 const Persons = ({ resut }) => {
-  /* as query is processing */
+  // as query is processing
   if (result.loading) {
     return <div>loading...</div>;
   }
@@ -2458,7 +2415,8 @@ const Persons = ({ result, client }) => {
 Using the Mutation component:
 ```js
 const CREATE_PERSON = gql`
-  mutation createPerson($name: String!, $street: String!, $city: String!, $phone: !string) {
+  mutation createPerson($name: String!, $street: String!,
+                        $city: String!, $phone: !string) {
     addPerson(
       name: $name,
       street: $street,
@@ -2477,7 +2435,7 @@ const CREATE_PERSON = gql`
 `
 
 const App = () => {
-  /* error handling */
+  // error handling
   const handleError = (err) => {
     console.log(error.graphQLErrors[0].message);
   };
@@ -2501,7 +2459,7 @@ const PersonForm = (props) => {
   };
 }
 ```
-#### Render-Props vs. Hooks
+### Render-Props vs. Hooks
 
 - the **render-props** principle:
   - where components are given a function defining how the component is rendered
@@ -2532,7 +2490,7 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 const App = () => {
   const persons = useQuery(ALL_PERSONS);
 
-  /* array: mutation function, loading/error obj */
+  // array: mutation function, loading/error obj
   const [addPerson] = useMutation(CREATE_PERSON, {
     onError: handleError,
     refetchQueries: [{ query: ALL_PERSONS }]
@@ -2546,7 +2504,7 @@ const App = () => {
   ...
 }
 ```
-### Database
+## Database
 ***
 
 - to use Apollo with a *database*:
@@ -2574,7 +2532,7 @@ const resolvers = {
   Query: {
     personCount: () => Person.collection.countDocuments(),
     allPersons: (root, args) => {
-      /* optional filter people with numbers arg */
+      // optional filter people with numbers arg
       if (!args.phone) return Person.find({});
 
       return Person.find({ phone: { $exists: args.phone === 'YES' }});
@@ -2590,15 +2548,15 @@ const resolvers = {
     }
   },
   Mutation: {
-    /* returning a promise in the resolver */
+    // returning a promise in the resolver
     addPerson: (root, args) => {
       const person = new Person({ ...args });
 
-      /* validating mongoose schema */
+      // validating mongoose schema
       try {
         await person.save();
       } catch(err) {
-        /* Apollo error */
+        // Apollo error
         throw new UserInputError(err.message, {
           invalidArgs: args
         });
@@ -2621,14 +2579,14 @@ const resolvers = {
   }
 }
 ```
-### User Administration
+## User Administration
 ***
 
 - setting up user validation with Apollo and MongoDB in backend
 
 Schema:
 ```js
-/* User mongoose schema */
+// User mongoose schema
 const schema = new mongoose.Schema({
   username: {
     type: String,
@@ -2645,7 +2603,7 @@ const schema = new mongoose.Schema({
 });
 module.exports = mongoose.model('User', schema);
 
-/* User Apollo schema */
+// User Apollo schema
 type User {
   username: String!
   friends: [Person!]!
@@ -2693,8 +2651,8 @@ Updated constructor and actions with context:
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  /* context is given to all resolver as 3rd parameter */
-  /* use context for shared resolver data */
+  // context is given to all resolver as 3rd parameter
+  // use context for shared resolver data
   context: async ({ req }) => {
     const auth = req ? req.headers.authorization : null;
     if (auth && auth.toLowerCase().startsWith('bearer ')) {
@@ -2705,13 +2663,13 @@ const server = new ApolloServer({
   }
 });
 
-/* Query resolver */
+// Query resolver
 Query: {
   ...
   me: (root, args, context) => context.currentUser
 }
 
-/* authenticated actions */
+// authenticated actions
 type Mutation {
   ...
   addAsFriend(name: String!): User
@@ -2734,7 +2692,7 @@ addAsFriend: aync (root, args, { currentUser }) => {
   return currentUser;
 }
 ```
-### User Administration on the Frontend
+## User Administration on the Frontend
 ***
 
 Saving token on login success:
@@ -2748,9 +2706,9 @@ const LoginForm = (props) => {
 
     if (res) {
       const token = res.data.login.value;
-      /* saved in root App component */
+      // saved in root App component
       props.setToken(token);
-      /* saved in local storage */
+      // saved in local storage
       localStorage.setItem('phonenumbers-user-token', token);
     }
   };
@@ -2772,7 +2730,7 @@ const App = () => {
 ```
 Automatically adding tokens to headers:
 ```js
-/* using apollo-client instead of apollo-boost for custom configuration */
+// using apollo-client instead of apollo-boost for custom configuration
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -2791,10 +2749,10 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client = new ApolloClient({
-  /* how client contacts the server */
-  /* httpLink and custom token in header */
+  // how client contacts the server
+  // httpLink and custom token in header
   link: authLink.concat(httpLink),
-  /* using cache in main memory */
+  // using cache in main memory
   cache: new InMemoryCache()
 });
 ```
@@ -2803,10 +2761,10 @@ Alternative for updating cache:
 const [addPerson] = useMutation(CREATE_PERSON, {
   onError: handleError,
 
-  /* query always rerun with any updates */
-  /* refetchQueries: [{ query: ALL_PERSONS }] */
+  // query always rerun with any updates
+  // refetchQueries: [{ query: ALL_PERSONS }]
 
-  /* manually updating cache */
+  // manually updating cache
   update: (store, res) => {
     const dataInStore = store.readQuery({ query: ALL_PERSONS });
     dataInStore.allPersons.push(res.data.addPerson);
@@ -2817,7 +2775,7 @@ const [addPerson] = useMutation(CREATE_PERSON, {
   }
 })
 ```
-### Fragments and Subscriptions
+## Fragments and Subscriptions
 ***
 
 - often useful to define **fragments** for selecting fields
@@ -2863,14 +2821,14 @@ const ALL_PERSONS = gql`
 
 Setting up subscriptions on the server:
 ```js
-/* updated schema: */
+// updated schema:
 type Subscription {
-  /* when a new person is added, */
-  /* its details are sent to all subscribers */
+  // when a new person is added,
+  // its details are sent to all subscribers
   personAdded: Person!
 }
 
-/* updated resolvers: */
+// updated resolvers:
 const { PubSub } = require('apollo-server');
 const pubsub = new PubSub();
 
@@ -2890,10 +2848,10 @@ const resolvers = {
   }
 }
 
-/* updated server start to listen for subscriptions: */
+// updated server start to listen for subscriptions:
 server.listen().then(({ url, subscriptionsUrl }) => {
   console.log(`Server ready at ${url}`);
-  /* different url */
+  // different url
   console.log(`Subscriptions ready at ${subscriptionsUrl}`);
 })
 ```
@@ -2904,7 +2862,7 @@ import { split } from 'apollo-link';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 
-/* requires websocket as well as HTTP connection */
+// requires websocket as well as HTTP connection
 const wsLink = new WebSocketLink({
   uri: ...,
   options: { reconnect: true }
@@ -2913,7 +2871,7 @@ const wsLink = new WebSocketLink({
 ...
 
 const link = splilt(
-  /* splits to different link depending on operation */
+  // splits to different link depending on operation
   ({ query }) => {
     const { kind, operation } = getMainDefinition(query);
     return kind === 'OperationDefinition' && operation === 'subscription';
