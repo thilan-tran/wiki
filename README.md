@@ -16,7 +16,7 @@ Notes are written in Markdown and compiled using Pandoc to Latex-style pdfs.
   - [CS131](Programming/CS131.pdf)
   - [CS180](Programming/CS180.pdf)
 - Webdev
-  - [Full Stack](Programming/full_stack.pdf)
+  - [Helsinki Full Stack Course](Programming/full_stack.pdf)
   - [JavaScript](Programming/javascript.pdf)
   - [CSS](Programming/css.pdf)
   - [React](Programming/react.pdf)
@@ -43,8 +43,8 @@ Notes are written in Markdown and compiled using Pandoc to Latex-style pdfs.
   - [CS131](Programming/CS131.md)
   - [CS180](Programming/CS180.md)
 - Webdev
-  - [Full Stack](Programming/full_stack.md)
-  - [JS/Node.js](Programming/javascript.md)
+  - [Helsinki Full Stack Course](Programming/full_stack.md)
+  - [JavaScript](Programming/javascript.md)
   - [CSS](Programming/css.pdf)
   - [React](Programming/react.md)
 - Python
