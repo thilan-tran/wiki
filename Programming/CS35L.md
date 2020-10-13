@@ -1,6 +1,7 @@
 ---
-title: "CS35L"
-subtitle: ""
+#YAML Frontmatter
+title: "CS35L: Software Construction Library"
+author: "Thilan Tran"
 date: "Spring 2019"
 mainfont: Libertinus Serif
 monofont: Iosevka
@@ -9,74 +10,24 @@ geometry: margin=2cm
 toc: true
 documentclass: extarticle
 header-includes: |
-  \hypersetup{colorlinks=true,linkcolor=black,urlcolor=myblue}
+  \definecolor{Light}{HTML}{F4F4F4}
+  \let\oldtexttt\texttt
+  \renewcommand{\texttt}[1]{
+    \colorbox{Light}{\oldtexttt{#1}}
+  }
   \usepackage{fancyhdr}
   \pagestyle{fancy}
-  \usepackage{fvextra}
-  \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
-  \usepackage{xcolor}
-  \definecolor{mygray}{HTML}{A6A5A2}
-  \definecolor{mygreen}{HTML}{98C379}
-  \definecolor{myblue}{HTML}{61AFEF}
-  \definecolor{mycyan}{HTML}{56B6C2}
-  \definecolor{myorange}{HTML}{E5C07B}
-  \definecolor{myred}{HTML}{E06C75}
-  \definecolor{mypurple}{HTML}{AE81FF}
-  \usepackage{caption}
-  \usepackage{listings}
-  \lstset{
-  language=c++,
-  basicstyle=\ttfamily,
-  commentstyle=\color{mygray}\textit,
-  keywordstyle=\color{mycyan}\bfseries,
-  identifierstyle=\color{mygreen},
-  stringstyle=\color{myorange},
-  directivestyle=\color{mypurple},
-  numberstyle=\small\color{mygray},
-  rulecolor=\color{mygray},
-  captionpos=t,
-  title=\lstname,
-  columns=fullflexible,
-  lineskip=2pt,
-  breakatwhitespace=false,
-  breaklines=true,
-  extendedchars=true,
-  keepspaces=true,
-  showspaces=false,
-  showtabs=false,
-  tabsize=2,
-  frame=trbL,
-  numbersep=9pt,
-  stepnumber=2,
-  literate=%
-    {0}{{{\color{mypurple}0}}}1
-    {1}{{{\color{mypurple}1}}}1
-    {2}{{{\color{mypurple}2}}}1
-    {3}{{{\color{mypurple}3}}}1
-    {4}{{{\color{mypurple}4}}}1
-    {5}{{{\color{mypurple}5}}}1
-    {6}{{{\color{mypurple}6}}}1
-    {7}{{{\color{mypurple}7}}}1
-    {8}{{{\color{mypurple}8}}}1
-    {9}{{{\color{mypurple}9}}}1
-    {+}{{{\color{myred}+}}}1
-    {-}{{{\color{myred}-}}}1
-    {>}{{{\color{myred}>}}}1
-    {<}{{{\color{myred}<}}}1
-    {=}{{{\color{myred}=}}}1
-    {\ *\ }{{{\color{myred}\ *\ }}}1
-    {\ /\ }{{{\color{myred}\ /\ }}}1,
-  backgroundcolor=\color{gray!10}}
-  \usepackage{microtype}
 ---
 
-# CS35L
+\newpage{}
+
+# CS35L: Software Construction Library
 ***
 
-## Introduction
+# Introduction
 ***
 
-### Terms
+## Terms
 
 - **Operating System**: most important software, links hardware with other processes
 - *multi-user os*: allows many users to work on a single system at the same time
@@ -114,7 +65,7 @@ header-includes: |
   - + adds modes, - removes modes, = sets modes
   - eg. `chmod u-w file` removes write permission from the user
 
-### Character Sets and Encodings
+## Character Sets and Encodings
 
 - *ASCII* is both a character set and an encoding
   - set of 128 characters (128-255 not used), fits within a single byte
@@ -122,7 +73,7 @@ header-includes: |
 - *UTF-8* is an encoding with a variable length between 1 and 4
   - *ASCII* is incorporated within *UTF-8*
 
-### Environment Variables
+## Environment Variables
 
 - variables that can be accessed from any process
   - dynamic variables
@@ -135,7 +86,7 @@ header-includes: |
   - different `$LC_*` environment variables within the locale
     - eg. `LC_TIME`, `LC_COLLATE` (differs, eg. US sort is case insensitive vs C sort)
 
-## Basic Shell Commands
+# Basic Shell Commands
 ***
 
 - `!!` replace with previous command, `!str` refer to previous command with str
@@ -192,7 +143,7 @@ header-includes: |
   - -1 fast compression, -9 slowest compression
 - `du` estimates file space usage, `ps` reports current processes, `kill` takes PID and kills process
 
-### Text Editing Commands
+## Text Editing Commands
 
 - `sort` sorts lines of text files, sort order depends on locale
   - -f ignores case, -n numeric sort, -M month sort, -r reverse, -u unique, -o output
@@ -230,7 +181,7 @@ header-includes: |
   - built in variables:
     - NR count of input records, NF number of fileds, FS field separator (default whitespace), RS record separator
 
-## Regular Expressions
+# Regular Expressions
 ***
 
 - regular expressions allow searching for a specific pattern
@@ -285,7 +236,7 @@ header-includes: |
   - eg. `q(?!)u` matches q not followed by a u
   - eg. `(?<!a)b` matches b not preceded by a
 
-## Shell Scripting
+# Shell Scripting
 ***
 
 - in a compiled language, the code must be compiled and is not translated to machine code if there is an error
@@ -299,7 +250,7 @@ header-includes: |
   - all shell commands can be executed inside a script
   - simple, portable, no compilation
 
-### Syntax
+## Syntax
 
 - shell recognizes built-in commands (eg. echo), shell functions, and external commands
   - eg. `echo $myvar` vs. ``number=`ls | wc -l` ``
@@ -408,7 +359,7 @@ esac
 break
 continue
 ```
-## Software
+# Software
 ***
 
 - installing software is different for different OS's
@@ -441,7 +392,7 @@ continue
   - also difficult to keep track of which files to recompile when the project is large
     - can use `make`
 
-### Make
+## Make
 
 - utility for managing large software projects
 - helps keeps files compiled and up to date
@@ -499,7 +450,7 @@ $(tests): srt
   2. `make` uses makefile to compile program code and create executbales in current directory
   3. `make install` copies executables into final, system directories (the shell path)
 
-### Patching
+## Patching
 
 - *patch*: piece of software designed to fix problems or update a computer program
 - is a `diff` file that includes the changes made to a file
@@ -517,7 +468,7 @@ $(tests): srt
   - eg. `patch -pnum <patch_file`
   - pnum strips off leading slashes in order to generate a relative path
 
-## Python
+# Python
 ***
 
 - not just a scripting language, also object oriented
@@ -674,7 +625,7 @@ if __name__ == '__main__':
   main() # making Python file standalone
 ```
 
-## C Overview
+# C Overview
 ***
 
 - basic data types:
@@ -730,7 +681,7 @@ int compare(const void* a, const void* b) {
 int values[] = { 40, 30, 60 };
 qsort(values, 6, sizeof(int), compare);
 ```
-### Pointer Example
+## Pointer Example
 ```c
 #include <stdio.h>
 char *c[] = { "the","quick brown fox","jumped","over the","lazy dog" };
@@ -754,7 +705,7 @@ int main(void)
      _brown_fox */
 }
 ```
-### Structs
+## Structs
 
 - no classes in C
 - in structs:
@@ -781,7 +732,7 @@ Student s;
 Student* sp = &s;
 sp->age = 18;
 ```
-### Dynamic Memory
+## Dynamic Memory
 
 - memory that is allocated at runtime, will be allocated on the *heap*
 - must know size of the array at compile time
@@ -799,7 +750,7 @@ sp->age = 18;
   - frees the block of dynamic memory pointed to by ptr
   - double free has undefined behavior
 
-### I/O
+## I/O
 
 - read characters from stdin with `getchar()`
 - write characters to stdout with `putchar(int char)`
@@ -811,7 +762,7 @@ sp->age = 18;
   - eg. `fprintf(stdout, "%s has %d points\n", player, score);`
 - can write to stderr as well with `perror()`
 
-## Debugging
+# Debugging
 ***
 
 - debugger allows programmers to:
@@ -848,7 +799,7 @@ sp->age = 18;
   - `(gdb) info functions` shows functions
   - `(gdb) info list` lists source code lines around current line
 
-## System Call Programming
+# System Call Programming
 ***
 
 - processor modes place restrictions on type of operations by processes
@@ -879,7 +830,7 @@ sp->age = 18;
   - also provide C library functions to make system calls
     - fewer system calls, less switches in control
 
-### Types
+## Types
 
 1. process control - stopping execution of a running programing
   - eg. fork, exit, wait
@@ -891,7 +842,7 @@ sp->age = 18;
 5. communication - talk between different processes
   - pipe, shmget (allocates shared memory segment), mmap (maps files or devices into memory)
 
-### Example System Calls
+## Example System Calls
 
 - file descriptor: integer that identifies open file of process
 - file descriptor table: collection of integer array indices that are file descriptors
@@ -965,7 +916,7 @@ cat file.txt | ./fstat      // non regular file, 0 bytes in size
 ./fstat < /proc/self/status // regular file, 0 bytes in size! (growing file)
 // can use sleep or GDB breakpoint to debug
 ```
-## Parallelism
+# Parallelism
 ***
 
 - **multiprocessing**: the use of multiple CPU cores to run multiple tasks simultaneously
@@ -1061,7 +1012,7 @@ int main()
   pthread_join(thread1, NULL);
 }
 ```
-## Linked Libraries
+# Linked Libraries
 ***
 
 - an object code library is a previously compiled collection of standard program functions
@@ -1087,7 +1038,7 @@ int main()
   - instead of the entire library, as with *dynamic linking*
   - even slower execution
 
-### Creating and Using Libraries
+## Creating and Using Libraries
 - to create a **static** library:
   - compile without linking: `gcc -c lib_mylib.c lib -o lib_mylib.o`
   - create a static library: `ar rcs lib_mylib.a lib_mylib.o` (archiver)
@@ -1129,7 +1080,7 @@ int main()
   - `char* dlclose(void* handle)` closes an library file
   - compilation: `gcc -ldl -Wl,-rpath=$PWD -o myCode main.c` (-ldl similar to -lpthread)
 
-## Communication
+# Communication
 ***
 
 - over the Internet, want certain guarantees when communicating:
@@ -1196,7 +1147,7 @@ int main()
   - --encrypt, --decrypt
   - --list-keys, --send-keys, --search-keys
 
-### SSH
+## SSH
 
 - secure socket shell, used to remotely access shell
 - encrypted and more authenticated than predecessors
@@ -1225,7 +1176,7 @@ int main()
   - `ssh-add` uses ssh-agent
 - can use `ifconfig` or `hostname -I` to get hostname and IP addressses
 
-### Sample Questions
+## Sample Questions
 
 1.
   a. If you don't trust your server, you cannot use OpenSSH to connect to it, as it can easily corrupt your client.
@@ -1265,7 +1216,7 @@ int main()
   **d. Exporting a GPG public key to ASCII format neither improves nor reduces its security.**
   e. Because a deached cleartext signature isn't encrypted, it is easily forged by an attacker with access to the file being signed.
 
-## Version Change Management
+# Version Change Management
 ***
 
 - software development process involves a lot of changes
@@ -1286,7 +1237,7 @@ int main()
   - changes can be communicated between users
   - eg. Git
 
-### Git
+## Git
 
 - everything in Git is checksummed
   - hash values for every object, SHA-1 hashing
@@ -1321,7 +1272,7 @@ int main()
   - diff of changes in the working directory
   - --staged compares with last commit
 
-### Branches
+## Branches
 
 - a *branch* is a pointer to one of the commits in the repo (head) and all ancestor commits
   - pointer to one of commits (HEAD), and all ancestor commits
@@ -1340,7 +1291,7 @@ int main()
   - `git rebase` creates a linear structure of branches
     - cleaner working directory with linear commits
 
-### Remote Repositories
+## Remote Repositories
 
 - remote repos are hosted on a network somewhere
   - `git remote show origin`
@@ -1358,7 +1309,7 @@ int main()
   - commits point to previous commits
   - HEAD points to the front of the repo, indicates where new commits will go in repo
 
-### More Git Commands
+## More Git Commands
 
 - `git checkout -- <file>` discards unstaged local changes, does not change history
 - `git revert` reverts commit (this creates new commits)
@@ -1373,10 +1324,10 @@ int main()
 - `git help`
 
 
-## Appendix
+# Appendix
 ***
 
-### Other Commands
+## Other Commands
 
 - generating a random file:
   - `head --bytes=# /dev/urandom > output.txt`
@@ -1394,7 +1345,7 @@ int main()
   - -W specifies width
   - -c character format
 
-### Attributes of Functions
+## Attributes of Functions
 
 - used to declare certain things about functions in your program
   - helps compiler optimize and check code

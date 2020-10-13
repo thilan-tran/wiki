@@ -109,7 +109,7 @@ header-includes: |
     - ie. checking both value and type equality
     - eg. `"42" === 42` is false
   - for non-primitive values like *objects*:
-    - `==` and `===` check if the *references* match, rather than the underlying values
+    - `==` *and* `===` check if the *references* match, rather than the underlying values
     - eg. `[1,2,3] == [1,2,3]` is false
 
 - there are four *relational* comparison operators in JS:
@@ -139,7 +139,7 @@ true + false // 1 + 0   -> 1
 ## Scope and Closures
 ***
 
-- the `var` keyword declares a variable belonging to the current function scope, or the global scope if at the top level
+- the `var` keyword declares a variable belonging to the current function scope, or the global scope if at the top level:
   - JS also uses **nested scoping**, where when a variable is declared, it is also available in any lower ie. inner scopes
     - inner scopes ie. nested functions
   - without `var`, the variable is *implicitly* auto-global declared
@@ -147,7 +147,7 @@ true + false // 1 + 0   -> 1
   - in ES6, **block scoping** can be achieved instead of function scoping using the `let` declaration keyword
     - allows for a finer granularity of variable scoping
 
-- in JavaScript, whenever `var` appears *inside* a scope, that declaration is *automatically* taken to belong to the *entire scope*
+- in JavaScript, whenever `var` appears *inside* a scope, that declaration is *automatically* taken to belong to the *entire scope*:
   - this behavior is called **hoisting** ie. a variable declaration is conceptually *moved* to the top of its enclosing scope
   - variable hoisting is usually avoided, but function hoisting is a more commonly used practice
 
@@ -166,7 +166,7 @@ console.log(a); // 2
 ```
 - **closures** are a way to *remember* and continue accessing the variables in a function's scope even once the function has finished running:
   - an essential part of **currying** in functional programming languages
-  - closuers are also commonly used in the **module** pattern:
+  - closures are also commonly used in the **module** pattern
     - allows for defining private implementation details, with a public API
 
 Closure example:
@@ -247,14 +247,14 @@ bar.a; // 42, delegated to foo
 ## Backwards Compatibility
 ***
 
-- JavaScript as a language has been constantly evolving
+- JavaScript as a language has been constantly evolving:
   - ECMAScript specifications change, currently on ES6
   - older browsers do not fully support ES6 JS
   - two methods to achieve backwards compatibility with older versions, polyfilling and transpiling
 
 - a **polyfill** takes the definition of a newer feature and produces a piece of code that is equivalent behavior-wise, but is still able to run on older JS environments:
   - note that some features are not fully polyfillable
-  - different polyfill libraries available for ES6, eg. ES6-Shim
+  - different polyfill libraries available for ES6, eg. `ES6-Shim`
 
 Example polyfill for `Number.isNaN` for ES6:
 ```js
@@ -287,7 +287,7 @@ function foo() {
 ***
 
 - there are seven builtin JavaScript types:
-  - `null undefined boolean number string object symbol`
+  - `null, undefined, boolean, number, string, object, symbol`
   - the `typeof` operator inspects the type of the given value:
     - eg. `typeof undefined === "undefined"`, `typeof 42 === "number"`
     - note that `typeof` gives `"function"` for functions, even though functions are a subtype of object
@@ -351,9 +351,9 @@ a.length; // gives 3
 
 - string methods (from the wrapper `String.prototype`):
   - none of these methods modify the string value in place
-  - `indexOf charAt`
-  - `substr substring slice trim`
-  - `toUpperCase toLowerCase`
+  - `indexOf, charAt`
+  - `substr, substring, slice, trim`
+  - `toUpperCase, toLowerCase`
 
 ## Numbers
 ***
@@ -407,7 +407,7 @@ a.length; // gives 3
   - eg. `0 / -3 === -0`  and `0 * -3 === -0`
   - note that stringifying a negative zero value always gives `"0"`
     - but the reverse operations result in `-0`, eg. `+"-0" === -0`
-  - in addition, note that `0 == -0`
+  - in addition, note that `0 === -0`
   - can also check for `NaN` and `-0` using `Object.is(a, b)`
 
 ## Value vs. Reference
@@ -415,8 +415,8 @@ a.length; // gives 3
 
 - in JavaScript, there are no pointers, so references work differently from other languages:
   - the *type* of a value alone controls whether that value is assigned by value-copy or reference-copy:
-    - primitives always assign by value-copy, including `null`, `undefined`, and `symbol`
-    - compound values like `object`, `array`, `function`, and wrappers always assign by reference-copy
+    - primitives always assign by value-copy, including `null, undefined, symbol`
+    - compound values like `object, array, function` and wrappers always assign by reference-copy
       - thus changes are reflected in the shared value when using either reference
 
 Illustrating reference-copy nuances:
@@ -483,13 +483,13 @@ b; // gives [4, 5, 6, 7] and not [1, 2, 3, 4]
 
 - converting a value between types is called **type casting** when done explicitly, and **coercion** when done implicitly:
   - alternatively, type casting occurs at compile time, and type coercion occurs at runtime
-  - note that JavaScript coercions *always* result in one of the scalar primitive values `string number boolean`
+  - note that JavaScript coercions *always* result in one of the scalar primitive values `string, number, boolean`
 
 ## Abstract Value Operations
 ***
 
 - abstract value operations specify the *internal* conversion rules used by JavaScript:
-  - eg. `ToString ToNumber ToBoolean ToPrimitive`
+  - eg. `ToString, ToNumber, ToBoolean, ToPrimitive`
   - note that `ToString` is distinct from the `toString` method
 
 - when any non-string is coerced to a string representation, `ToString` is used:
@@ -508,7 +508,7 @@ b; // gives [4, 5, 6, 7] and not [1, 2, 3, 4]
   - values that are *not* JSON-safe have special cases:
     - `JSON.stringify` will automatically omit the `undefined`, function, and symbol values:
       - in an array, the value is replaced by null
-      - if a property of an object, that property is excvluded
+      - if a property of an object, that property is excluded
     - attempting to JSON stringify an object with circular references throws an error
       - if an object value has a `toJSON` method defined, this method is called first to get a custom JSON-safe value for serialization
 
@@ -521,20 +521,20 @@ b; // gives [4, 5, 6, 7] and not [1, 2, 3, 4]
     - if neither operation can provide a primitive, then an error is thrown
 
 - when any non-boolean is coerced to a boolean, `ToBoolean` is used:
-  - note that unlike other languages `1` is not identical to `true`, and `0` is not identical to `false`
+  - note that unlike other languages `1` is not *identical* to `true`, and `0` is not identical to `false`
   - `ToBoolean` coerces all *falsy* values to `false` and all *other* values to `true`
   - the falsy values are:
-    - `undefined null false +0 -0 NaN ""`
+    - `undefined, null, false, +0, -0, NaN, ""`
   - all other objects are truthy:
     - eg. all objects, even wrappers of falsy primitives
-    - eg. `"false" "0" "''" [] {} function(){}` are all truthy
+    - eg. `"false", "0", "''", [], {}, function(){}` are all truthy
   - note there *are* some falsy objects that come from outside of JavaScript:
     - eg. `document.all` is a falsy object
 
 ## Explicit Coercion
 ***
 
-- to coerce between strings and numbers, the builtin `String` and `Number` functions can be used, *without* the `new` keyword:
+- to cast between strings and numbers, the builtin `String` and `Number` functions can be used, *without* the `new` keyword:
   - they use the abstract `ToString` and `ToNumber` operations defined earlier
   - other ways of explicit conversion:
     - calling `toString` (which wraps primitive values in a native first)
@@ -725,7 +725,7 @@ Number([42]) < Number("043") // true, numerically compared
   - JS assumes a semicolon in certain places even if omitted
   - only in certain places were the JS parser can *reasonably* insert a semicolon
   - useful for `do..while` loops that require a semicolon after
-  - may cause unintended behavior with `return continue break yield`
+  - may cause unintended behavior with `return, continue, break, yield`
 
 - function argument nuances:
   - there is a TDZ for ES6 default parameter values as well:
@@ -737,7 +737,7 @@ Number([42]) < Number("043") // true, numerically compared
   - the `finally` clause *always* runs, right after the other clauses finish:
     - but if there is a `return` in a `try` clause, the `finally` clause runs immediately before *exiting* from the function
     - similarly for throwing errors, `continue`, and `break`
-  - a `return` inside a `finally` cn also override a previous `return`
+  - a `return` inside a `finally` can also override a previous `return`
 
 - `switch` statement nuances:
   - `default` clause is optional
@@ -762,7 +762,7 @@ switch (true) {
 # Scope
 ***
 
-- **scope** is the set of rules for *storing* variables in a location and *finding* those variables later
+- **scope** is the set of rules for *storing* variables in a location and *finding* those variables later:
   - scoping has some other uses beyond just determining how to lookup variables:
     - scoping can be used for **information hiding** ie. hiding variables and functions
     - hiding names also avoids collisions between variables with the same names
@@ -909,7 +909,7 @@ setTimeout(() => { obj.identify(); }, 100);
 ## Function Scope
 ***
 
-- JavaScript `var` declarations follow **function scope** where the declarations within a function are effectively hidden from the outside
+- JavaScript `var` declarations follow **function scope** where the declarations within a function are effectively hidden from the outside:
   - ie. follow a scope *unit* of functions
   - there are serveral considerations for functions as scope
 
@@ -956,7 +956,7 @@ Variations on IIFEs:
     - allows for more efficient garbage collection and *faster* reclamation of memory
     - easier to add additional, *explicit* scoped blocks (rather than creating new functions)
   - JavaScript *does* provide some facilities for achieving block scope:
-    - `with`, `try/catch`, `let`, and `const`
+    - `with, try/catch, let, const`
 
 - the `with` statement is an example of block scope since the created scope is only within the statement, not the enclosing function
 
@@ -1015,7 +1015,7 @@ console.log(a);
       - thus function *expressions* are *not* hoisted
     - thus `a = 2` and `var a = 2` have two *distinct* statements, one of which (the declaration) is hoisted
     - note that functions are always hoisted *first*, then variables
-  - note that declarations appearing inside normal blocks (such as `if-else` blocks) are hoisted to the enlcosing scope, instead of being conditional
+  - note that declarations appearing inside normal blocks (such as `if-else` blocks) are hoisted to the enclosing scope, instead of being conditional
 
 Illustrating hoisting:
 ```js
@@ -1375,15 +1375,15 @@ console.log(bar.a); // prints 2
 ## Precedence
 ***
 
-- default binding is the lowest priority rule of the four
+- default binding is the lowest priority rule of the four:
   - next, implicit binding has the next lowest priority
-  - followed by explicit binding, and then `new` binding with the highest priority
+  - followed by explicit binding, and then `new` binding with the highest priority:
     - note that `call` and `apply` override a `bind` hard binding
     - in addition, if `null` or `undefined` is passed as a binding parameter, default binding applies instead
       - a *safer* alternative may be to pass in an *"ghost"* object instead that is guaranteed to be totally empty
       - eg. `Object.create(null)` is *"more empty"* than `{}`
   - this may be suprising since the previous hard binding helper does *not* have a way to override the hard binding, but `new` binding still supercedes it:
-    - this is because the builin ES5 `bind` is more sophisticated, and actually checks if the hard-bound function has been called with `new` or not
+    - this is because the builtin ES5 `bind` is more sophisticated, and actually checks if the hard-bound function has been called with `new` or not
     - overriding hard binding is useful because it allows for a function that can construct objects with some of its arguments preset from a `bind`, while ignoring the previously hard-bound `this`
       - ie. helps with partial application and currying
   - note that *indirect* references to a function can be created, eg. the result value of an assignment expression
@@ -1400,7 +1400,7 @@ console.log(bar.a); // prints 2
 Arrow function bindings:
 ```js
 function foo() {
-  return (a) => {
+  return () => {
      console.log(this.a);
   };
 }
@@ -1409,6 +1409,8 @@ var obj2 = { a: 3 };
 var bar = foo.call(obj1);
 bar.call(obj2); // prints 2, not 3, not explicitly rebound
 ```
+\newpage{}
+
 # Objects
 ***
 
@@ -1441,6 +1443,7 @@ bar.call(obj2); // prints 2, not 3, not explicitly rebound
     - `var newObj = Object.assign({}, obj)`
     - takes target object, and one or more source objects
     - copies enumerable, owned keys to the target via assignment only, and returns the target
+    - ES6 spread operator does the same, while being slightly more performant
 
 ## Properties
 ***
@@ -1448,7 +1451,8 @@ bar.call(obj2); // prints 2, not 3, not explicitly rebound
 - ES5 provides **proerty descriptors** that allow properties to be described with extra characteristics:
   - `Object.getOwnPropertyDescriptor(obj, name)` gets the property descriptor for `obj.name`
   - `Object.defineProperty(obj, name, descriptor)` creates or modifies an existing property with the characteristics in descriptor
-  - the descriptor is an object that specifies the `{ value, writable, enumerable, configurable }` characteristics:
+  - the descriptor is an object that specifies:
+    - the `{ value, writable, enumerable, configurable }` characteristics
     - writing to a non-writable property fails and causes an error in strict mode
     - a configurable property can be updated by `Object.defineProperty`
       - a non-configurable property also cannot be removed with `delete`
@@ -1503,7 +1507,8 @@ myObj.b; // gives 4
   - note that the `in` operator does not check for *values* inside a container, just properties
 - on the other hand, `myObj.hasOwnProperty` checks if *only* `myObj` has the property or not, ignoring the prototype chain
   - however, it is possible for an object to not link to `Object.prototype`, in which case the test will fail
-    - in this case, a more robust check is `Object.prototype.hasOwnProperty.call(myObj, "a")`
+    - in this case, a more robust check is:
+      - `Object.prototype.hasOwnProperty.call(myObj, "a")`
 
 - the `for..of` loop added by ES6 allows for iterating over the values of objects directly:
   - however, it requires an iterator object created by a default `@@iterator` function
@@ -1549,13 +1554,13 @@ for (var v of myObj) {
       - if no matching property is *ever* found by the end of the chain, the return result is `undefined`
     - a `for..in` loop also lookups all enumerable properties that can be reached via an object's chain
       - similarly, the `in` operator will check the entire chain of the object for existence of a property, regardless of enumerability
-  - the top of the `[[Prototype]]` chain is usually the builtin `Object.prototype`:
+  - the top of the `[[Prototype]]` chain is usually builtin `Object.prototype`:
     - this object inclues various common utilities, such as `toString`, `valueOf`, and `hasOwnProperty`
 
 Illustrating object chain lookups:
 ```js
 var foo = { a: 2 };
-var bar = Object.create{foo}; // create object linked to foo
+var bar = Object.create(foo); // create object linked to foo
 bar.a; // gives 2
 
 for (var k in bar) {
@@ -1713,7 +1718,7 @@ a.constructor === Object; // true, delegated all the way to Object.prototype
 ***
 
 - prototypal inheritance uses `Object.create` to create a new prototype object that is linked to another prototype object:
-  - if simple assignment was used instead, eg. `Bar.prototype = Foo.prototype`:
+  - if simple assignment was used eg. `Bar.prototype = Foo.prototype`:
     - copies the reference to the prototype object, so that modifying it changes the now *shared* prototype object
     - defeats goal of inheritance
   - if `Bar.prototype = new Foo()` was used instead:
@@ -1760,7 +1765,7 @@ a.myLabel(); // gives obj a
 
 ### Using Create
 
-- `Object.create` creates a new object linked to the sepcified object:
+- `Object.create` creates a new object linked to the specified object:
   - gives power of delegation of the `[[Prototype]]` mechanism
   - without unnecessary complications of `.prototype` and `.constructor` references, etc.
   - `Object.create(null)` creates an object that has an empty prototype link:
@@ -1900,7 +1905,7 @@ Bar...
 
 var b = new Bar();
 
-//all true test:
+//all true tests:
 Foo.isPrototypeOf(Bar);
 Foo.isPrototypeOf(b);
 Bar.isPrototypeOf(b);
@@ -1943,7 +1948,7 @@ class Widget {
     this.$elem = null;
   }
   render($where) {
-    if (this.$elem$) {
+    if (this.$elem) {
       this.$elem.css({
         width: this.width + "px",
         height: this.height + "px"
@@ -1973,7 +1978,7 @@ class Button extends Widget {
 ***
 
 - **asynchronous** programming is an important of JavaScript:
-  - programs are written in *chunks*, some of which will execute *now* and some of which will execute *later*
+  - programs are written in *chunks*, some of which will execute *now* and some of which will execute *later*:
     - code that should be executed later introduces *asynchrony* into the program
     - eg. making an AJAX request, or even I/O like `console.log` may be deferred and completed asynchronously
   - there are different ways to specify what JS code should run later, eg. on *completion* of another event:
@@ -2352,6 +2357,79 @@ async function getTopUser() {
 ```
 \newpage{}
 
+# Using the DOM
+***
+
+- the **document object model (DOM)** is the data representation of the objects that comprise the structure and content of a document on the web:
+  - ie. a programming *interface* for HTML documents that represents the page as nodes and objects
+  - whenever a script is created, the API for `document` or `window` elements can be used to manipulate the document
+
+## Data Types
+***
+
+- the `Document` type corresponds to the root document object itself:
+  - properties: `body, fonts, images, cookie, location`
+  - methods: `createElement, getElements..., querySelector, addEventListener`
+
+- every object within a document is of type `Node` of some kind:
+  - eg. an element, text, or attribute node
+  - properties: `nodeType, nodeValue, textContent`
+  - linking properties: `firstChild, nextSibling, childNodes`
+    - `parentNode, parentElement`
+    - note that `childNodes` will contain *all* nodes, including text or attributes nodes
+  - methods: `appendChild, removeChild, replaceChild, hasChildNodes`
+
+- the `ParentNode` type contains methods and properties common to all node objects with children:
+  - eg. for element or documents objects, returned by `node.parentNode`
+  - properties: `childElementCount, children, firstElementChild`
+    - note that the `children` property returns an `HTMLCollection` with *only* element children, rather than the `NodeList` returned by `childNodes`
+      - in addition, the `HTMLCollection` is a *live* object that is automatically updated when the underlying object is changed
+  - methods: `append, querySelector, replaceChildren`
+
+Recursing through child nodes:
+```js
+function eachNode(root, cb) {
+  if (!cb) { // just return node list
+    const nodes = [];
+    eachNode(root, function(node) {
+      nodes.push(node);
+    });
+    return nodes;
+  }
+
+  if (!callback(root)) {
+    return false;
+  }
+
+  if (root.hasChildNodes()) {
+    const nodes = rootNode.childNodes;
+    for (let i = 0; i < nodes.length; i++) {
+      if (!eachNode(nodes[i], cb)) {
+        return;
+      }
+    }
+  }
+}
+```
+- the `Element` type is based on nodes, and refers to a node of type element returned by the DOM API
+  - inherits from its node interface as well as implementing a more advanced element interface
+  - properties: `attributes, classList, className, innerHtml, style` and many more
+  - methods: `addEventListener, getElements..., scroll` and many more
+  - in an HTML document, the `HTMLElement` further extends this type:
+    - offers methods such as `blur, click, focus`
+
+- a `NodeList` is an array of elements:
+  - eg. array returned by `querySelectorAll`
+    - note that `getElements...` returns an `HTMLCollection` instead of a node list
+  - items can be accessed via `list[idx]` or `list.item(idx)`
+
+- a `NamedNodeMap` is like an array of nodes, but items are accesed by name *or* index
+
+- `Attribute` nodes are object references that expose a special interface for attributes:
+  - nodes just like elements, but more rarely used
+
+\newpage{}
+
 # ES6 Features
 ***
 
@@ -2382,7 +2460,7 @@ async function getTopUser() {
     - note that when destructuring, the object literal follows the `<target>: <source>` pattern rather than the opposite for declarations
   - extensions on destructuring:
     - destructuring returns the right hand value, so destructuring assignments can be *chained* together
-    - values can be discarded when destructuring, eg. `var [,b] = [1,2]`:
+    - values can be discarded eg. `var [,b] = [1,2]`:
       - destructuring missing values will become undefined
     - the spread operator can be used to gather together elements, eg. `var [a, ...rest] = [1,2,3]`
     - can also use `=` to set default value assignment
@@ -2621,7 +2699,8 @@ import * as qux from "qux"; // import all, default is qux.default
   - the *type* refers to the *view* layered on top of an `ArrayBuffer` ie. a buffer of bits
   - different views eg. `Uint8Array`, `Int16Array`, `Float32Array`
   - a single buffer can have multiple views, and a view can also be set at a certain offset or length
-  - eg. `var buf = new ArrayBuffer(32)` creates a buffer and `var arr = new Uint16Array(buf)` creates a view over that buffer
+  - eg. `var buf = new ArrayBuffer(32)` creates a buffer
+  - eg. `var arr = new Uint16Array(buf)` creates a view over that buffer
 
 - ES6 maps can use a non-string value as a key, *unlike* normal objects:
   - use `get`, `set`, and `delete` for mutating
