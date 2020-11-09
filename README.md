@@ -4,7 +4,7 @@ My collection of notes and resources for programming and other UCLA coursework.
 
 Notes are written in Markdown and compiled using Pandoc to Latex-style pdfs.
 
-## Programming
+# Programming
 
 - UCLA
   - [CS31](Programming/CS31.pdf)
@@ -14,6 +14,7 @@ Notes are written in Markdown and compiled using Pandoc to Latex-style pdfs.
   - [CS111](Programming/CS111.pdf)
   - [CS118](Programming/CS118.pdf)
   - [CS131](Programming/CS131.pdf)
+  - [CS132](Programming/CS132.pdf)
   - [CS180](Programming/CS180.pdf)
 - Webdev
   - [Helsinki Full Stack Course](Programming/full_stack.pdf)
@@ -27,11 +28,11 @@ Notes are written in Markdown and compiled using Pandoc to Latex-style pdfs.
 
 - [Resources](resources.md)
 
-## GEs
+# GEs
 
 - [Jazz History](Other/M50B.pdf)
 
-## Markdown
+# Markdown
 
 - UCLA
   - [CS31](Programming/CS31.md)
@@ -41,6 +42,7 @@ Notes are written in Markdown and compiled using Pandoc to Latex-style pdfs.
   - [CS111](Programming/CS111.md)
   - [CS118](Programming/CS118.md)
   - [CS131](Programming/CS131.md)
+  - [CS132](Programming/CS132.md)
   - [CS180](Programming/CS180.md)
 - Webdev
   - [Helsinki Full Stack Course](Programming/full_stack.md)
