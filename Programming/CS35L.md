@@ -1,6 +1,6 @@
 ---
 #YAML Frontmatter
-title: "CS35L: Software Construction Library"
+title: "CS35L: Software Construction Laboratory"
 author: "Thilan Tran"
 date: "Spring 2019"
 mainfont: Libertinus Serif
@@ -21,7 +21,7 @@ header-includes: |
 
 \newpage{}
 
-# CS35L: Software Construction Library
+# CS35L: Software Construction Laboratory
 ***
 
 # Introduction
