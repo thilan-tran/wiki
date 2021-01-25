@@ -228,3 +228,344 @@ then only if his girlfriend stays with him, will he have nightmares.
   - ex. You may have ice cream or cotton candy, but not both.
     - forces an exclusive-or
     - $(P \lor Q) \land {\sim}(P \land Q) = P \leftrightarrow ~Q$
+
+- ex. Ruth studies hard unless she's tired, in which case she doesn't.
+  - "unless" indicates "or", the comma indicates an "and", and the "in which case" indicates an "if-then"
+  - $(S \lor T) \land (T \to {\sim}S)$
+
+- ex. If Alfred and Mary are playing dice together, it is the first throw of the game, and Mary is throwing the dice, then she wins the game on the first throw if and only if she throws 7 or 11.
+  - $P:$ Alfred plays, $Q:$ Mary plans, $R:$ Alfred and Mary play, $S:$ is first throw
+  - $T:$ Mary is throwing, $U:$ Mary wins on first throw, $V:$ Mary throws 7 or 11, $W:$ Mary throws 7, $X:$ Mary throws 11
+  - $R \land S \land T \to (U \leftrightarrow W \lor X)$
+    - break down atomic structure when possible
+    - note that $R$ is not equivalent to $P \land Q$
+
+- ex. Assuming either that logic is difficult or that the text is not readable, Alfred will pass only if he concentrates.
+  - $P:$ logic is difficult, $Q:$ text is readable, $R:$ Alfred will pass, $Q:$ Alfred concentrates
+  - $(P \lor {\sim}Q) \to (R \to S)$
+
+- ex. Assuming the professor is a Communist, he will sign the oath; but if he is an idealist, he will neither sign the oath nor speak to those who do.
+  - $(P \to Q) \land (R \to {\sim}(Q \lor S))$
+
+  - ex. Among USC, UCLA, Oregon, and Arizona, exactly two will be in contention in November.
+    - need to list out all the possible combinations
+    - note that to specify two, we need to "and" those while negating the remaining ones
+
+  - symbolizing an entire argument with truth values in \ref{truths}:
+    - If Herbie eats pizza, then he will get sick.
+    - If Herbie does not eat pizza, then he will be hungry.
+    - If Herbie will not get sick, then he will not be hungry.
+    - Therefore Herbie will get sick.
+    - $P:$ Herbie eats pizza, $Q:$ Herbie gets sick, $R:$ Herbie will be hungry
+    - note that it is impossible for all the premises to be true and the conclusion false:
+      - thus this argument is valid
+      - if there were a case where all the premises are true and the conlusion false, the argument would be invalid
+
+| P | Q | R | $P\to Q$ | ${\sim}Q\to R$ | ${\sim}Q\to {\sim}R$ | $\therefore Q$ |
+|---|---|---|----------|----------------|----------------------|----------------|
+| T | T | T | T        | T              | T                    | T              |
+| T | T | F | T        | T              | T                    | T              |
+| T | F | T | F        | T              | F                    | F              |
+| T | F | F | F        | T              | T                    | F              |
+| F | T | T | T        | T              | T                    | T              |
+| F | T | F | T        | F              | T                    | T              |
+| F | F | T | T        | T              | F                    | F              |
+| F | F | F | T        | F              | T                    | F              |
+Table: Truth Values of an Example Argument \label{truths}
+
+- categorizing sentences:
+  - a **tautology** is a symbolic sentence that is always true
+  - an **impossible** symbolic sentence is always false
+  - otherwise, the sentence is **contingent**
+  - if two sentences have the same truth table, they are **logically equivalent**
+    - putting a biconditional between two logically equivalent sentences makes a tautology
+
+\newpage{}
+
+# Derivations
+***
+
+- in a valid argument. if the premises are true. then the conclusion must be true:
+  - instead of using large truth tables, we can use **natural deduction** to show that arguments are valid
+  - uses **derivations** ie. proofs that are composed of lines, each of which is justified by a rule in our system
+    - attempts to prove a conclusion
+
+- a derivation has three columns:
+  1. line numbers
+  2. formula
+  3. justification
+
+- three types of proofs:
+  1. direct: "Show: P. ... P."
+  2. conditional: "Show: P $\to$ Q. P. ... Q."
+      - hinges on an assumption P to prove Q
+  3. indirect: "Show: P. ~P. ... {contradiction} P."
+      - finds an impossibility to show an assumption is wrong
+
+- ex. A direct derivation:
+  1. ~~Show~~: Mustard is the murderer.
+  2. Scarlet was in the billiard room.
+  3. If Scarlet was in the billiard room, then the rope isn't in the study.
+  4. So the rope isn't in the study.
+  5. Either the rope is in the study or Plum didn't do it.
+  6. So Plum didn't do it.
+  7. If Plum didn't do it, then Mustard is the murderer.
+  8. So Mustard is the murderer.
+
+- ex. A direct derivation for the following symbolic argument:
+  - $S, T \lor {\sim}P, {\sim}P \to R, S \to {\sim}T, \therefore R$
+  1. ~~Show~~: $R$
+  2. $S$ | Premise
+  3. $S \to {\sim}T$ | Premise
+  4. ${\sim}T$ | 2, 3
+  5. $T \lor {\sim}P$ | Premise
+  6. ${\sim}P$ | 4, 5
+  7. ${\sim}P \to R$ | Premise
+  8. $R$ | 6, 7
+  9. 8 is what we want to show.
+
+- ex. A conditional derivation for the following symbolic argument:
+  - $Q \to S, S \to R, R \to T, T \to P, \therefore Q \to P$
+  1. ~~Show~~: $Q \to P$
+  2. $Q$ | Assume
+  3. $Q \to S$ | Premise
+  4. $S$ | 2, 3
+  5. $S \to R$ | Premise
+  6. $R$ | 4, 5
+  7. $R \to T$ | Premise
+  8. $T$ | 6, 7
+  9. $T \to P$ | Premise
+  10. $P$ | 8, 9
+  11. 10, consequent follows
+
+- ex. An indirect derivation for the following symbolic argument:
+  - ${\sim}P \to Q, Q \to R, R \to {\sim}S, S \lor {\sim}Q, \therefore P$
+  1. ~~Show~~: $P$
+  2. ${\sim}P$ | Assumption
+  3. ${\sim}P \to Q$ | Premise
+  4. $Q$ | 2, 3
+  5. $Q \to R$ | Premise
+  6. $R$ | 4, 5
+  7. $R \to {\sim}S$ | Premise
+  8. ${\sim}S$ | 6, 7
+  9. $S \lor {\sim}Q$ | Premise
+  10. ${\sim}Q$ | 8, 9
+  11. 4 and 10 contradict
+
+## Inference Rules
+***
+
+- 10 **inference rules** will be used to justify lines in our derivations
+
+1. Repetition (R): $\square, \enskip \therefore \enskip \square$
+    - ie. we can repeat a line in the derivation
+
+2. Double Negation (DN): $\square, \enskip \therefore \enskip {\sim}{\sim}\square$
+    - alternatively, \enskip ${\sim}{\sim}\square, \enskip \therefore \enskip \square$
+
+3. Modus Ponens (MP): $\square \to \bigcirc, \enskip \square, \enskip \therefore \enskip \bigcirc$
+    - ie. "method of putting"
+
+4. Modus Tolens (MT): $\square \to \bigcirc, \enskip {\sim}\bigcirc, \enskip \therefore \enskip {\sim}\square$
+    - ie. "denying the consequence"
+
+5. Simplification (S): $\square \land \bigcirc, \enskip \therefore \enskip \square$
+    - alternatively, $\square \land \bigcirc, \enskip \therefore \enskip \bigcirc$
+
+6. Adjunction (Adj): $\square, \enskip \bigcirc, \enskip \therefore \enskip \square \land \bigcirc$
+
+7. Modus Tolendo Ponens (MTP): $\square \lor \bigcirc, \enskip {\sim}\square, \enskip \therefore \enskip \bigcirc$
+    - ie. "method of putting by taking away"
+    - alternatively, $\square \lor \bigcirc, \enskip {\sim}\bigcirc, \enskip \therefore \enskip \square$
+
+8. Addition (Add): $\square, \enskip \therefore \enskip \square \lor \bigcirc$
+    - alternatively, $\bigcirc, \enskip \therefore \enskip \square \lor \bigcirc$
+
+9. Conditional Biconditional (CB): $\square \to \bigcirc, \enskip \bigcirc \to \square, \enskip \therefore \enskip \square \leftrightarrow \bigcirc$
+
+10. Biconditional Conditional (BC): $\square \leftrightarrow \bigcirc, \enskip \therefore \enskip \square \to \bigcirc, \enskip \therefore \enskip \bigcirc \to \square$
+
+## Formal Derivation Rules
+***
+
+- a **derivation** is a sequence of lines that is built up in order, consisting of any of the following provisions:
+    - a **show line** consists of the word "Show" followed by a symbolic sentence
+        - need no justifications and can be introduced at any step
+    - a **premise** is a symbolic sentence from the given set, justified with the notation "PR"
+    - at any step, a line may be introduced if it follows by a rule from sentences on the previous available lines:
+        - justified by citing the numbers of previous lines and the rule name
+        - an available line is not preceded by a "Show" and not boxed
+    - in a **direct derivation**, when a line whose sentence is the same as the closest uncancelled show line:
+        - write "DD" following the justification for that line
+        - draw a line through "Show"
+        - draw a box around all lines below the show line, including the current line
+    - as an **assumption for conditional derivation**, when a show line with a conditional sentence is introduced, the following line can be introduced with the antecedent of the conditional and justification "ASS CD"
+    - in a **conditional derivation**, when a line whose sentence is the same as the consequent of closest uncancelled show line:
+        - write "CD" following the justification for that line
+        - draw a line through "Show"
+        - draw a box around all lines below the show line, including the current line
+    - as an **assumption for indirect derivation**, when a show line is introduced, the following line can be introduced with the negation of the sentence on the show line and justification "ASS ID"
+    - in an **indirect derivation**, when a line whose sentence is the negation of a previous available line is introduced:
+        - write "DD" following the justification for that line, with the line number of the contradicted sentence
+        - draw a line through "Show"
+        - draw a box around all lines below the show line, including the current line
+
+## Derivation Strategies
+***
+
+1. to get started:
+    - to show a conditional, assume the antecedent and show the consequent
+    - to show anything else, begin an indirect derivation by assuming its negation
+
+2. look for ways to break down available lines using MP, MT
+
+3. if one of the lines is the negation of the conditional, show the conditional itself to generate a contradiction
+
+5. look for any conditionals that have still not yet been broken down, and use either MP or MT
+
+## Examples
+***
+
+- ex. Derive ${\sim}P, \enskip Q\to P \enskip \therefore \enskip {\sim}Q$.
+```xorg
+Show ~Q
+~P          PR
+Q->P        PR
+~Q          2 3 MT
+            4 DD
+```
+- ex. Derive ${\sim}{\sim}(P\to Q), \enskip P \enskip \therefore \enskip Q$.
+```xorg
+Show Q
+~~(P->Q)    PR
+P           PR
+P->Q        2 DN
+Q           3 4 MP
+            5 DD
+```
+- ex. Derive $P, \enskip R \to {\sim}Q, \enskip P \to Q \enskip \therefore \enskip {\sim}R$.
+```xorg
+Show ~R
+P           PR
+R->~Q       PR
+P->Q        PR
+Q           2 4 MP
+~~Q         5 DN
+~R          3 5 MT
+            7 DD
+```
+- ex. Derive $P \to (Q \to R), \enskip (Q \to R) \to S, \enskip {\sim}S \enskip \therefore \enskip {\sim}P$.
+```xorg
+Show ~P
+P->(Q->R)   PR
+(Q->R)->S   PR
+~S          PR
+~(Q->R)     3 4 MT
+~P          2 5 MT
+            6 DD
+```
+- ex. Derive $P \to Q, \enskip Q \to R \enskip \therefore \enskip P \to R$.
+```xorg
+Show P->R
+P           ASS CD
+Show R
+~R          ASS ID
+P->Q        PR
+Q->R        PR
+~Q          4 6 MT
+~P          5 7 MT
+P           2 R     # need to repeat line so it becomes available for deriv. rule
+            8 9 id
+            3 CD
+```
+Alternatively:
+```xorg
+Show P->R
+P           ASS CD
+Show R
+~R          ASS ID
+P->Q        PR
+Q->R        PR
+Q           2 5 MP
+R           6 7 MP
+            8 DD    # mixed derivation since we began with an indirect assumption
+            3 DD
+```
+- ex. Derive ${\sim}P\to W \enskip \therefore \enskip (R \to {\sim}W) \to (R\to P)$.
+```xorg
+Show (R->~W)->(R->P)
+R->~W       ASS CD
+Show R->P
+R           ASS CD
+Show P
+~P          ASS ID
+~P -> W     PR
+W           6 7 MP
+~W          2 4 MP
+            8 9 ID
+            5 CD
+            3 CD
+```
+- ex. Derive $(R\to S)\to P, \enskip {\sim}S \to Q \enskip \therefore \enskip {\sim}P \to Q$.
+```xorg
+Show ~P->Q
+~P          ASS CD
+Show Q
+~Q          ASS ID
+(R->S)->P   PR
+~S->Q       PR
+~~Q         4 6 MT
+~(R->S)     2 5 MT
+Show R->S
+S           7 DN
+            10 CD
+            8 9 ID
+            3 CD
+```
+- ex. Derive $P\to (Q\to R), \enskip P \to ({\sim}Q \to R), \enskip {\sim}P \to (Q\to R), \enskip {\sim}P \to ({\sim}Q \to R) \enskip \therefore \enskip R$.
+```xorg
+Show R
+~R          ASS ID
+P->(Q->R)   PR
+P->(~Q->R)  PR
+~P->(Q->R)  PR
+~P->(~Q->R) PR
+Show P # cannot break down further, try assuming ant. of a remaining conditional
+~P          ASS ID
+Q->R        5 8 MP
+~Q->R       6 8 MP
+~Q          2 9 MT
+~~Q         2 10 MT
+            11 12 ID
+Q->R        3 7 MP
+~Q->R       4 7 MP
+~Q          2 14 MT
+~~Q         2 15 MT
+            16 17 ID
+```
+- ex. Derive $(P\to Q) \to (T \to R), \enskip U \to {\sim}R, \enskip {\sim}(S\to P) \enskip \therefore \enskip U \to {\sim}T$.
+```xorg
+Show U->~T
+U           ASS CD
+Show ~T
+T           ASS ID
+(P->Q)->(T->R) PR
+U->~R       PR
+~(S->P)     PR
+~R          2 6 MP
+Show S->P
+S           ASS D
+Show P
+~P          ASS ID
+Show P->Q
+P           ASS CD
+~P          12 R
+            14 15 ID
+T->R        5 13 MP
+R           4 17 MP
+~R          8 R
+            18 19 ID
+            11 CD
+            7 9 ID
+            3 CD
+```
