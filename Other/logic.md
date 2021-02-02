@@ -415,13 +415,22 @@ Table: Truth Values of an Example Argument \label{truths}
 
 1. to get started:
     - to show a conditional, assume the antecedent and show the consequent
+    - to show a conjunction, first show one conjunct, then the other, then use Adj. to put them together for a direct derivation
+    - to show a biconditional, first show the conditional in one direction and then the other to use CB to put them together for a direct derivation
     - to show anything else, begin an indirect derivation by assuming its negation
 
-2. look for ways to break down available lines using MP, MT
+2. look for ways to break down available lines using MP, MT, S, MTP, BC
+    - may need to use DN on an avialable line first
 
 3. if one of the lines is the negation of the conditional, show the conditional itself to generate a contradiction
 
-5. look for any conditionals that have still not yet been broken down, and use either MP or MT
+4. if one line is the negation of a disjunction, see if you can use Add. with another line to get the disjunction itself to generate a contradiction
+
+5. look for remaining conditionals and disjunctions that have not yet been broken:
+    - for any conditionals, show either:
+        - the antecedent to use MP to break it down
+        - the negation of the consequent to use MT to break it down
+    - for any disjunction, show the negation of one of the disjuncts in order to use MTP to break it down
 
 ## Examples
 ***
@@ -567,5 +576,351 @@ R           4 17 MP
             18 19 ID
             11 CD
             7 9 ID
+            3 CD
+```
+- ex. Derive $\therefore \enskip (P \land Q \to R) \to (P\to(Q\to R))$.
+```xorg
+Show (P^Q->R)->(P->(Q->R))
+P^Q->R      ASS CD
+Show P->(Q->R)
+P           ASS CD
+Show Q->R
+Q           ASS CD
+Show R
+~R          ASS ID
+P^Q         4 6 ADJ
+R           2 9 MP
+            8 10 ID
+            7 CD
+            5 CD
+            3 CD
+```
+- ex. Derive ${\sim}(R\to T) \enskip \therefore \enskip {\sim}Q\lor T \to R \land {\sim}Q$.
+```xorg
+Show ~Q+T->R^~Q
+~Q+T        ASS CD
+Show R^~Q
+~(R->T)     PR
+Show R
+~R          ASS ID
+Show R->T
+R           ASS CD
+~R          6 R
+            8 9 ID
+            9 CD
+~(R->T)     4 R
+            7 15 ID
+Show ~Q
+~~Q         ASS ID
+T           2 18 MTP
+Show R->T
+T           19 R
+            21 CD
+~(R->T)     4 R
+            20 23 ID
+R^~Q        5 17 ADJ
+            25 DD
+            3 CD
+```
+- ex. Derive $(P\lor Q)\land {\sim}R, \enskip {\sim}R\to(S\land{\sim}P), \enskip Q\to (P\lor T) \enskip\therefore\enskip {\sim}T\to U$
+```xorg
+Show ~T->U
+~T          ASS CD
+Show U
+~U          ASS ID
+(P+Q)^~R    PR
+~R->S^~P    PR
+Q->P+T      PR
+P+Q         5 S
+~R          5 S
+S^~P        6 9 MP
+S           10 S
+~P          10 S
+Q           8 12 MTP
+P+T         7 13 MP
+P           2 14 MTP
+            12 15 ID
+            3 CD
+```
+- ex. Derive $(P\to Q)\land (R\to P), \enskip (P\lor R)\land {\sim}(Q\land R) \enskip\therefore\enskip (P\land Q)\land {\sim}R$.
+```xorg
+Show P^Q^~R
+(P->Q)^(R->P)   PR
+(P+R)^~(Q^R)    PR
+Show P^Q
+Show P
+~P              ASS ID
+P->Q            2 SL
+R->P            2 SR
+P+R             3 SL
+~(Q^R)          3 SR
+~R              6 8 MT
+P               9 11 MTP
+                6 12 ID
+Show Q
+~Q              ASS ID
+P->Q            2 SL
+~P              15 16 MT
+P               5 R
+                17 18 ID
+P^Q             5 14 ADJ
+                20 DD
+Show ~R
+R               ASS ID
+~(Q^R)          3 SR
+Q               4 SR
+Q^R             25 23 ADJ
+                24 26 ID
+P^Q^~R          4 22 ADJ
+                28 DD
+```
+- ex. Derive $(P\leftrightarrow {\sim}Q)\to R\enskip\therefore\enskip {\sim}R\land P\to Q$.
+```xorg
+Show ~R^P->Q
+~R^P        ASS CD
+Show Q
+~Q          ASS ID
+(P<->~Q)->R PR
+~R          2 SL
+P           2 SR
+Show P<->~Q
+Show P->~Q
+~Q          4 R
+            10 CD
+Show ~Q->P
+P           7 R
+            13 CD
+P<->~Q      9 12 CB
+            15 dd
+R           5 8 MP
+            6 17 ID
+            3 CD
+```
+- ex. Derive ${\sim}Q\to R, \enskip Q\leftrightarrow {\sim}(Q\land R) \enskip\therefore\enskip {\sim}R\leftrightarrow Q$.
+```xorg
+Show ~R<->Q
+~Q->R       PR
+Q<->~(Q^R)  PR
+Show ~R->Q
+~R          ASS CD
+Show Q
+~Q          ASS ID
+R           2 7 MP
+~R          5 R
+            8 9 ID
+            6 CD
+Show Q->~R
+Q           ASS CD
+Show ~R
+Q->~(Q^R)   3 BC
+~(Q^R)      13 16 MP
+Q^R         13 15 ADJ
+            17 18 ID
+            14 cd
+~R<->Q      4 12 CB
+            21 DD
+```
+## Theorems
+***
+
+- some useful theorems:
+    - $\therefore \enskip P \to P$
+    - $\therefore \enskip Q \to (P \to Q)$
+        - ie. if the consequent is true, the conditional is true
+    - $\therefore \enskip {\sim}{\sim}P \to P$
+        - together with $\therefore \enskip P \to {\sim}{\sim}P$
+    - $\therefore \enskip {\sim}P \to (P\to Q)$
+        - ie. if antecedent is false, then the conditional is true
+    - $\therefore \enskip P \land Q \leftrightarrow Q \land P$ AKA the commutivity of conjunction
+    - $\therefore \enskip (P\to Q)\land (Q\to R) \to (P\to R)$ AKA the ssociativity of conditional
+    - $\therefore \enskip {\sim} (P\land {\sim}P)$ AKA law of noncontradiction
+    - $\therefore \enskip {\sim}(P\to Q)\leftrightarrow P \land {\sim}Q$ AKA negation of conditional (NC):
+        - the negation of a conditional is logically equivalent to antecedent and the negation of the consequent
+            - can be seen from the truth table of a conditional
+        - very powerful, gives a new derivation rule called NC
+    - $\therefore \enskip P \lor Q \leftrightarrow ({\sim}P \to Q)$ AKA the conditional disjunction (CDJ) rule
+        - similar to MTP, shows logical equivalence between a disjunction and a similar conditional
+    - $\therefore \enskip P \lor {\sim}P$ AKA the law of the excluded middle
+    - $\therefore \enskip {\sim}(P\land Q) \leftrightarrow {\sim}P \lor {\sim}Q$ AKA DeMorgan's laws (DM)
+        - together with $\therefore \enskip {\sim}(P \lor Q) \leftrightarrow {\sim}P \land {\sim}Q$
+    - $\therefore \enskip {\sim}(P\leftrightarrow Q) \leftrightarrow (P \leftrightarrow {\sim}Q)$ AKA negation of biconditonal (NB)
+
+- gives us more tools to break down lines:
+    - for negations of conditionals, use NC
+    - for negations of conjunctions and disjunctions, use DM
+    - for negations of biconditonalsm use NB
+
+- ex. Derive ${\sim}(P\to Q), \enskip {\sim}Q\to R \enskip \therefore\enskip R$ using theorems:
+```xorg
+Show R
+~R          ASS ID
+~(P->Q)     PR
+~Q->R       PR
+~~Q         2 4 MT
+P^~Q        3 NC
+~Q          6 SR
+            5 7 ID
+```
+- ex. Prove one of DeMorgan's laws, $\therefore \enskip {\sim}(P\lor Q)\leftrightarrow {\sim}P\land{\sim}Q$:
+```xorg
+Show ~(P+Q)<->~P^~Q
+Show ~(P+Q)->~P^~Q
+~(P+Q)      ASS CD
+Show ~P^~Q
+Show ~P
+P           ASS ID
+P+Q         6 ADD
+~(P+Q)      3 R
+            7 8 ID
+Show ~Q
+Q           ASS ID
+P+Q         11 ADD
+~(P+Q)      3 R
+            12 13 ID
+~P^~Q       5 10 ADJ
+            15 DD
+            4 CD
+Show ~P^~Q->~(P+Q)
+~P^~Q       ASS CD
+Show ~(P+Q)
+P+Q         ASS ID
+~P          19 SL
+Q           21 22 MTP
+~Q          19 SR
+            23 24 ID
+            20 CD
+~(P+Q)<->~P^~Q     2 18 CB
+            27 DD
+```
+- ex. Derive $S\lor R \to Q, \enskip {\sim}(P\lor {\sim}S) \enskip \therefore \enskip {\sim}(P\leftrightarrow Q)$ using DeMorgan's:
+```xorg
+Show ~(P<->Q)
+P<->Q       ASS ID
+S+R->Q      PR
+~(P+~S)     PR
+~P^~~S      4 DM
+~P          5 SL
+~~S         5 SR # could alternatively use ADD to build S+R
+Q->P        2 BC
+~Q          6 8 MT
+~(S+R)      3 9 MT
+~S^~R       10 DM
+~S          11 SL
+            7 12 ID
+```
+- ex. Derive $\therefore \enskip P \lor {\sim}P$ using a CDJ theorem:
+```xorg
+Show P+~P
+Show ~P->~P # CDJ proof
+~P          ASS CD
+            3 DD
+P+~P        2 CDJ
+            9 DD
+
+Show P+~P   # alternatively, using DM
+~(P+~P)     ASS ID
+~P^~~P      2 DM
+~P          3 SL
+~~P         3 SR
+            4 5 ID
+```
+- ex. Derive $R \lor Q, \enskip Q \leftrightarrow (Q\to {\sim}R) \enskip\therefore\enskip {\sim}R \leftrightarrow Q$:
+```xorg
+Show ~R<->Q
+R+Q         PR
+Q<->(Q->~R) PR
+Show ~R->Q
+~R          ASS CD
+Show Q
+~Q          ASS ID
+R           2 7 MTP
+~R          5 R
+            8 9 ID
+            6 CD
+Show Q->~R
+Q           ASS CD
+Show ~R
+R           ASS ID
+Q->(Q->~R)  3 BC
+Q->~R       13 16 MP
+~R          13 17 MP
+            18 DD
+            14 CD
+~R<->Q      4 12 CB
+            21 DD
+```
+- ex. Derive ${\sim}R\lor(P\leftrightarrow{\sim}S), \enskip {\sim}({\sim}R\to P)\to S \enskip \therefore\enskip P\lor S$:
+```xorg
+Show P+S
+~(P+S)      ASS ID
+~R+(P<->~S) PR
+~(~R->P)->S PR
+~P^~S       2 DM
+~P          5 SL
+~S          5 SR
+~~(~R->P)   4 7 MT
+~R->P       8 DN
+~~R         6 9 MT
+P<->~S      3 10 MTP
+~S->P       11 BC
+P           7 12 MP
+            6 13 ID
+```
+- ex. Derive $\therefore \enskip (P\land R\to Q \lor S)\to (P\to Q)\lor(R\to S)$:
+```xorg
+Show (P^R->Q+S)->(P->Q)+(R->S)
+P^R->Q+S    ASS CD
+Show (P->Q)+(R->S)
+~((P->Q)+(R->S))    ASS ID
+~(P->Q)^~(R->S)     4 DM
+~(P->Q)     5 SL
+~(R->S)     5 SR
+P^~Q        6 NC
+R^~S        7 NC
+P           8 SL
+~Q          8 SR
+R           9 SL
+~S          9 SR
+P^R         10 12 ADJ
+Q+S         2 14 MP
+S           11 15 MTP
+            13 16 ID
+            3 CD
+```
+- ex. Derive $(P\land Q)\to((R\lor S)\land{\sim}(R\land S)), \enskip S \to (R\land Q)\lor({\sim}R\land {\sim}Q)\lor{\sim}P, \enskip R\land Q \to S \enskip\therefore\enskip P\to{\sim}Q$:
+```xorg
+Show P->~Q
+P           ASS CD
+Show ~Q
+Q           ASS ID
+P^Q->(R+S)^~(R^S)   PR
+S->(R^Q)+(~R^~Q)+~P PR
+R^Q->S              PR
+P^Q         2 4 ADJ
+(R+S)^~(R^S)        5 8 MP
+R+S         9 SL
+~(R^S)      9 SR
+~R+~S       11 DM
+Show S
+~S          ID
+~(R^Q)      7 14 MT
+~R+~Q       15 DM
+~~Q         4 DN
+~R          16 17 MTP
+S           10 18 MTP
+            14 19 ID
+(R^Q)+(~R^~Q)+~P    6 13 MP
+~~P         2 DN
+(R^Q)+(~R^~Q)       21 22 MTP
+Show ~(R^Q)
+R^Q         ASS ID
+R           25 SL
+~~R         16 DN
+~S          12 27 MTP
+S           13 R
+            28 29 ID
+~R^~Q       23 24 MTP
+~Q          31 SR
+            4 32 ID
             3 CD
 ```
