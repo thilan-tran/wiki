@@ -58,14 +58,14 @@ header-includes: |
 
 - ex. argument:
   1. If John eats pizza he will get thirsty.
-  2. John got thirsty $\therefore$ John ate pizza.
+  2. John got thirsty therefore John ate pizza.
   - *invalid* argument
 
 - ex. argument:
   1. If John eats pizza he will get thirsty.
   2. If John does not eat pizza he will be hungry.
   3. If John will not get sick he will not be hungry.
-  4. $\therefore$ John will get sick.
+  4. Therefore John will get sick.
   - valid argument!
 
 - a set of sentences **implies** a given sentence if and only if the truth of the given sentence is *gauranteed* by the truth of all members of the set
@@ -125,13 +125,13 @@ header-includes: |
 - recursive symbolic language grammar rules:
   1. sentence letter is a symbolic sentence
   2. a symbolic sentence preceded by a ${\sim}$ is a symbolic sentence
-  3. if a binary connective is placed between two symbolic sentences and enclosed in parentheses,the result is a symbolic sentence
+  3. if a binary connective is placed between two symbolic sentences and enclosed in parentheses, the result is a symbolic sentence
   - eg. $P, Q, (P \to Q), {\sim} P, ({\sim} P\leftrightarrow(P\to Q))$ are all symbolic sentences
   - informal conventions:
     1. outermost parentheses may be omitted
     2. conditionals and biconditionals are assumed to *outrank* conjunctions and disjunctions:
         - thus parentheses may be omitted around conjunctions and disjunctions when there is no ambiguity
-        - eg. a reduction like $P \lor Q \land R$ is ambiguious
+        - eg. note that a reduction like $P \lor Q \land R$ is ambiguious
     3. allow brackets and braces
     - by convention, we restore parentheses to the left when we have a string of the same connectives
 
@@ -210,7 +210,7 @@ Table: Truth Table for Binary Connectives
   - $P \lor Q$
 
 - ex. Neither Peter nor Patsy came to the party.
-  - $~P \land ~Q = ~(P \lor Q)$
+  - ${\sim}P \land {\sim}Q = {\sim}(P \lor Q)$
 
 - ex. If Herbie eats pizza at night or drinks cheap beer,
 then only if his girlfriend stays with him, will he have nightmares.
@@ -239,6 +239,7 @@ then only if his girlfriend stays with him, will he have nightmares.
   - $R \land S \land T \to (U \leftrightarrow W \lor X)$
     - break down atomic structure when possible
     - note that $R$ is not equivalent to $P \land Q$
+  - another way to express "if and only if" is "precisely if" and "just in case"
 
 - ex. Assuming either that logic is difficult or that the text is not readable, Alfred will pass only if he concentrates.
   - $P:$ logic is difficult, $Q:$ text is readable, $R:$ Alfred will pass, $Q:$ Alfred concentrates
@@ -247,19 +248,19 @@ then only if his girlfriend stays with him, will he have nightmares.
 - ex. Assuming the professor is a Communist, he will sign the oath; but if he is an idealist, he will neither sign the oath nor speak to those who do.
   - $(P \to Q) \land (R \to {\sim}(Q \lor S))$
 
-  - ex. Among USC, UCLA, Oregon, and Arizona, exactly two will be in contention in November.
+- ex. Among USC, UCLA, Oregon, and Arizona, exactly two will be in contention in November.
     - need to list out all the possible combinations
     - note that to specify two, we need to "and" those while negating the remaining ones
 
-  - symbolizing an entire argument with truth values in \ref{truths}:
-    - If Herbie eats pizza, then he will get sick.
-    - If Herbie does not eat pizza, then he will be hungry.
-    - If Herbie will not get sick, then he will not be hungry.
-    - Therefore Herbie will get sick.
-    - $P:$ Herbie eats pizza, $Q:$ Herbie gets sick, $R:$ Herbie will be hungry
-    - note that it is impossible for all the premises to be true and the conclusion false:
-      - thus this argument is valid
-      - if there were a case where all the premises are true and the conlusion false, the argument would be invalid
+- symbolizing an entire argument with truth values in \ref{truths}:
+  - If Herbie eats pizza, then he will get sick.
+  - If Herbie does not eat pizza, then he will be hungry.
+  - If Herbie will not get sick, then he will not be hungry.
+  - Therefore Herbie will get sick.
+  - $P:$ Herbie eats pizza, $Q:$ Herbie gets sick, $R:$ Herbie will be hungry
+  - note that it is impossible for all the premises to be true and the conclusion false:
+    - thus this argument is valid
+    - if there were a case where all the premises are true and the conlusion false, the argument would be invalid
 
 | P | Q | R | $P\to Q$ | ${\sim}Q\to R$ | ${\sim}Q\to {\sim}R$ | $\therefore Q$ |
 |---|---|---|----------|----------------|----------------------|----------------|
@@ -390,7 +391,7 @@ Table: Truth Values of an Example Argument \label{truths}
 
 - a **derivation** is a sequence of lines that is built up in order, consisting of any of the following provisions:
     - a **show line** consists of the word "Show" followed by a symbolic sentence
-        - need no justifications and can be introduced at any step
+        - needs no justifications and can be introduced at any step
     - a **premise** is a symbolic sentence from the given set, justified with the notation "PR"
     - at any step, a line may be introduced if it follows by a rule from sentences on the previous available lines:
         - justified by citing the numbers of previous lines and the rule name
@@ -420,7 +421,7 @@ Table: Truth Values of an Example Argument \label{truths}
     - to show anything else, begin an indirect derivation by assuming its negation
 
 2. look for ways to break down available lines using MP, MT, S, MTP, BC
-    - may need to use DN on an avialable line first
+    - may need to use DN on an available line first
 
 3. if one of the lines is the negation of the conditional, show the conditional itself to generate a contradiction
 
@@ -732,7 +733,7 @@ Q^R         13 15 ADJ
     - $\therefore \enskip {\sim}P \to (P\to Q)$
         - ie. if antecedent is false, then the conditional is true
     - $\therefore \enskip P \land Q \leftrightarrow Q \land P$ AKA the commutivity of conjunction
-    - $\therefore \enskip (P\to Q)\land (Q\to R) \to (P\to R)$ AKA the ssociativity of conditional
+    - $\therefore \enskip (P\to Q)\land (Q\to R) \to (P\to R)$ AKA the associativity of conditional
     - $\therefore \enskip {\sim} (P\land {\sim}P)$ AKA law of noncontradiction
     - $\therefore \enskip {\sim}(P\to Q)\leftrightarrow P \land {\sim}Q$ AKA negation of conditional (NC):
         - the negation of a conditional is logically equivalent to antecedent and the negation of the consequent
@@ -748,7 +749,7 @@ Q^R         13 15 ADJ
 - gives us more tools to break down lines:
     - for negations of conditionals, use NC
     - for negations of conjunctions and disjunctions, use DM
-    - for negations of biconditonalsm use NB
+    - for negations of biconditonals use NB
 
 - ex. Derive ${\sim}(P\to Q), \enskip {\sim}Q\to R \enskip \therefore\enskip R$ using theorems:
 ```xorg
