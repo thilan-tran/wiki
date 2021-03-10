@@ -96,7 +96,12 @@ header-includes: |
 ### Vocabulary
 
 - vocabulary:
-  - sentence letters are $P, Q, R, \dots, Z$
+  - predicate letters are $A, \ldots, O$
+  - name letters are $a, \ldots, h$
+  - variables are $i, \ldots, z$
+  - universal quantifier $\forall$
+  - existential quantifier $\exists$
+  - sentence letters are $P, \dots, Z$
     - with or without subscripts
   - sentential connectives:
     - $\land$ ie. "and", $\lor$ ie. "or", $\to$ ie. "if-then", $\leftrightarrow$ ie. "if and only if"
@@ -104,7 +109,7 @@ header-includes: |
   - punctuation is parantheses
 
 - ex. Peter loves pizza.
-  - this is an **atomic** sentence that cannot be broken up further
+  - this is an **atomic sentence** that cannot be broken up further
 - ex. Peter loves pizza because Patsy does.
   - this is a **compound** sentence since it is connected by the **binary connective** "because"
 
@@ -150,6 +155,17 @@ header-includes: |
   - eg. in $((P\land {\sim} Q) \to R)$, ${\sim}$ has a scope of ${\sim} Q$, $\land$ has a scope of $(P\land {\sim} Q)$, $\to$ has a scope of the entire formula ie. sentence
   - the **main connective** is the connective occurence with the largest scope
     - always ranges over entire formula
+
+- additional constructs used with quantifiers:
+    - a **quantifier phrase** is a quantifier followed by a variable
+    - **terms** are all lowercase letters ie. name letters and variables
+    - **atomic formulas** are sentence letters or predicate letters followed by a term:
+        - can't logically break these down
+        - all atomic sentences are atomic formulas
+    - **molecular formulas** are atomic formulas connected by binary connectives
+    - **quantified formulas** are constructed from a quantifier phrase and a formula:
+        - if the main connective is a universal quantifier, we have a **universal generalization** eg. $\forall x \square$
+        - if the main connective is a existential quantifier, we have an **existential generalization** eg. $\exists x \square$
 
 \newpage{}
 
@@ -281,6 +297,114 @@ Table: Truth Values of an Example Argument \label{truths}
   - if two sentences have the same truth table, they are **logically equivalent**
     - putting a biconditional between two logically equivalent sentences makes a tautology
 
+## Quantifiers
+***
+
+- ex. Socrates is a man.
+    - $F:$ $\{1\}$ is a man, $a:$ Socrates
+        - $F$ is a 1-place predicate ie. with a single placeholder
+    - $Fa$
+
+- ex. Something is missing.
+    - $G:$ $\{1\}$ is missing
+    - $\exists xGx$
+
+- ex. Everything is wonderful.
+    - $H:$ ${\{1\}}$ is wonderful
+    - $\forall xHx$
+
+- ex. All men are mortal.
+    - $F: \{1\}$ is a man, $G: \{1\}$ is mortal
+    - $\forall  x(Fx \to Gx)$
+        - limiting the domain of discourse
+
+- ex. Some students are annoying.
+    - $F: \{1\}$ is a student, $G: \{1\}$ is annoying
+    - $\exists x(Fx \to Gx)$ is incorrect!
+    - $\exists x(Fx \land Gx)$
+
+- a quantifier phrase will bind a variable if:
+    - the variable is within the scope of the quantifier phrase
+    - the variable has to be the same as the one occurring in the quantifier phrase
+    - the variable cannot be already bound
+    - eg. in $\forall x(Fx \to Gx)$, both $x$ bind to the same $x$
+    - eg. in $\forall xFx \to \forall xGx$, the $x$'s on either side of the implication are different
+    - eg. in $\forall x(Fx \to \exists y(Gy \lor Fx))$, the $x$'s bind to the same $x$ and the $y$ binds to the only $y$
+    - eg. in $\exists \forall y(Fx \to (\forall x(Gy \land Hx) \land Gx))$:
+        - the innermost $x$ binds to its closest $x$
+        - the $y$ binds to the only $y$
+        - the remaining $x$'s bind to the very first $x$
+    - eg. in $\exists x \exists y (Fx \to (\forall yGy \lor Hy) \land Ix) \lor \exists y (Fy \lor Hx)$:
+        - all variables are bound *except* for the very last $x$
+        - in a **symbolic sentence** all variables are bound
+        - this is a **symbolic formula** since it has a free variable, but is otherwise well formed
+        - when symbolizing an English sentence, it should result in a symbolic sentence
+
+- ex. Symbolize the following sentences given that $F: \{1\}$ is a logic student and $G: \{1\}$ is cool:
+    - All logic students are cool.
+        - $\forall x(Fx \to Gx)$
+        - same symbolization for "logic students are cool", which has an implied "all".
+    - Some logic students are cool.
+        - $\exists x(Fx \land Gx)$
+    - No logic student is cool.
+        - $\forall x(Fx \to {\sim}Gx)$
+        - equivalently, ${\sim}\exists(Fx \land Gx)$
+    - Only logic students are cool.
+        - $\forall x(Gx \to Fx)$
+
+- ex. Symbolize the following sentences given that $F:\{1\}:$ is an even number, $G: \{1\}$: is a prime number, $H: \{1\}$ is honest, $J: \{1\}$ is a person, $a:$ 2, $b:$ 4, and $c:$ Abraham Lincoln:
+    - If anyone is honest, then Abraham Lincoln is honest.
+        - "any" can mean "all" or "some" in different contexts
+        - in this case, "any" indicates "some"
+        - $\exists x(Jx\land Hx) \to Hc$
+        - equivalently, $\forall x (Jx \land Hx \to Hc)$
+    - If 2 is a prime number, then there is an even prime number.
+        - $Ga \to \exists x(Fx \land Gx)$
+    - 4 is a prime number if and only if all even numbers are prime numbers.
+        - $Gb \leftrightarrow \forall x(Fx \to Gx)$
+    - If there is an even prime number, then there is an even number and there is a prime number.
+        - $\exists (Fx \land Gx) \to \exists xFx \land \exists xGx$
+        - note the existential quantifier does not distribute across parentheses
+    - If 4 is a prime number and there is an even number, then there is an even prime number.
+        - $Gb \land \exists xFx \to \exists x(Fx\land Gx)$
+
+- ex. Men and women over 18 are permitted to vote.
+    - $F: \{1\}$ is a man, $G: \{1\}:$ is a woman, $H: \{1\}:$ is over 18, and $J: \{1\}:$ is permitted to vote
+    - $\forall x((Fx \lor Gx) \land Hx \to Jx)$
+    - equivalently, $\forall x (Fx \land Hx \to Jx) \land \forall x (Gx \land Hx \to Jx)$
+
+- ex. Only citizens can vote.
+    - $F: \{1\}$ is a citizen, $G: \{1\}$ can vote
+    - $\forall x(Gx \to Fx)$
+
+- ex. If everything is mental, then nothing is physical unless something is both mental and physical.
+    - $F: \{1\}$ is mental, $G: \{1\}$ is physial
+    - $(\forall xFx \to ({\sim}\exists xGx \lor \exists x(Fx \land Gx)))$
+        - ${\sim}\exists xGx$ is equivalent to $\forall x {\sim}Gx$
+
+- ex. If those who believe in God have immortal souls, then, given that God exists, they will have eternal bliss.
+    - $F: \{1\}$ believes in God, $G: \{1\}$ has an immortal sou, $H: \{1\}$ will have eternal bliss, $P:$ God exists
+    - $(\forall x(Fx\to Gx) \to (P \to \forall x(Fx\to Hx)))$
+    - equivalently, $\exists x \forall y ((Fx \to Gx)\to (P \to (Fy \to Hy)))$
+
+- ex. All fruits and vegetables are wholesome and nourishing.
+    - $F: \{1\}$ is a fruit, $G: \{1\}$ is a vegetable, $H: \{1\}$ is wholesome, $J: \{1\}$ is nourishing
+    - $\forall x ((Fx \lor Gx) \to (Hx \land Jx))$
+        - fruits *or* vegetables
+
+- ex. If any woman studies, then no student passes unless she does.
+    - $F: \{1\}$ is a woman, $G: \{1\}$ studies, $H: \{1\}$ is a student, $J: \{1\}$ passes
+    - $\forall x ((Fx \land Gx) \to (\forall y (Hy \to {\sim}Jy) \lor Jx))$
+        - $\forall y (Hy \to {\sim}Jy)$ is equivalent to ${\sim}\exists y (Hy \land Jy)$
+
+- ex. Dogs and dolphins jump only if petted.
+    - $F: \{1\}$ jumps, $I: \{1\}$ is a dog, $H: \{1\}$ is petted, $K: \{1\}$ is a dolphin
+    - $\forall x((Ix \lor Kx) \to (Fx \to Hx))$
+
+- ex. Dogs and dolphins jump only if Spot and Kiwi jump.
+    - $F: \{1\}$ jumps, $I: \{1\}$ is a dog, $K: \{1\}$ is a dolphin, $a:$ Spot, $b:$ Kiwi
+    - $\forall x((Ix \lor Kx) \to (Fx \to Fa \land Fb))$
+
 \newpage{}
 
 # Derivations
@@ -386,6 +510,20 @@ Table: Truth Values of an Example Argument \label{truths}
 
 10. Biconditional Conditional (BC): $\square \leftrightarrow \bigcirc, \enskip \therefore \enskip \square \to \bigcirc, \enskip \therefore \enskip \bigcirc \to \square$
 
+- quantifier inference rules:
+    1. Universal Instantiation (UI): $\forall x\square x \enskip \therefore \enskip \square y, \enskip \square a, \enskip \square x,$ etc:
+        - ie. what is true of all things is true of any particular thing
+        - replace all bound variables with a free variable
+        - eg. $\forall x (Fx \to Gx) \enskip \therefore \enskip Fa \to Ga, \enskip Fy \to Gy$
+    2. Existential Generalization (EG): $\square a \enskip \therefore \enskip \exists x \square x$:
+        - if a particular thing has a property, then something does
+        - only have to replace *some* named variables with bound variables
+        - eg. $Fa \land Ga \enskip \therefore \enskip \exists x(Fx \land Ga)$
+    3. Existential Instantiation (EI): $\exists x \square x \enskip \therefore \enskip \square y, \enskip \square i$, etc:
+        - ie. what is true of something is true of a partiular thing
+        - note that we cannot instantiate with a specific name letter, must be to a brand new variable that has never occured in the proof
+        - eg. $\exists x (Fx \land Gx \enskip \therefore \enskip Fy \land Gy)$
+
 ## Formal Derivation Rules
 ***
 
@@ -410,6 +548,11 @@ Table: Truth Values of an Example Argument \label{truths}
         - write "DD" following the justification for that line, with the line number of the contradicted sentence
         - draw a line through "Show"
         - draw a box around all lines below the show line, including the current line
+
+- in a **universal derivation**, want to show something of the form $\forall x \square x$:
+    - proving for any particular thing can be proved for anything
+    - just have to show $\square x$
+        - as long as $x$ does not occur free on any available line in the derivation prior to the "Show" line
 
 ## Derivation Strategies
 ***
@@ -721,6 +864,143 @@ Q^R         13 15 ADJ
 ~R<->Q      4 12 CB
             21 DD
 ```
+## Examples with Quantifiers
+***
+
+- ex. Derive $\exists xFx, \enskip \forall x(Fx \to Gx) \enskip \therefore \enskip \exists xGx$.
+```xorg
+Show ?xGx.
+~?xGx       ASS ID
+?xFx        PR
+/x(Fx->Gx)  PR
+Fi->Gi      4 UI
+Fi          3 EI # *incorrect*, i is not a new variable!
+Gi          5 6 MP
+?xGx        7 EG
+            8 DD
+
+...
+Fi          3 EI # need to EI before UI!
+Fi->Gi      4 UI
+...
+```
+- `?` indicates $\exists$ and `/` indicates $\forall$
+
+- ex. Derive $\forall x(Fx \to ({\sim}Gx \to Hx)) \enskip \therefore \enskip \forall x(Fx \to Gx \lor Hx)$.
+```xorg
+Show /x(Fx->Gx+Hx). # can do a UD
+Show Fx->Gx+Hx.
+Fx          ASS DC
+Show Gx+Hx.
+~(Gx+Hx)    ASS ID
+~Gx^~Hx     5 DM
+~Gx         6 SL
+~Hx         6 SR
+/x(Fx->(~Gx->Hx))   PR
+Fx->(~Gx->Hx)       9 UI
+~Gx->Hx     3 10 MP
+Hx          7 11 MP
+            8 12 ID
+            4 CD
+            2 UD
+```
+- ex. Derive $\forall x (Fx \lor {\sim}Hx), \enskip \exists x(Hx\land {\sim}Kx), \enskip \forall x(Fx \land {\sim}Kx \to \forall x Jx) \enskip \therefore \enskip \forall xJx$.
+```xorg
+Show /xJx.
+Show Jx.
+~Jx         ASS ID
+/x(Fx+~Hx)  PR
+?x(Hx^~Kx)  PR
+/x(Fx^~Kx->/xJx)    PR
+Hi^~Ki      5 EI # should always EI before UI
+Fi+~Hi      4 UI
+Hi          7 SL
+Fi          9 DN 8 MTP
+Fi^~Ki->/xJx    6 UI
+~Ki         7 SR
+Fi^~Ki      10 12 ADJ
+/xJx        11 13 MP
+Jx          14 UI
+            3 15 ID
+            2 UD
+```
+- ex. Derive $\forall x(Fx \to Gx), \enskip \forall x(Gx\to Hx) \enskip\therefore\enskip Fa \to \exists x (Gx\land Hx)$.
+```xorg
+Show Fa->?x(Gx^Hx).
+Fa          ASS CD
+Show ?x(Gx^Hx).
+~?x(Gx^Hx)  ASS ID
+/x(Fx->Gx)  PR
+/x(Gx->Hx)  PR
+Fa->Ga      5 UI
+Ga          2 7 MP
+Ga->Ha      6 UI
+Ha          8 9 MP
+Ga^Ha       8 10 ADJ
+?x(Gx^Hx)   11 EG
+            12 DD
+            3 D
+```
+- ex. Derive $\exists x (Fx\lor Ga), \enskip \forall x(Fx\to Gx) \enskip\therefore\enskip \exists xGx$.
+```xorg
+Show ?xGx.
+~?xGx       ASS ID
+?x(Fx+Ga)   PR
+/x(Fx->Gx)  PR
+Fi+Ga       3 EI
+Fi->Gi      4 UI
+Show Fi.
+~Fi         ASS ID
+Ga          5 8 MTP
+?xGx        9 EG
+~?xGx       2 R
+            10 11 ID
+Gi          6 7 MP
+?xGx        13 EG
+            14 DD
+```
+- ex. Derive $\forall x(Fx\leftrightarrow P), \enskip \exists xFx \enskip\therefore\enskip \forall xFx$.
+```xorg
+Show /xFx.
+Show Fx.
+~Fx.        ASS ID
+/x(Fx<->P)  PR
+?xFx        PR
+Fi          5 EI
+Fi<->P      4 UI
+P           6 7 BP
+Fx<->P      4 UI
+~P          3 9 BT
+            8 10 ID
+            2 UD
+```
+- ex. Derive $\exists x (Fx \land {\sim}Gx)\to\forall x(Fx\to Hx), \enskip \exists x(Fx\land Jx) \enskip\therefore\enskip \forall x(Fx \to {\sim}Hx)\to\exists x(Jx\land Gx)$.
+```xorg
+Show /x(Fx->~Hx)->?x(Jx^Gx).
+/x(Fx->~Hx) ASS DC
+Show ?x(Jx^Gx).
+~?x(Jx^Gx)  ASS ID
+?x(Fx^~Gx)->/x(Fx->Hx)  PR
+?x(Fx^Jx)   PR
+Fi^Ji       6 EI
+Fi          7 SL
+Ji          7 SR
+Fi->~Hi     2 UI
+~Hi         8 10 MP
+Show ~Gi.
+Gi          ASS ID
+Ji^Gi       9 13 ADJ
+?x(Jx^Gx)   14 EG
+~?x(Jx^Gx)  4 R
+            15 16 ID
+Fi^~Gi      8 12 ADJ
+?x(Fx^~Gx)  18 EG
+/x(Fx->Hx)  5 19 MP
+Fi->Hi      20 UI
+Hi          8 21 MP
+            11 22 ID
+            3 D
+```
 ## Theorems
 ***
 
@@ -745,6 +1025,16 @@ Q^R         13 15 ADJ
     - $\therefore \enskip {\sim}(P\land Q) \leftrightarrow {\sim}P \lor {\sim}Q$ AKA DeMorgan's laws (DM)
         - together with $\therefore \enskip {\sim}(P \lor Q) \leftrightarrow {\sim}P \land {\sim}Q$
     - $\therefore \enskip {\sim}(P\leftrightarrow Q) \leftrightarrow (P \leftrightarrow {\sim}Q)$ AKA negation of biconditonal (NB)
+
+- more useful biconditional theorems:
+    - $\therefore \enskip (P\leftrightarrow Q)\land P\to Q$ AKA biconditional ponens (BP)
+        - together with $\therefore \enskip (P\leftrightarrow Q) \land Q\to P$
+    - $\therefore \enskip (P\leftrightarrow Q)\land {\sim}P\to {\sim}Q$ AKA biconditional tolens (BT)
+        - together with $\therefore \enskip (P\leftrightarrow Q) \land {\sim}Q\to {\sim}P$
+
+- useful quantifier negation theorems:
+    - $\therefore\enskip \exists x{\sim}\square x \leftrightarrow {\sim}\forall x \square x \enskip$
+    - $\therefore\enskip \forall x{\sim}\square x \leftrightarrow {\sim}\exists x \square x \enskip$
 
 - gives us more tools to break down lines:
     - for negations of conditionals, use NC
@@ -924,4 +1214,390 @@ S           13 R
 ~Q          31 SR
             4 32 ID
             3 CD
+```
+- ex. Proving one of the quantifier negation theorems.
+```xorg
+Show ~?xFx<->/x~Fx.
+Show ~?xFx->/x~Fx.
+~?xFx       ASS CD
+Show /x~Fx.
+Show ~Fx.
+Fx          ASS ID
+?xFx        6 EG
+~?xFx       3 R
+            7 8 ID
+            5 UD
+            4 D
+Show /x~Fx->~?xFx.
+/x~Fx       ASS CD
+Show ~?xFx.
+?xFx        ASS ID
+Fi          15 EI
+~Fi         13 UI
+            16 17 ID
+            14 CD
+~?xFx<->/x~Fx   2 12 CB
+            20 DD
+```
+## Quantifier Derivations
+***
+
+- ex. Derive $\exists x (Fx \land {\sim}Gx)\to\forall x(Fx\to Hx), \enskip \exists x(Fx\land Jx) \enskip\therefore\enskip \forall x(Fx \to {\sim}Hx)\to\exists x(Jx\land Gx)$ using quantifier theorems.
+```xorg
+Show /x(Fx->~Hx)->?x(Jx^Gx).
+/x(Fx->~Hx) ASS CD
+Show ?x(Jx^Gx).
+~?x(Jx^Gx)  ASS ID
+?x(Fx^~Gx)->/x(Fx->Hx)  PR
+?x(Fx^Jx)   PR
+/x~(Jx^Gx)  4 QN
+Fi^Ji       6 EI
+Fi          8 SL
+Ji          8 SR
+~(Ji^Gi)    7 UI
+~Ji+~Gi     11 DM
+~Gi         10 DN 12 MTP
+Fi->~Hi     2 UI
+~Hi         9 14 MP
+Show ?x(Fx^~Gx).
+~?x(Fx^~Gx) ASS ID
+/x~(Fx^~Gx) 17 QN
+~(Fi^~Gi)   18 UI
+~Fi+~~Gi    18 DM
+~~Gi        8 DN 20 MTP
+~Gi         13 R
+            21 22 ID
+/x(Fx->Hx)  5 16 MP
+Fi->Hi      24 UI
+Hi          9 25 MP
+            15 26 ID
+            3 DC
+```
+- ex. Derive $\exists x(Fx\lor Ga), \enskip \forall x(Fx\to Gx) \enskip\therefore\enskip \exists xGx$.
+```xorg
+Show ?xGx.
+~?xGx       ASS ID
+/x~Gx       2 QN
+?x(Fx+Ga)   PR
+/x(Fx->Gx)  PR
+Fi+Ga       4 EI
+~Ga         3 UI
+Fi          6 7 MTP
+Fi->Gi      5 UI
+Gi          8 9 MP
+~Gi         3 UI
+            10 11 ID
+```
+- ex. Derive $\therefore \enskip {\sim}\forall x \exists y (Fy\land {\sim}Fx)$.
+```xorg
+Show ~/x?y(Fy^~Fx).
+/x?y(Fy^~Fx)    ASS ID
+?y(Fy^~Fx)  2 UI
+Fi^~Fx      3 EI
+Fi          4 SL
+~Fx         4 SR
+?y(Fy^~Fi)  2 UI # have to re-UI
+Fk^~Fi      7 EI
+~Fi         8 SR
+            5 9 ID
+```
+- ex. Derive $\forall x \exists y (Fx \lor {\sim}Gy), \enskip \exists x \forall y (Gy \lor Hx) \enskip\therefore\enskip {\sim}\exists xHx \to \forall xFx$.
+```xorg
+Show ~?xHx->/xFx.
+~?xHx       ASS CD
+Show /xFx.
+Show Fx.
+~Fx         ASS ID
+/x?y(Fx+~Gy)    PR
+?x/y(Gy+Hx)     PR
+/x~Hx       2 QN
+/y(Gy+Hi)   7 EI
+?y(Fx+~Gy)  6 UI
+Fx+~Gk      10 EI
+~Gk         5 11 MTP
+Gk+Hi       9 UI
+Hi          12 13 MTP
+~Hi         8 UI
+            14 15 ID
+            4 UD
+            3 CD
+```
+- ex. Derive $\forall x (Jx\to\forall xIx), \enskip \forall x(Ix\to(Fx\to Gx\lor Hx)) \enskip\therefore\enskip \forall x(Jx\to \forall x(Fx\to(Gx\lor Hx)))$.
+```xorg
+Show /x(Jx->/x(Fx->Gx+Hx)).
+Show Jx->/x(Fx->Gx+Hx).
+Jx          ASS CD # x is free here
+Show /x(Fx->Gx+Hx).
+Show Fx->Gx+Hx.    # illegal, cannot do universal derivation here!
+
+...
+Show /x(Fx->Gx+Hx).
+~/x(Fx->Gx+Hx)  ASS ID
+?x~(Fx->Gx+Hx)  5 QN
+/x(Jx->/xIx)    PR
+/x(Ix->(Fx->Gx+Hx)) PR
+~(Fi->Gi+Hi)    6 EI
+Fi+~(Gi+Hi)     9 NC
+~(Gi+Hi)    10 SR
+~Gi^~Hi     11 DM
+Fi          10 sl
+~Gi         12 SL
+~Hi         12 SR
+Jx->/xIx    7 UI
+/xIx        3 16 MP
+Ii->(Fi->Gi+Hi) 8 UI
+Ii          17 UI
+Fi->Gi+Hi   18 19 MP
+Gi+Hi       13 20 MP
+Hi          14 21 MTP
+            15 22 ID
+            4 CD
+            2 UD
+```
+- ex. Derive $\exists xFx \leftrightarrow \exists xGx \enskip\therefore\enskip \exists x\exists y(Fx\leftrightarrow Gy)$.
+```xorg
+Show ?x?y(Fx<->Gy).
+~?x?y(Fx<->Gy)  ASS ID
+?xFx<->?xGx     PR
+/x~?y(Fx<->Gy)  2 QN # will QN later and become universal
+Show ?xFx.
+~?xFx       ASS ID
+~?xGx       3 6 BT
+/x~Fx       6 QN
+~Fx         8 UI
+/x~Gx       7 QN
+~Gx         10 UI
+~?y(Fx<->Gy)    4 UI
+/y~(Fx<->Gy)    12 QN
+~(Fx<->Gx)      13 UI
+Fx<->~Gx    14 NB
+~~Gx        9 15 BT
+            11 16 ID
+?xGx        3 5 BP
+Fi          5 EI
+Gk          18 EI
+~?y(Fi<->Gy)    4 UI
+/y~(Fi<->Gy)    21 QN
+~(Fi<->Gk)      22 UI
+Fi<->~Gk    23 NB
+~Gk         19 24 BP
+            20 25 ID
+```
+- ex. Derive $\exists x(Fx\leftrightarrow P), \enskip \exists x(Gx \leftrightarrow P), \enskip \forall x(Fx \leftrightarrow {\sim}Gx) \enskip\therefore\enskip \exists x\exists y (Fx\land {\sim}Gx\leftrightarrow Gy\land{\sim}Fy)$.
+```xorg
+Show ?x?y(Fx^~Gx<->Gy^~Fy).
+~?x?y(Fx^~Gx<->Gy^~Fy)  ASS ID
+?x(Fx<->P)      PR
+?x(Gx<->P)      PR
+/x(Fx<->~Gx)    PR
+Fi<->P      3 EI
+Gk<->P      4 EI
+Fi<->~Gi    5 UI
+Fk<->~Gk    5 UI
+/x~?y(Fx^~Gx<->Gy^~Fy)  2 QN
+~?y(Fi^~Gi<->Gy^~Fy)    10 UI
+/y~(Fi^~Gi<->Gy^~Fy)    11 QN
+~(Fi&~Gi<->Gk^~Fk)      12 UI
+Fi^~Gi<->~(Gk^~Fk)      13 NB
+Show P.
+~P          ASS ID
+~Fi         6 16 BT
+~Gk         7 16 BT
+~~Gi        8 17 BT
+Fk          9 18 BP
+Show ~(Gk^~Fk).
+Gk^~Fk      ASS ID
+Gk          22 SL
+~Gk         18 R
+            23 24 ID
+Fi^~Gi      14 21 BP
+Fi          26 SL
+            17 27 ID
+Fi          6 15 BP
+Gk          7 15 BP
+~Gi         8 29 BP
+~Fk         30 DN 9 BT
+Fi^~Gi      29 31 ADJ
+~(Gk^~Fk)   14 33 BP
+~Gk+~~Fk    34 DM
+~~Fk        30 DN 35 MTP
+            32 36 ID
+```
+- ex. Derive ${\sim}Fx \lor \forall xFx \enskip\therefore\enskip {\sim}Fx\to{\sim}\exists xFx$.
+```xorg
+Show /x(~Fx+/xFx). # performing a universal closure on the free x
+~Fx+/xFx    PR
+            2 UD
+Show ~Fx->~?xFx.
+~Fx         ASS CD
+Show ~?xFx.
+?xFx        ASS ID
+Fi          7 EI
+~Fi+/xFx    1 UI   # allows us to reinstantiate the x to i
+/xFx        8 DN 9 MTP
+Fx          10 UI
+~Fx         5 R
+            11 12 ID
+            6 CD
+```
+- ex. Derive $\therefore \enskip \forall xFx \leftrightarrow \forall yFy$.
+```xorg
+Show /xFx<->/yFy.
+Show /xFx->/yFy.
+/xFx        ASS CD
+Show /yFy.
+Fy          3 UI
+            5 UD
+            4 CD
+Show /yFy->/xFx.
+/yFy        ASS CD
+Show /xFx.
+Fx          9 UI
+            11 UD
+            10 CD
+```
+# Validity and Invalidity
+***
+
+- a **valid** argument is one where it is impossible for the premises all to be true and the conclusion false:
+    - to show an argument is **invalid**, we need to construct a **counterexample**
+    - for sentential logic, we used truth tables to prove argument were invalid
+        - truth tables grew quite large with many sentence letters
+    - can we use a shortcut?
+
+- ex. Prove the argument $P\land Q \to R \enskip \therefore \enskip P\lor Q \to R$ is invalid:
+    - focus into a *single* row of the table instead of the entire table
+    - need to show premise is true and conclusion is false
+    - to make the conclusion false, need to make the conditional false:
+        - need to make $P \lor Q$ true and $R$ false
+        - $R$ is false in the premise as well
+    - make $P$ true in the disjunction
+        - to make premise false, need a true conditional
+    - $R$ is false, so we can make $Q$ either true or false to make the premise false
+    - thus the counterargument is where $R$ is false and $P, Q$ are true
+
+- ex. Prove the argument ${\sim}S \to P, \enskip Q\lor R \to {\sim}S, \enskip Q\to W, \enskip R\to W, \enskip {\sim}(P\land V) \enskip \therefore \enskip {\sim}S \to W$ is invalid:
+    - show premises are true and conclusion false:
+        - only way to show conditional is false is with a true antecedent and a false consequent
+        - thus $S, W$ are both false
+    - now, need to show every premise to be true:
+        - for the first premise, $P$ must be true
+        - the next premise will always be true
+        - for the next premises, $Q, R$ must be false
+        - for the last premise, $V$ must be false
+    - thus the counterargument is where $P$ is true and all other variables are false
+
+- ex. The argument $\exists xFx, \enskip \forall x(Fx\to Gx). \enskip \exists x{\sim}Gx \enskip \therefore \enskip \forall x(Gx\to Fx)$.
+    - argument seems invalid, can we construct a counterexample?
+    - show premise is true and conclusion false
+        - how do we make quantifiers true or false?
+            - need to create a *"universe"* where the quantifiers are true or false
+    - make an object 0:
+        - has property $F$
+        - satisfies first premise
+        - to satisfy second premise, this object also has property $G$
+    - make an object 1:
+        - to make conclusion false, we need something that has property $G$ but not $F$
+        - give object property $G$ and property ${\sim}F$
+    - make an object 2:
+        - to satisfy third premise, give object property ${\sim}G$
+        - also give object property ${\sim}F$ to ensure that the second property is not violated
+
+- ex. Prove the argument $\exists X(Fx\land {\sim Gx}, \enskip \forall x(Hx\to {\sim}Gx), \enskip \exists x(Hx\land Fx)) \enskip\therefore\enskip \forall x(Fx \to {\sim}Gx)$ is invalid.
+    - make an object 0:
+        - has property $F$ and $G$ to make conclusion false
+    - make an object 1:
+        - has property $F$ and ${\sim}G$ to make first premise true
+        - also has property $H$ to make third premise true
+        - also satisfies second premise
+    - in general, existential quantifiers in premises and universal quantifiers in the conclusion are easy to handle
+
+- ex. Prove the argument $\forall x(Fx\to (Gx\leftrightarrow Hx)), \enskip Ga \land {\sim}Ha \enskip \therefore \enskip \forall x{\sim}Fx$ is invalid.
+    - make an object 0:
+        - has property $F$ to make conclusion false
+    - make an object 1:
+        - has property $G, H$ to satisfy second premise
+        - also name this object $a$
+    - note that the first premise is satisfied by both objects
+
+- ex. Prove the argument $\exists xFx \land \forall xGx \to P \enskip\therefore\enskip \forall xFx\land \exists xGx \to P$ is invalid.
+    - a sentence letter can be true or false
+        - to make conclusion false, set $P$ false
+    - make an object 0:
+        - has property $F$ and $G$ to make antecedent of the conclusion true
+    - make an object 1:
+        - to make premise true, antecedent has to be false
+        - thus $\forall xGx$ must be false, so object has property ${\sim}G$
+        - to *keep* antecedent of conclusion true, need to also have property $F$
+
+- useful confinement and distribution theorems for quantifiers:
+    - $\therefore \enskip \forall x(P\land Fx) \leftrightarrow P \land \forall xFx$ AKA universal confinement over a conjunction:
+        - similarly for $\forall X(Fx \land P)$ and for disjunctions
+        - similarly for existential quantifiers
+    - for conditionals, we have $\therefore\enskip \forall x(P\to Fx) \leftrightarrow (P\to \forall xFx)$:
+        - similarly for existential quantifiers
+        - however, for confinement with the antecedent, we have $\therefore\enskip \forall x(Fx\to P) \leftrightarrow (\exists xFx \to P)$
+            - similarly for existential quantifiers
+    - $\therefore \exists x(Fx\lor Gx)\leftrightarrow \exists xFx  \lor \exists xGx$ AKA existential distribution
+    - $\therefore \forall x(Fx\land Gx)\leftrightarrow \forall xFx  \land \forall xGx$ AKA universal distribution
+
+- ex. Prove the argument $\forall x(Fx\to \forall yGy), \enskip \exists xFx \enskip \therefore\enskip \forall yFy$ is invalid.
+    - can rewrite first premise as $\exists xFx \to \forall yGy$
+    - make an object 0:
+        - has property ${\sim}F$ to make conclusion false
+        - has property $G$ to satisfy first premise
+    - make an object 1:
+        - has property $F$ to satisfy second premise
+        - has property $G$ to satisfy first premise
+    - can alternatively do a truth-functional expansion given a fixed number of objects:
+        - argument is equivalent to $((F0 \to G0 \land G1) \land (F1 \to G0\land G1)), \enskip F0 \lor F1 \enskip\therefore\enskip F0\land F1$ in a universe of two objects
+        - can work backwards in the truth table on this equivalent argument without qualifiers to prove invalidity as well
+        - also gives object 0 with property $G$ and ${\sim}F$ and object 1 with property $F, G$
+
+- ex. Prove the argument $\forall x \exists y(Fx\leftrightarrow {\sim}Fy), \enskip \exists x(Fx\land Gx) \enskip\therefore\enskip \forall xFx$ is invalid.
+    - no theorem handles the $\forall x \exists y$, so try performing a truth-functional expansion with two objects:
+        - $((F0\leftrightarrow{\sim}F0)\lor(F0\leftrightarrow{\sim}F1))\land((F1\leftrightarrow{\sim}F0)\lor(F1\leftrightarrow {\sim}F1))$
+        - $(F0\land G0)\lor(F1\land G1)$
+        - $\therefore\enskip F0\land F1$
+    - to make conclusion false, make one conjunct false
+        - make $F0$ false
+    - for second premise, need to make $F1, G1$ true
+    - with these settings, the first premise is true
+        - if it ended up false, would have had to make the universe larger
+    - counterexample is thus:
+        - object 0 with either no properties or $G$
+        - object 1 with property $F, G$
+    - alternatively, instead of performing an expansion, we can attempt to perform a derivation:
+        - derivation will never complete since the argument is invalid
+            - since derivation cannot be concluded after the initial assumption, there must be a way for all premises to be true and the conclusion false
+        - take all the atomic sentences
+            - here, EIs and UIs in the derivation give
+                - ${\sim}Fx, Fi, Gi, {\sim}Fm, Fk, {\sim}Fo, Fp$
+        - whenever we instantiate in a derivation, essentially creating an object that can be used in a counterexample
+            - in this case, we have 6 objects
+
+- ex. Prove the argument $\forall x \exists y (Fx\lor Gy \to Hy), \enskip \forall xGx \lor \exists xGx \enskip\therefore\enskip \forall x(Fx\lor Hx)$ is invalid.
+    - use the failed derivation approach:
+        - gives ${\sim}Fx, {\sim}Hx, Gx, Gi, Hi$
+        - let $x$ be object 0 and $i$ be object 1
+        - gives us desired counterexample
+
+Using the failed derivation:
+```xorg
+Show /x(Fx+Hx).
+Show Fx+Hx.
+~Fx^~Hx         ASS ID DM
+~Fx             3 SL
+~Hx             3 SR
+?x/x(Fx+Gy->Hy) PR
+/xGx+?xGx       PR
+/x(Fx+Gi->Hi)   6 EI
+Show ~/xGx.
+/xGx            ASS ID
+Fx+Gi->Hi       8 UI
+Fi+Gi->Hi       8 UI
+Gx              10 UI
+Gi              10 UI
+Fx+Gi           14 ADDL
+Hi              11 15 MP
 ```
