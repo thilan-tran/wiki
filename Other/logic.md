@@ -1572,7 +1572,7 @@ Fx          9 UI
             - since derivation cannot be concluded after the initial assumption, there must be a way for all premises to be true and the conclusion false
         - take all the atomic sentences
             - here, EIs and UIs in the derivation give
-                - ${\sim}Fx, Fi, Gi, {\sim}Fm, Fk, {\sim}Fo, Fp$
+            - ${\sim}Fx, Fi, Gi, {\sim}Fm, Fk, {\sim}Fo, Fp$
         - whenever we instantiate in a derivation, essentially creating an object that can be used in a counterexample
             - in this case, we have 6 objects
 
@@ -1601,3 +1601,67 @@ Gi              10 UI
 Fx+Gi           14 ADDL
 Hi              11 15 MP
 ```
+# Appendix
+***
+
+## Final Review
+***
+
+- symbolizations:
+    - stylistic variants for "if ..., then", "and", "or", "if and only if"
+    - symbolizations for "neither, nor", "P or Q, but not both", "only if", "not both"
+        - as well as "at least", "at most", "exactly"
+
+- derivations:
+    - useful theorems such as NC, DM, NB, BP, BT
+
+- truth tables:
+    - arguments with one or more premises are invalid if there is a row where all premises are true and the conclusion false
+    - arguments with no premises are invalid if there is a row where the conclusion is false
+    - a symbolic sentence is a tautology if they come out true in all rows of the truth table
+    - **disjunctive normal form (DNF)** is a disjunction of conjunctions of basic sentences:
+        - every sentential formula is equivalent to one in DNF
+        - can also be **dualed** to become the negation in **conjunctive normal form (CNF)**
+    - **Sheffer's stroke** is a connective that can express all other connectives
+        - equivalent to "not both P and Q" AKA NAND gates
+
+- quantified symbolization:
+    - All F are G
+    - Some F are G
+    - No F are G
+    - Only F are G
+    - Not all F are G
+    - No F unless G
+
+- quantifier theorems:
+    - quantifier distribution
+    - quantifier negation
+    - laws of confinement
+        - remember that confining the antecedent of a conditional flips the quantifier
+
+## Practice Symbolizations
+***
+
+- ex. Herbie, who is neither a democrat nor a republican, will be elected just in case he debates the incumbent.
+    - $({\sim}P\land{\sim}Q) \land (R \leftrightarrow S)$
+
+- ex. Either Ellie is elected without debating the incumbent or Herbie debates the incumbent without being elected, but both fail to both debate the incumbent and be elected.
+    - $((U\land{\sim}T)\lor(S\land{\sim}R))\land{\sim}((S\land R)\lor(T\land U))$
+
+- ex. No witch is neither wicked nor wiley.
+    - $\forall x(Ix \to (Lx \lor Mx))$
+
+- ex. Either no witch that fails to fly is wily, or some wily witch that bewitches fails to fly.
+    - $\forall x((Ix\land{\sim}Hx)\to{\sim}Mx)\lor \exists x((Mx\land Ix \land Fx\land{\sim}Hx))$
+
+- ex. If all warlocks warble, they can walk through walls.
+    - $\forall x(Jx\to Gx)\to \forall x(Jx\to Nx)$
+
+- ex. No witch or wizard warbles unless it bewitches.
+    - $\forall x((Ix\lor Kx)\to ({\sim}Gx\lor Fx))$
+
+- ex. Only wizards and warlocks bewitch or warble.
+    - $\forall x((Fx\lor Gx)\to(Jx \lor Kx))$
+
+- ex. No wizard whines unless he is wounded.
+    - $\forall x(Fx\to ({\sim}Gx\lor Hx))$
