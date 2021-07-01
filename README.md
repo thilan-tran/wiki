@@ -16,8 +16,11 @@ Notes are written in Markdown and compiled using Pandoc to Latex-style pdfs.
   - [CS131: Programming Languages](Programming/CS131.pdf)
   - [CS132: Compilers](Programming/CS132.pdf)
   - [CS143: Databases](Programming/CS143.pdf)
+  - [CS144: Web Applications](Programming/CS144.pdf)
   - [CS151: Computer Systems Architecture](Programming/CS151.pdf)
+  - [CS152: Intro to Digital Design Lab](Programming/CS152.pdf)
   - [CS180: Algorithms](Programming/CS180.pdf)
+  - [CS181: Formal Languages and Automata Theory](Programming/CS181.pdf)
   - [EE147: Neural Networks and Deep Learning](Programming/EE147.pdf)
 - Webdev
   - [Helsinki Full Stack Course](Programming/full_stack.pdf)
@@ -48,8 +51,11 @@ Notes are written in Markdown and compiled using Pandoc to Latex-style pdfs.
   - [CS131](Programming/CS131.md)
   - [CS132](Programming/CS132.md)
   - [CS143](Programming/CS143.md)
+  - [CS144](Programming/CS144.md)
   - [CS151](Programming/CS151.md)
+  - [CS152](Programming/CS152.md)
   - [CS180](Programming/CS180.md)
+  - [CS181](Programming/CS181.md)
   - [EE147](Programming/CS147.md)
 - Webdev
   - [Helsinki Full Stack Course](Programming/full_stack.md)
